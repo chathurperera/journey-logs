@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import { StatusBar, View, Text } from 'react-native';
 import React from 'react';
 
