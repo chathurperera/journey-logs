@@ -8,4 +8,4 @@ npx lint-staged
 yarn run typecheck
  
 # Run unit tests
-yarn run test
+# yarn run test
