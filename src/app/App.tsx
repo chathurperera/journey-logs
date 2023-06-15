@@ -1,5 +1,6 @@
-import { StatusBar, View, Text } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import React, { useEffect } from 'react';
+import { Button } from '@rneui/base';
 import SplashScreen from 'react-native-splash-screen';
 
 export function App() {
@@ -10,8 +11,8 @@ export function App() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <View style={{ flex: 1 }}>
-        <Text>Hello</Text>
+      <View style={{ flex: 1, padding: 80 }}>
+        <Button title="hello world" onPress={() => console.log('clicked')} />
       </View>
     </>
   );
