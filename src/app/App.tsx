@@ -1,7 +1,8 @@
-import { StatusBar, View } from 'react-native';
 import React, { useEffect } from 'react';
-import { Button } from '@rneui/base';
+import { StatusBar, View } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+
+import { Routes } from '@jl/navigation';
 
 export function App() {
   useEffect(() => {
@@ -11,8 +12,8 @@ export function App() {
   return (
     <>
       <StatusBar barStyle="light-content" />
-      <View style={{ flex: 1, padding: 80 }}>
-        <Button title="hello world" onPress={() => console.log('clicked')} />
+      <View style={{ flex: 1 }}>
+        <Routes />
       </View>
     </>
   );
