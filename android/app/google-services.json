@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "872429235982",
+    "project_id": "journey-logs-35cdc",
+    "storage_bucket": "journey-logs-35cdc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872429235982:android:7b8de05b17272087e6f15f",
+        "android_client_info": {
+          "package_name": "com.journeylogs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872429235982-atmmhslt3h6129vul1fu8auasih183i9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.journeylogs",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "872429235982-tmk8k3jqgfu0sllavqug35nj1qrnqknf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2l0O5mEd0sw0k-MuTNP33ryVo6cMpOfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872429235982-tmk8k3jqgfu0sllavqug35nj1qrnqknf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
