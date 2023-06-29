@@ -2,6 +2,17 @@
 module.exports = {
   content: ['./src/app/App.tsx', './src/screens/**/*.{js,jsx,ts,tsx}', './src/components/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    fontSize: {
+      extraSmall: '13px',
+      small: '14px',
+      base: '16px',
+      medium: '18px',
+      lg: '20px',
+      xlg: '23px',
+      '2xlg': '26px',
+      '3xlg': '29px',
+      '4xlg': '32px',
+    },
     extend: {
       fontFamily: {
         Inter: ['Inter-Regular'],
@@ -14,15 +25,6 @@ module.exports = {
         InterSemiBold: ['Inter-SemiBold'],
         InterThin: ['Inter-Thin'],
       },
-    },
-    fontSize: {
-      sm: '100px',
-      base: '1rem',
-      xl: '1.25rem',
-      '2xl': '1.563rem',
-      '3xl': '1.953rem',
-      '4xl': '2.441rem',
-      '5xl': '3.052rem',
     },
   },
   plugins: [],

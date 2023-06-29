@@ -13,9 +13,14 @@ enum Primary {
   Jl50 = `#F2EFFE`,
 }
 
-enum Neutral {}
+enum Neutral {
+  black = `#000000`,
+  white = `#ffffff`,
+}
 
-enum Secondary {}
+enum Secondary {
+  jl100 = `#B4AEAE`,
+}
 
 enum Tertiary {}
 

@@ -23,16 +23,15 @@ export function Text({
   color = Color.Primary.Jl100,
 }: PropsWithChildren<TextProps>) {
   let textStyles = getAppTextStyles(variant);
-  console.log('textStyles', textStyles);
 
   if (underline) {
     textStyles += ' underline';
   }
 
   textStyles += ` text-${textAlign} text-${color}`;
-  console.log('textStyles', textStyles);
+
   return (
-    <RNText onPress={onPress} className={`${textStyles} `}>
+    <RNText onPress={onPress} className={`${textStyles}`}>
       {children}
     </RNText>
   );

@@ -1,8 +1,11 @@
 export enum TextVariant {
   // Headings
-  Heading1 = 'Heading1',
-  Heading2 = 'Heading2',
-  Heading3 = 'Heading3',
+  Heading1Regular = 'Heading1Regular',
+  Heading1Bold = 'Heading1Bold',
+
+  Heading2Bold = 'Heading2Bold',
+
+  Heading3Regular = 'Heading3Regular',
 
   // Title 1
   Title1 = 'Title1',
@@ -15,14 +18,18 @@ export enum TextVariant {
   Body1SemiBold = 'Body1SemiBold',
 
   // Body 2
-  Body2SemiBold = 'Body2SemiBold',
   Body2Regular = 'Body2Regular',
+  Body2SemiBold = 'Body2SemiBold',
 
-  // Labels
-  Labels = 'Labels',
+  // Label 1
+  Label1Regular = 'Label1Regular',
 
-  // Links
-  Links = 'Links',
+  // Label 2
+  Label2Regular = 'Label2Regular',
+  Label2SemiBold = 'Label2SemiBold',
+
+  // Link
+  Link = 'Link',
 }
 
 export enum TextAlignment {
