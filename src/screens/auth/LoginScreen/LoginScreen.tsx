@@ -1,9 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Text, TextField } from '@jl/components';
+import { Button, PasswordField, Text, TextField } from '@jl/components';
 import { Color, TextVariant } from '@jl/constants';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
@@ -26,7 +26,7 @@ export function LoginScreen() {
           </Text>
         </View>
         <TextField control={control} label="Email" name="email" />
-        <TextField control={control} label="Password" name="password" secureTextEntry />
+        <PasswordField control={control} label="Password" name="password" />
         <Button title="Login" onPress={handleSubmit(handleOnSubmit)} />
       </View>
     </BaseScreenLayout>

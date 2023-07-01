@@ -6,15 +6,15 @@ import { StyleSheet, View } from 'react-native';
 
 import { Color, TextVariant } from '@jl/constants';
 
-import { Text } from '../Text/Text';
+import { Text } from '../../Text/Text';
 
-interface TextFieldProps extends InputProps {
+export interface TextFieldProps extends InputProps {
   label: string;
   name: string;
   control: Control;
 }
 
-export function TextField({ disabled, label, name, secureTextEntry, control }: TextFieldProps) {
+export function TextField({ disabled, label, name, control, leftIcon, rightIcon, secureTextEntry }: TextFieldProps) {
   const labelComponent = useMemo(
     () => (
       <>
@@ -35,17 +35,20 @@ export function TextField({ disabled, label, name, secureTextEntry, control }: T
         control={control}
         render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
           <Input
-            disabled={disabled}
-            value={value}
-            label={labelComponent}
-            onChangeText={onChange}
-            onBlur={onBlur}
-            inputContainerStyle={styles.inputContainerStyle}
             containerStyle={styles.containerStyle}
-            inputStyle={styles.inputStyle}
+            disabled={disabled}
             errorMessage={error?.message}
-            secureTextEntry={secureTextEntry}
             errorStyle={{ display: error?.message ? 'flex' : 'none' }}
+            inputContainerStyle={styles.inputContainerStyle}
+            inputStyle={styles.inputStyle}
+            label={labelComponent}
+            leftIcon={leftIcon}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            rightIcon={rightIcon}
+            rightIconContainerStyle={styles.iconStyles}
+            secureTextEntry={secureTextEntry}
+            value={value}
           />
         )}
       />
@@ -71,5 +74,9 @@ const styles = StyleSheet.create({
   },
   errorStyle: {
     display: 'none',
+  },
+  iconStyles: {
+    paddingRight: 5,
+    marginVertical: 0,
   },
 });
