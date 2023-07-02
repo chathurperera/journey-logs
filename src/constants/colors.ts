@@ -15,10 +15,21 @@ enum Primary {
 
 enum Neutral {
   black = `#000000`,
+  JL900 = `#080808`,
+  JL800 = `#101010`,
+  JL700 = `#181818`,
+  JL600 = `#202020`,
+  JL500 = `#282828`,
+  JL400 = `#464646`,
+  JL300 = `#636363`,
+  JL200 = `#818181`,
+  JL100 = `#9E9E9E`,
+  JL50 = `#ADADAD`,
   white = `#ffffff`,
 }
 
 enum Secondary {
+  JL200 = `#FCFCFC`,
   jl100 = `#B4AEAE`,
 }
 

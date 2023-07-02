@@ -59,7 +59,6 @@ export function TextField({ disabled, label, name, control, leftIcon, rightIcon,
 const styles = StyleSheet.create({
   containerStyle: {
     paddingHorizontal: 0,
-    marginBottom: 14,
   },
   inputContainerStyle: {
     borderColor: Color.Secondary.jl100,

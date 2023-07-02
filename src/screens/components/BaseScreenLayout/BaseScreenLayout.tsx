@@ -13,7 +13,7 @@ export function BaseScreenLayout({ children }: BaseScreenLayoutProps) {
   return (
     <SafeAreaView className={`relative h-full pt-[${headerHeight}px]`}>
       <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView className="grow ">{children}</ScrollView>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>{children}</ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
