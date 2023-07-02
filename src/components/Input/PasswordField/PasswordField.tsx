@@ -15,9 +15,9 @@ export function PasswordField({ ...props }: TextFieldProps) {
       secureTextEntry={showPassword}
       rightIcon={
         showPassword ? (
-          <Icon type="feather" name="eye-off" onPress={handelIconPress} />
+          <Icon type="feather" name="eye-off" size={18} onPress={handelIconPress} />
         ) : (
-          <Icon type="feather" name="eye" onPress={handelIconPress} />
+          <Icon type="feather" name="eye" size={18} onPress={handelIconPress} />
         )
       }
       {...props}

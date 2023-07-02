@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     display: 'none',
   },
   iconStyles: {
-    paddingRight: 5,
+    paddingRight: 10,
     marginVertical: 0,
   },
 });

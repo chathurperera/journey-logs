@@ -98,7 +98,7 @@ export const AppTextStyles: Record<TextVariant, React.CSSProperties> = {
 
   // Links
   [TextVariant.Link]: {
-    fontSize: '14px',
+    fontSize: '16px',
     fontWeight: FontWeight.Bold,
     lineHeight: 20,
   },

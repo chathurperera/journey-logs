@@ -28,11 +28,11 @@ export function LoginScreen() {
             </Text>
           </View>
           <View className="mb-10">
-            <View className="mb-3">
-              <PasswordField control={control} label="Password" name="password" />
-            </View>
             <View className="mb-2">
               <TextField control={control} label="Email" name="email" />
+            </View>
+            <View className="mb-3">
+              <PasswordField control={control} label="Password" name="password" />
             </View>
             <Text variant={TextVariant.Link} color={Color.Primary.Jl500}>
               Forgot password ?
