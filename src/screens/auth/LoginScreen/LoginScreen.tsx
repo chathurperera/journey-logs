@@ -1,10 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { View } from 'react-native';
 
 import { Button, PasswordField, Text, TextField } from '@jl/components';
-import { Color, TextVariant } from '@jl/constants';
+import { Color, Route, TextVariant } from '@jl/constants';
+import { AuthService, NavigationService } from '@jl/services';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { SocialAuth } from '../components/SocialAuth';
@@ -12,10 +13,12 @@ import { LoginFormValues, loginValidationSchema } from './Login.validations';
 
 export function LoginScreen() {
   const { handleSubmit, control } = useForm<LoginFormValues>({ resolver: zodResolver(loginValidationSchema) });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleOnSubmit = data => {
-    console.log('data', data);
-    console.log('form submitted');
+  const handleOnSubmit = async formData => {
+    setIsLoading(true);
+    await AuthService.signUp(formData);
+    setIsLoading(false);
   };
 
   return (
@@ -38,7 +41,7 @@ export function LoginScreen() {
               Forgot password ?
             </Text>
           </View>
-          <Button title="Login" onPress={handleSubmit(handleOnSubmit)} />
+          <Button title="Login" onPress={handleSubmit(handleOnSubmit)} loading={isLoading} />
           <View className="flex-row justify-between items-center my-6">
             <View className="h-[2px] bg-[#E9CFCF] w-[40%]"></View>
             <Text variant={TextVariant.Body1Regular} color={Color.Neutral.JL500}>
@@ -50,7 +53,7 @@ export function LoginScreen() {
         </View>
         <View className="gap-1 justify-center flex-row">
           <Text variant={TextVariant.Body1Regular}>New to Journey Logs? </Text>
-          <Text variant={TextVariant.Link} color={Color.Primary.Jl400}>
+          <Text variant={TextVariant.Link} color={Color.Primary.Jl400} onPress={() => NavigationService.navigate(Route.Signup)}>
             Sign up
           </Text>
         </View>

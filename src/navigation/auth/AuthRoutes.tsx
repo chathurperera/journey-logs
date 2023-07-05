@@ -17,8 +17,8 @@ export function AuthStack() {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen name={Route.Signup} component={SignupScreen} />
       <Stack.Screen name={Route.Login} component={LoginScreen} />
+      <Stack.Screen name={Route.Signup} component={SignupScreen} />
     </Stack.Navigator>
   );
 }

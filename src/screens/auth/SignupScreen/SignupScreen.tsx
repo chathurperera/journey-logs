@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form';
 import { View } from 'react-native';
 
 import { Button, PasswordField, Text, TextField } from '@jl/components';
-import { Color, TextVariant } from '@jl/constants';
+import { Color, Route, TextVariant } from '@jl/constants';
+import { AuthService, NavigationService } from '@jl/services';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { SocialAuth } from '../components/SocialAuth';
@@ -12,10 +13,10 @@ import { SignupFormValues, signupValidationSchema } from './Signup.validations';
 
 export function SignupScreen() {
   const { handleSubmit, control } = useForm<SignupFormValues>({ resolver: zodResolver(signupValidationSchema) });
-
-  const handleOnSubmit = data => {
-    console.log('data', data);
-    console.log('form submitted');
+  console.log('signup screen renders');
+  const handleOnSubmit = async formData => {
+    console.log('formData', formData);
+    await AuthService.signUp(formData);
   };
 
   return (
@@ -53,7 +54,7 @@ export function SignupScreen() {
         </View>
         <View className="gap-1 justify-center flex-row">
           <Text variant={TextVariant.Body1Regular}>Already have an account? </Text>
-          <Text variant={TextVariant.Link} color={Color.Primary.Jl400}>
+          <Text variant={TextVariant.Link} color={Color.Primary.Jl400} onPress={() => NavigationService.navigate(Route.Login)}>
             Login
           </Text>
         </View>
