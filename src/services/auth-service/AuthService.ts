@@ -1,6 +1,7 @@
 import auth from '@react-native-firebase/auth';
 
 import { FirebaseService } from '../firebase-service';
+import { ToastService } from '../toast-service';
 
 export class AuthService {
   static async signUp({ email, password, name }) {
@@ -13,11 +14,11 @@ export class AuthService {
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
-          console.log('email address is already in use!');
+          ToastService.error('Duplicate email', 'Email address already in use');
         }
 
         if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
+          ToastService.error('Invalid Email', 'Please enter a correct email address');
         }
 
         console.log(error);

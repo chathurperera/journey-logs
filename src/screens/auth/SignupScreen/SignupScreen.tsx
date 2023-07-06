@@ -8,7 +8,6 @@ import { Color, Route, TextVariant } from '@jl/constants';
 import { AuthService, NavigationService } from '@jl/services';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
-import { SocialAuth } from '../components/SocialAuth';
 import { SignupFormValues, signupValidationSchema } from './Signup.validations';
 
 export function SignupScreen() {
@@ -43,14 +42,6 @@ export function SignupScreen() {
             </View>
           </View>
           <Button title="Sign up" onPress={handleSubmit(handleOnSubmit)} />
-          <View className="flex-row justify-between items-center my-6">
-            <View className="h-[2px] bg-[#E9CFCF] w-[40%]"></View>
-            <Text variant={TextVariant.Body1Regular} color={Color.Neutral.JL500}>
-              OR
-            </Text>
-            <View className="h-[2px] bg-[#E9CFCF] w-[40%]"></View>
-          </View>
-          <SocialAuth />
         </View>
         <View className="gap-1 justify-center flex-row">
           <Text variant={TextVariant.Body1Regular}>Already have an account? </Text>
