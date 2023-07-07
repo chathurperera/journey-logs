@@ -2,8 +2,9 @@
 import { Input, InputProps } from '@rneui/themed';
 import React, { useMemo } from 'react';
 import { Control, Controller } from 'react-hook-form';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 
+import { tw } from '@jl/config';
 import { Color, TextVariant } from '@jl/constants';
 
 import { Text } from '../../Text/Text';
@@ -18,7 +19,7 @@ export function TextField({ disabled, label, name, control, leftIcon, rightIcon,
   const labelComponent = useMemo(
     () => (
       <>
-        <View className="pb-1">
+        <View style={tw`pb-1`}>
           <Text variant={TextVariant.Label1Regular} color={Color.Neutral.black}>
             {label}
           </Text>
@@ -35,18 +36,18 @@ export function TextField({ disabled, label, name, control, leftIcon, rightIcon,
         control={control}
         render={({ field: { value, onChange, onBlur }, fieldState: { error } }) => (
           <Input
-            containerStyle={styles.containerStyle}
+            containerStyle={tw`px-0`}
             disabled={disabled}
             errorMessage={error?.message}
             errorStyle={{ display: error?.message ? 'flex' : 'none' }}
-            inputContainerStyle={styles.inputContainerStyle}
-            inputStyle={styles.inputStyle}
+            inputContainerStyle={tw`border-[${Color.Secondary.jl100}] border-[1px] rounded-2 py-1`}
+            inputStyle={tw`px-2.5 text-[15px] font-Inter`}
             label={labelComponent}
             leftIcon={leftIcon}
             onBlur={onBlur}
             onChangeText={onChange}
             rightIcon={rightIcon}
-            rightIconContainerStyle={styles.iconStyles}
+            rightIconContainerStyle={tw`pr-2.5 my-0`}
             secureTextEntry={secureTextEntry}
             value={value}
           />
@@ -55,27 +56,3 @@ export function TextField({ disabled, label, name, control, leftIcon, rightIcon,
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  containerStyle: {
-    paddingHorizontal: 0,
-  },
-  inputContainerStyle: {
-    borderColor: Color.Secondary.jl100,
-    borderWidth: 1,
-    borderRadius: 8,
-    paddingVertical: 2,
-  },
-  inputStyle: {
-    paddingHorizontal: 10,
-    fontSize: 15,
-    fontFamily: 'Inter',
-  },
-  errorStyle: {
-    display: 'none',
-  },
-  iconStyles: {
-    paddingRight: 10,
-    marginVertical: 0,
-  },
-});

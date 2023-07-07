@@ -4,6 +4,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SplashScreen from 'react-native-splash-screen';
 
 import { ToastAlert } from '@jl/components';
+import { tw } from '@jl/config';
 import { Routes } from '@jl/navigation';
 
 export function App() {
@@ -14,8 +15,8 @@ export function App() {
   return (
     <>
       <StatusBar barStyle="dark-content" />
-      <GestureHandlerRootView className="flex-1">
-        <View className="flex-1">
+      <GestureHandlerRootView style={tw`flex-1`}>
+        <View style={tw`flex-1`}>
           <Routes />
         </View>
         <ToastAlert />

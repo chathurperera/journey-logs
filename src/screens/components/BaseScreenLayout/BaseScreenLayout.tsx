@@ -3,6 +3,8 @@ import React from 'react';
 import { KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import { tw } from '@jl/config';
+
 interface BaseScreenLayoutProps {
   children: React.ReactNode;
 }
@@ -11,9 +13,11 @@ export function BaseScreenLayout({ children }: BaseScreenLayoutProps) {
   const headerHeight = useHeaderHeight();
 
   return (
-    <SafeAreaView className={`relative h-full pt-[${headerHeight}px]`}>
-      <KeyboardAvoidingView className="flex-1" behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>{children}</ScrollView>
+    <SafeAreaView style={tw`relative h-full pt-[${headerHeight}px]`}>
+      <KeyboardAvoidingView style={tw`flex-1`} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView contentContainerStyle={tw`grow`} keyboardShouldPersistTaps="handled">
+          {children}
+        </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );

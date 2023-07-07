@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-/** @type {import('tailwindcss').Config} */
-
 module.exports = {
   content: ['./src/app/App.tsx', './src/screens/**/*.{js,jsx,ts,tsx}', './src/components/**/*.{js,jsx,ts,tsx}'],
   theme: {

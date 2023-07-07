@@ -1,11 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { View } from 'react-native';
 
 import { Button, PasswordField, Text, TextField } from '@jl/components';
+import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
-import { AuthService, NavigationService, ToastService } from '@jl/services';
+import { AuthService, NavigationService } from '@jl/services';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { LoginFormValues, loginValidationSchema } from './Login.validations';
@@ -22,18 +23,18 @@ export function LoginScreen() {
 
   return (
     <BaseScreenLayout>
-      <View className="flex-1 justify-between mt-10 mx-5">
+      <View style={tw`flex-1 justify-between mt-10 mx-5`}>
         <View>
-          <View className="w-[210px] mb-14">
+          <View style={tw`w-[210px] mb-14`}>
             <Text variant={TextVariant.Heading1Regular} color={Color.Neutral.JL900}>
               Log in to Journey Logs
             </Text>
           </View>
-          <View className="mb-10">
-            <View className="mb-2">
+          <View style={tw`mb-10`}>
+            <View style={tw`mb-2`}>
               <TextField control={control} label="Email" name="email" />
             </View>
-            <View className="mb-3">
+            <View style={tw`mb-3`}>
               <PasswordField control={control} label="Password" name="password" />
             </View>
             <Text variant={TextVariant.Link} color={Color.Primary.Jl500}>
@@ -42,7 +43,7 @@ export function LoginScreen() {
           </View>
           <Button title="Login" onPress={handleSubmit(handleOnSubmit)} loading={isLoading} />
         </View>
-        <View className="gap-1 justify-center flex-row">
+        <View style={tw`gap-1 justify-center flex-row`}>
           <Text variant={TextVariant.Body1Regular}>New to Journey Logs? </Text>
           <Text variant={TextVariant.Link} color={Color.Primary.Jl400} onPress={() => NavigationService.navigate(Route.Signup)}>
             Sign up

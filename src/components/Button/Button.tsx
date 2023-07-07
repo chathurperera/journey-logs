@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import { ButtonProps as RNEButtonProps } from '@rneui/themed';
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { Button as RNEButton } from 'react-native-elements';
 
+import { tw } from '@jl/config';
 import { Color } from '@jl/constants';
 
 interface ButtonProps extends RNEButtonProps {
@@ -24,16 +24,9 @@ export function Button({
       onPress={onPress}
       disabled={disabled}
       title={title}
-      buttonStyle={[{ backgroundColor: backgroundColor }, styles.buttonStyles]}
+      buttonStyle={[{ backgroundColor: backgroundColor }, tw`rounded-2.5 py-3`]}
       titleStyle={{ color: textColor }}
       loading={loading}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  buttonStyles: {
-    borderRadius: 5,
-    paddingVertical: 11,
-  },
-});
