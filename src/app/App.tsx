@@ -3,6 +3,7 @@ import { StatusBar, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SplashScreen from 'react-native-splash-screen';
 
+import { ToastAlert } from '@jl/components';
 import { Routes } from '@jl/navigation';
 
 export function App() {
@@ -17,6 +18,7 @@ export function App() {
         <View className="flex-1">
           <Routes />
         </View>
+        <ToastAlert />
       </GestureHandlerRootView>
     </>
   );

@@ -11,13 +11,22 @@ interface ButtonProps extends RNEButtonProps {
   textColor?: string;
 }
 
-export function Button({ title, backgroundColor = Color.Neutral.black, textColor = Color.Neutral.white, onPress }: ButtonProps) {
+export function Button({
+  title,
+  backgroundColor = Color.Neutral.black,
+  textColor = Color.Neutral.white,
+  onPress,
+  loading,
+  disabled,
+}: ButtonProps) {
   return (
     <RNEButton
       onPress={onPress}
+      disabled={disabled}
       title={title}
       buttonStyle={[{ backgroundColor: backgroundColor }, styles.buttonStyles]}
       titleStyle={{ color: textColor }}
+      loading={loading}
     />
   );
 }
