@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { View } from 'react-native';
 
 import { Button, PasswordField, Text, TextField } from '@jl/components';
+import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
 import { AuthService, NavigationService } from '@jl/services';
 
@@ -20,30 +21,30 @@ export function SignupScreen() {
 
   return (
     <BaseScreenLayout>
-      <View className="flex-1 justify-between mt-10 mx-5">
+      <View style={tw`flex-1 justify-between mt-10 mx-5`}>
         <View>
-          <View className="w-[210px] mb-14">
+          <View style={tw`w-[210px] mb-14`}>
             <Text variant={TextVariant.Heading1Regular} color={Color.Neutral.JL900}>
               Sign up to Journey Logs
             </Text>
           </View>
-          <View className="mb-10">
-            <View className="mb-2">
+          <View style={tw`mb-10`}>
+            <View style={tw`mb-2`}>
               <TextField control={control} label="Name" name="name" />
             </View>
-            <View className="mb-2">
+            <View style={tw`mb-2`}>
               <TextField control={control} label="Email" name="email" />
             </View>
-            <View className="mb-3">
+            <View style={tw`mb-3`}>
               <PasswordField control={control} label="Password" name="password" />
             </View>
-            <View className="mb-3">
+            <View style={tw`mb-3`}>
               <PasswordField control={control} label="Confirm Password" name="confirmPassword" />
             </View>
           </View>
           <Button title="Sign up" onPress={handleSubmit(handleOnSubmit)} />
         </View>
-        <View className="gap-1 justify-center flex-row">
+        <View style={tw`gap-1 justify-center flex-row`}>
           <Text variant={TextVariant.Body1Regular}>Already have an account? </Text>
           <Text variant={TextVariant.Link} color={Color.Primary.Jl400} onPress={() => NavigationService.navigate(Route.Login)}>
             Login

@@ -26,7 +26,6 @@ module.exports = {
       {
         relativeSourceLocation: true,
       },
-    ],
-    'nativewind/babel',
+    ]
   ],
 };

@@ -34,6 +34,7 @@
     "react-native-splash-screen": "^3.3.0",
     "react-native-toast-message": "^2.1.6",
     "react-native-vector-icons": "^9.2.0",
+    "twrnc": "^3.6.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {

@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { Text as RNText } from 'react-native';
 
+import { tw } from '@jl/config';
 import { Color, TextAlignment } from '@jl/constants';
 
 import { getAppTextStyles } from './Text.config';
@@ -22,7 +23,7 @@ export function Text({
 
   textStyles += ` text-${textAlign}`;
   return (
-    <RNText onPress={onPress} style={{ color }} className={`${textStyles}`}>
+    <RNText onPress={onPress} style={[{ color }, tw`${textStyles}`]}>
       {children}
     </RNText>
   );
