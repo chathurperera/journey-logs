@@ -7,6 +7,7 @@ import { Route } from '@jl/constants';
 import { NavigationService } from '@jl/services';
 
 import { AuthStack } from './auth';
+import { MainStack } from './main';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,9 +33,15 @@ export function Routes() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Group>
-          <Stack.Screen name={Route.AuthStack} component={AuthStack} />
-        </Stack.Group>
+        {user ? (
+          <Stack.Group>
+            <Stack.Screen name={Route.MainStack} component={MainStack} />
+          </Stack.Group>
+        ) : (
+          <Stack.Group>
+            <Stack.Screen name={Route.AuthStack} component={AuthStack} />
+          </Stack.Group>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
