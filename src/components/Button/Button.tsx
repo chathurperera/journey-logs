@@ -8,10 +8,12 @@ import { Color } from '@jl/constants';
 
 interface ButtonProps extends RNEButtonProps {
   backgroundColor?: string;
+  testID?: string;
   textColor?: string;
 }
 
 export function Button({
+  testID,
   title,
   backgroundColor = Color.Neutral.black,
   textColor = Color.Neutral.white,
@@ -21,6 +23,7 @@ export function Button({
 }: ButtonProps) {
   return (
     <RNEButton
+      testID={testID}
       onPress={onPress}
       disabled={disabled}
       title={title}
