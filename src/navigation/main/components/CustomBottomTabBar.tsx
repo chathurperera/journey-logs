@@ -32,7 +32,7 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
   };
 
   return (
-    <View style={tw`flex-row absolute bottom-0 bg-white`}>
+    <View style={tw`flex-row absolute bottom-0 bg-white border-t-2 border-t-[#E9E9E9] `}>
       {state.routes.map((route, index) => {
         const label = route.name;
 
