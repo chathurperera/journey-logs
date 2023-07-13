@@ -13,6 +13,8 @@ export function Text({
   variant,
   textAlign = TextAlignment.Left,
   onPress,
+  numberOfLines,
+  ellipsizeMode,
   color = Color.Neutral.JL900,
 }: PropsWithChildren<TextProps>) {
   let textStyles = getAppTextStyles(variant);
@@ -23,7 +25,11 @@ export function Text({
 
   textStyles += ` text-${textAlign}`;
   return (
-    <RNText onPress={onPress} style={[{ color }, tw`${textStyles}`]}>
+    <RNText
+      onPress={onPress}
+      style={[{ color }, tw`${textStyles}`]}
+      numberOfLines={numberOfLines}
+      ellipsizeMode={ellipsizeMode}>
       {children}
     </RNText>
   );

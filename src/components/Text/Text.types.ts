@@ -4,7 +4,7 @@ import { TextAlignment, TextVariant } from '@jl/constants';
 
 type RNTextProps = React.ComponentProps<typeof Text>;
 
-export type WithRNTextProps = Pick<RNTextProps, 'testID' | 'numberOfLines'>;
+export type WithRNTextProps = Pick<RNTextProps, 'testID' | 'numberOfLines' | 'ellipsizeMode'>;
 
 export interface TextProps extends WithRNTextProps {
   color?: ColorValue;
