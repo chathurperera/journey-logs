@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { Pressable, TextInput, View } from 'react-native';
 import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor';
 
 import { Text } from '@jl/components';
@@ -18,12 +18,15 @@ const handleHead = ({ tintColor }) => (
 
 export function EditorScreen() {
   const RichTextEditorRef = useRef(null);
-  const [noteContent, setNoteContent] = useState('');
+  const [noteContent, setNoteContent] = useState({
+    title: '',
+    body: '',
+  });
 
   //NOTE:: RichTextEditorRef.current?.insertText('some text'); can be used to insert data without typing
 
   const handleDocumentSave = () => {
-    const replaceHTML = noteContent.replace(/<(.|\n)*?>/g, '').trim();
+    const replaceHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
     const replaceWhiteSpace = replaceHTML.replace(/&nbsp;/g, '').trim();
 
     if (replaceWhiteSpace.length <= 0) {
@@ -31,6 +34,17 @@ export function EditorScreen() {
     } else {
       //TODO::implement data upload
     }
+  };
+  const handleTitleTextChange = text => {
+    setNoteContent(prevValues => {
+      return { ...prevValues, title: text };
+    });
+  };
+
+  const handleTextEditorChange = text => {
+    setNoteContent(prevValues => {
+      return { ...prevValues, body: text };
+    });
   };
 
   return (
@@ -46,6 +60,7 @@ export function EditorScreen() {
         </View>
         <View style={tw`pt-5`}>
           <View style={tw`h-full`}>
+            <TextInput placeholder="Title" style={tw`text-4xlg pl-2`} onChangeText={handleTitleTextChange} />
             <RichEditor
               ref={RichTextEditorRef}
               disabled={false}
@@ -55,7 +70,7 @@ export function EditorScreen() {
               focusable
               styleWithCSS
               placeholder={'Start typing'}
-              onChange={text => setNoteContent(text)}
+              onChange={handleTextEditorChange}
             />
             <View style={tw``}>
               <RichToolbar
