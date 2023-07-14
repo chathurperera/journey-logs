@@ -16,7 +16,21 @@ type DocumentCardProps = {
 
 export function DocumentCard({ documentData }: DocumentCardProps) {
   return (
-    <Pressable style={tw`border-neutral-50 mb-4 rounded-2.25 p-5 bg-[${Color.Neutral.white}] relative`}>
+    <Pressable
+      style={[
+        tw`border-neutral-50 mb-4 rounded-2.5 p-5 bg-[${Color.Neutral.white}] relative`,
+        {
+          shadowColor: '#0000005e',
+          shadowOffset: {
+            width: 2,
+            height: 2,
+          },
+          shadowOpacity: 0.2,
+          shadowRadius: 4.3,
+
+          elevation: 2,
+        },
+      ]}>
       <View style={tw`mb-2`}>
         <Text variant={TextVariant.Title2}>{documentData.title} </Text>
       </View>
@@ -35,7 +49,7 @@ export function DocumentCard({ documentData }: DocumentCardProps) {
             blurType="light"
             blurAmount={4}
             reducedTransparencyFallbackColor="white"
-            style={tw`absolute inset-0`}
+            style={tw`absolute inset-0 rounded-2.5`}
           />
 
           <View style={tw`absolute m-auto left-0 right-0  h-full justify-center pt-10`}>
