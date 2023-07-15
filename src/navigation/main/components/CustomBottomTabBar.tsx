@@ -5,13 +5,15 @@ import { Pressable, View } from 'react-native';
 
 import { tw } from '@jl/config';
 import { Color, Route } from '@jl/constants';
+import { NavigationService } from '@jl/services';
 
 import { BottomTabBarIcon } from './BottomTabBarIcon';
 
 export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
   const renderNewDocumentIcon = () => {
     return (
-      <View
+      <Pressable
+        onPress={() => NavigationService.navigate(Route.EditorStack)}
         style={[
           tw`w-18 h-18 rounded-full bg-black justify-center items-center border-2 flex-1 absolute bottom-1`,
           {
@@ -27,7 +29,7 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
           },
         ]}>
         <Icon type="feather" name="plus" color={Color.Neutral.white} size={40} />
-      </View>
+      </Pressable>
     );
   };
 
@@ -45,6 +47,7 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
             canPreventDefault: true,
           });
 
+          console.log('route.name', route.name);
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
           }
@@ -52,15 +55,13 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
 
         return (
           <View key={index} style={tw`flex-1 justify-center items-center my-5`}>
-            <Pressable onPress={onPress}>
-              <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                {route.name === Route.EditorTab ? (
-                  renderNewDocumentIcon()
-                ) : (
-                  <BottomTabBarIcon isFocused={isFocused} routeName={label} />
-                )}
-              </View>
-            </Pressable>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              {route.name === Route.PlaceHolderRoute ? (
+                renderNewDocumentIcon()
+              ) : (
+                <BottomTabBarIcon isFocused={isFocused} routeName={label} onPress={onPress} />
+              )}
+            </View>
           </View>
         );
       })}

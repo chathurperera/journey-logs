@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Route } from '@jl/constants';
 
+import { EditorStack } from '../editor';
 import { MainBottomTabRoutes } from './MainBottomTabRoutes';
 
 const Stack = createNativeStackNavigator();
@@ -16,6 +17,7 @@ export function MainStack() {
         headerBackVisible: false,
       }}>
       <Stack.Screen name={Route.MainBottomTabRoutesStack} component={MainBottomTabRoutes} />
+      <Stack.Screen name={Route.EditorStack} component={EditorStack} />
     </Stack.Navigator>
   );
 }

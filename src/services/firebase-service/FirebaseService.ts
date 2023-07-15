@@ -1,3 +1,4 @@
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 export class FirebaseService {
@@ -11,5 +12,11 @@ export class FirebaseService {
       .catch(error => {
         console.log('error', error);
       });
+  }
+
+  static async logOut() {
+    auth()
+      .signOut()
+      .then(() => console.log('User signed out!'));
   }
 }

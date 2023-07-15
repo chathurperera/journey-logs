@@ -1,7 +1,9 @@
 export enum Route {
   AuthStack = 'auth-stack',
   CalendarTab = 'calendar-tab',
+  EditorStack = 'editor-stack',
   EditorTab = 'editor-tab',
+  PlaceHolderRoute = 'place-holder-route',
   HomeTab = 'home-tab',
   Login = 'login',
   LoginStack = 'login-stack',

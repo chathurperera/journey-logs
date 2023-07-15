@@ -23,7 +23,7 @@ export function BaseScreenLayout({ children, scrollRef, wrapWithScrollView = tru
   );
 
   return (
-    <SafeAreaView style={tw`relative h-full pt-[${headerHeight}px] bg-gray-100`}>
+    <SafeAreaView style={tw`relative h-full pt-[${headerHeight}px] bg-slate-50`}>
       <KeyboardAvoidingView style={tw`flex-1`} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         {renderChildren}
       </KeyboardAvoidingView>

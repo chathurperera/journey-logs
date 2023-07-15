@@ -9,6 +9,7 @@ enum Primary {
   Jl400 = `#957BF9`,
   Jl300 = `#AF9CFB`,
   Jl200 = `#CABDFC`,
+  Jl150 = `#F8FAFC`,
   Jl100 = `#E4DEFE`,
   Jl50 = `#F2EFFE`,
 }

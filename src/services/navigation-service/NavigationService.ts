@@ -9,4 +9,8 @@ export class NavigationService {
   public static navigate(routeName: Route, params?: any) {
     NavigationService.navigationRef.current?.navigate(routeName, params);
   }
+
+  public static goBack() {
+    NavigationService.navigationRef.current?.goBack();
+  }
 }
