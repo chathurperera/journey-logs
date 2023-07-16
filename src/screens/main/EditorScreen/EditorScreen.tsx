@@ -3,7 +3,7 @@ import React, { useRef, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor';
 
-import { Text } from '@jl/components';
+import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextAlignment, TextVariant } from '@jl/constants';
 import { NavigationService, NoteService, ToastService } from '@jl/services';
@@ -25,7 +25,7 @@ export function EditorScreen() {
     title: '',
     body: '',
   });
-  const [, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   //NOTE:: RichTextEditorRef.current?.insertText('some text'); can be used to insert data without typing
 
@@ -64,9 +64,11 @@ export function EditorScreen() {
       <View style={[tw`mx-5 h-full pb-10`]}>
         <View style={tw`justify-between flex-row items-center`}>
           <HeaderBackButton />
+          {/* TODO:: replace with a proper button variant */}
           <Pressable
-            style={tw`bg-[${Color.Primary.Jl600}] py-2 px-2 rounded-3xl w-20`}
+            style={tw`bg-[${Color.Primary.Jl600}] py-2 px-6 rounded-3xl  gap-2 flex-row justify-between items-center`}
             onPress={handleDocumentSave}>
+            {isLoading && <LoadingSpinner size="small" />}
             <Text
               variant={TextVariant.Label2SemiBold}
               color={Color.Neutral.white}
