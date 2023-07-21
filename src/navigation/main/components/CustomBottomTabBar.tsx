@@ -47,7 +47,6 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
             canPreventDefault: true,
           });
 
-          console.log('route.name', route.name);
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
           }

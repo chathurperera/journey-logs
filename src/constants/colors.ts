@@ -6,6 +6,7 @@ enum Primary {
   Jl700 = `#4D37A5`,
   Jl600 = `#6448CE`,
   Jl500 = `#7A5AF8`,
+  Jl450 = `#9E1DFF`,
   Jl400 = `#957BF9`,
   Jl300 = `#AF9CFB`,
   Jl200 = `#CABDFC`,
@@ -30,6 +31,7 @@ enum Neutral {
 }
 
 enum Secondary {
+  JL300 = `#F8F8FA`,
   JL200 = `#FCFCFC`,
   jl100 = `#B4AEAE`,
 }

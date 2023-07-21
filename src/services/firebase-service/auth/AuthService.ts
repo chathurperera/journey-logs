@@ -12,7 +12,6 @@ const signUp = async ({ email, password, name }) => {
       const userId = userCredential.user.uid;
 
       await AccountService.createNewAccount({ email, name, userId });
-      console.log('User account created');
     })
     .catch(error => {
       if (error.code === 'auth/email-already-in-use') {
@@ -22,7 +21,6 @@ const signUp = async ({ email, password, name }) => {
       if (error.code === 'auth/invalid-email') {
         ToastService.error('Invalid Email', 'Please enter a correct email address');
       }
-      console.log(error);
     });
 };
 

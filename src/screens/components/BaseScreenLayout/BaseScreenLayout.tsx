@@ -4,6 +4,7 @@ import { KeyboardAvoidingView, Platform, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 
 import { tw } from '@jl/config';
+import { Color } from '@jl/constants';
 
 interface BaseScreenLayoutProps {
   children: React.ReactNode;
@@ -11,11 +12,18 @@ interface BaseScreenLayoutProps {
   scrollRef?: Ref<ScrollView>;
 }
 
-export function BaseScreenLayout({ children, scrollRef, wrapWithScrollView = true }: BaseScreenLayoutProps) {
+export function BaseScreenLayout({
+  children,
+  scrollRef,
+  wrapWithScrollView = true,
+}: BaseScreenLayoutProps) {
   const headerHeight = useHeaderHeight();
 
   const renderChildren = wrapWithScrollView ? (
-    <ScrollView contentContainerStyle={tw`grow`} keyboardShouldPersistTaps="handled" ref={scrollRef}>
+    <ScrollView
+      contentContainerStyle={tw`grow`}
+      keyboardShouldPersistTaps="handled"
+      ref={scrollRef}>
       {children}
     </ScrollView>
   ) : (
@@ -23,8 +31,10 @@ export function BaseScreenLayout({ children, scrollRef, wrapWithScrollView = tru
   );
 
   return (
-    <SafeAreaView style={tw`relative h-full pt-[${headerHeight}px] bg-slate-50`}>
-      <KeyboardAvoidingView style={tw`flex-1`} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <SafeAreaView style={tw`relative h-full pt-[${headerHeight}px] bg-[${Color.Secondary.JL300}]`}>
+      <KeyboardAvoidingView
+        style={tw`flex-1`}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         {renderChildren}
       </KeyboardAvoidingView>
     </SafeAreaView>

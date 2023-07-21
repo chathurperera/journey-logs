@@ -16,7 +16,7 @@ const handleHead = ({ tintColor }) => (
     H1
   </Text>
 );
-const userId = auth().currentUser.uid;
+const userId = auth().currentUser?.uid;
 
 export function EditorScreen() {
   const RichTextEditorRef = useRef(null);
