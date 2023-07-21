@@ -6,9 +6,9 @@ import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor'
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextAlignment, TextVariant } from '@jl/constants';
+import { HeaderBackButton } from '@jl/navigation';
 import { NavigationService, NoteService, ToastService } from '@jl/services';
 
-import { HeaderBackButton } from '../../../navigation/components/HeaderBackButton';
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
 const handleHead = ({ tintColor }) => (
@@ -18,14 +18,15 @@ const handleHead = ({ tintColor }) => (
 );
 const userId = auth().currentUser?.uid;
 
-export function EditorScreen() {
+export function NewNoteScreen() {
   const RichTextEditorRef = useRef(null);
+
+  const [isLoading, setIsLoading] = useState(false);
   const [noteContent, setNoteContent] = useState({
     userId: userId,
     title: '',
     body: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   //NOTE:: RichTextEditorRef.current?.insertText('some text'); can be used to insert data without typing
 
@@ -37,6 +38,11 @@ export function EditorScreen() {
       ToastService.error('Empty document', 'Document cannot be empty');
     } else {
       setIsLoading(true);
+
+      if (noteContent.title === '') {
+        setNoteContent({ ...noteContent, title: 'Untitled note' });
+      }
+
       await NoteService.createNote({
         title: noteContent.title,
         body: contentWithoutHTML,
@@ -65,17 +71,19 @@ export function EditorScreen() {
         <View style={tw`justify-between flex-row items-center`}>
           <HeaderBackButton />
           {/* TODO:: replace with a proper button variant */}
-          <Pressable
-            style={tw`bg-[${Color.Primary.Jl600}] py-2 px-6 rounded-3xl  gap-2 flex-row justify-between items-center`}
-            onPress={handleDocumentSave}>
-            {isLoading && <LoadingSpinner size="small" />}
-            <Text
-              variant={TextVariant.Label2SemiBold}
-              color={Color.Neutral.white}
-              textAlign={TextAlignment.Center}>
-              Save
-            </Text>
-          </Pressable>
+          <View style={tw`justify-between flex-row gap-2 items-center relative`}>
+            <Pressable
+              style={tw`bg-[${Color.Primary.Jl600}] py-2 px-6 rounded-3xl  gap-2 flex-row justify-between items-center`}
+              onPress={handleDocumentSave}>
+              {isLoading && <LoadingSpinner size="small" />}
+              <Text
+                variant={TextVariant.Label2SemiBold}
+                color={Color.Neutral.white}
+                textAlign={TextAlignment.Center}>
+                Save
+              </Text>
+            </Pressable>
+          </View>
         </View>
         <View style={tw`pt-5`}>
           <View style={tw`h-full`}>

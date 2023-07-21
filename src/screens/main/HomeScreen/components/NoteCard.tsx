@@ -5,8 +5,9 @@ import { Pressable, View } from 'react-native';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, TextAlignment, TextVariant } from '@jl/constants';
+import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { NoteData } from '@jl/models';
+import { NavigationService } from '@jl/services';
 import { getRelativeTimeFromTimestamp } from '@jl/utils';
 
 interface NoteCardProps extends NoteData {
@@ -16,6 +17,7 @@ interface NoteCardProps extends NoteData {
 export function NoteCard({ title, body, createdAt, isLocked }: NoteCardProps) {
   return (
     <Pressable
+      onPress={() => NavigationService.navigate(Route.PreviewNote)}
       style={[
         tw`border-neutral-50 mb-4 rounded-2.5 px-2.8 py-2.8 bg-[${Color.Neutral.white}] relative`,
         {
