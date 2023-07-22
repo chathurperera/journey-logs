@@ -6,11 +6,13 @@ import { EditNoteScreen, NewNoteScreen, PreviewNoteScreen } from '@jl/screens';
 
 export type NotesStackParamList = {
   [Route.NewNoteTab]: undefined;
-  [Route.PreviewNote]: undefined;
+  [Route.PreviewNote]: {
+    noteId: string;
+  };
   [Route.EditNote]: undefined;
 };
 
-const Stack = createNativeStackNavigator<NotesStackParamList>();
+const Stack = createNativeStackNavigator();
 
 export function NotesStack() {
   return (

@@ -1,5 +1,5 @@
 import { Icon } from '@rneui/base';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
@@ -7,12 +7,15 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
 import { HeaderBackButton } from '@jl/navigation';
-import { NavigationService } from '@jl/services';
+import { NavigationService, NoteService } from '@jl/services';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { MenuBottomSheet } from './components/MenuBottomSheet';
 
-export function PreviewNoteScreen() {
+export function PreviewNoteScreen({ route }) {
+  const { noteId } = route.params.params.params;
+  const [noteData, setNoteData] = useState(null);
+
   const MenuBottomSheetRef = useRef<Modalize>(null);
 
   const handleEditScreenNavigation = () => {
@@ -23,13 +26,22 @@ export function PreviewNoteScreen() {
     MenuBottomSheetRef.current?.open();
   };
 
+  const fetchData = async () => {
+    const data = await NoteService.getSingleNote(noteId);
+    setNoteData(data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <BaseScreenLayout>
       <View style={[tw`mx-5 h-full pb-10`]}>
         <View style={tw`justify-between flex-row items-center mb-3`}>
           <HeaderBackButton />
           <Text variant={TextVariant.Title2} color={Color.Neutral.JL500}>
-            Some title
+            {noteData?.title}
           </Text>
           {/* TODO:: replace with a proper button variant */}
           <View style={tw`justify-between flex-row gap-3 items-center relative`}>
@@ -38,26 +50,9 @@ export function PreviewNoteScreen() {
           </View>
         </View>
         <View style={tw`mb-3`}>
-          <Text variant={TextVariant.Heading1Regular}>Some title</Text>
+          <Text variant={TextVariant.Heading1Regular}>{noteData?.title}</Text>
         </View>
-        <Text variant={TextVariant.Body1Regular}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius sapien in lorem
-          pellentesque ullamcorper. Vestibulum maximus mattis luctus. In bibendum sit amet lacus
-          tristique ultrices. Proin rhoncus orci vel augue interdum, eget pellentesque erat aliquet.
-          Maecenas imperdiet elit nec sapien mollis dictum. Suspendisse ac est erat. Suspendisse
-          porttitor rutrum purus, et vestibulum tellus faucibus eleifend. Aliquam auctor vestibulum
-          urna sed ultrices.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus varius
-          sapien in lorem pellentesque ullamcorper. Vestibulum maximus mattis luctus. In bibendum
-          sit amet lacus tristique ultrices. Proin rhoncus orci vel augue interdum, eget
-          pellentesque erat aliquet. Maecenas imperdiet elit nec sapien mollis dictum. Suspendisse
-          ac est erat. Suspendisse porttitor rutrum purus, et vestibulum tellus faucibus eleifend.
-          Aliquam auctor vestibulum urna sed ultrices.Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Vivamus varius sapien in lorem pellentesque ullamcorper. Vestibulum
-          maximus mattis luctus. In bibendum sit amet lacus tristique ultrices. Proin rhoncus orci
-          vel augue interdum, eget pellentesque erat aliquet. Maecenas imperdiet elit nec sapien
-          mollis dictum. Suspendisse ac est erat. Suspendisse porttitor rutrum purus, et vestibulum
-          tellus faucibus eleifend. Aliquam auctor vestibulum urna sed ultrices.
-        </Text>
+        <Text variant={TextVariant.Body1Regular}>{noteData?.body}</Text>
       </View>
       <MenuBottomSheet ref={MenuBottomSheetRef} />
     </BaseScreenLayout>

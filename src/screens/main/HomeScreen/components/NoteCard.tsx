@@ -14,10 +14,10 @@ interface NoteCardProps extends NoteData {
   onPress: () => void;
 }
 
-export function NoteCard({ title, body, createdAt, isLocked }: NoteCardProps) {
+export function NoteCard({ title, body, createdAt, isLocked, id }: NoteCardProps) {
   return (
     <Pressable
-      onPress={() => NavigationService.navigate(Route.PreviewNote)}
+      onPress={() => NavigationService.navigate(Route.PreviewNote, { noteId: id })}
       style={[
         tw`border-neutral-50 mb-4 rounded-2.5 px-2.8 py-2.8 bg-[${Color.Neutral.white}] relative`,
         {

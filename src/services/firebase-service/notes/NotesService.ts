@@ -42,8 +42,17 @@ const getAllNotes = async () => {
     return data;
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');
-    throw error; // Rethrow the error or handle it appropriately.
+    throw error;
   }
 };
 
-export const NoteService = { createNote, getAllNotes };
+const getSingleNote = async noteId => {
+  try {
+    const documentSnapshot = await firestore().collection('notes').doc(noteId).get();
+    return documentSnapshot?.data();
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+export const NoteService = { createNote, getAllNotes, getSingleNote };
