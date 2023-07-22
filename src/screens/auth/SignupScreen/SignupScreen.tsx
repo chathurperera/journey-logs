@@ -12,10 +12,11 @@ import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { SignupFormValues, signupValidationSchema } from './Signup.validations';
 
 export function SignupScreen() {
-  const { handleSubmit, control } = useForm<SignupFormValues>({ resolver: zodResolver(signupValidationSchema) });
-  console.log('signup screen renders');
+  const { handleSubmit, control } = useForm<SignupFormValues>({
+    resolver: zodResolver(signupValidationSchema),
+  });
+
   const handleOnSubmit = async formData => {
-    console.log('formData', formData);
     await AuthService.signUp(formData);
   };
 
@@ -46,7 +47,10 @@ export function SignupScreen() {
         </View>
         <View style={tw`gap-1 justify-center flex-row`}>
           <Text variant={TextVariant.Body1Regular}>Already have an account? </Text>
-          <Text variant={TextVariant.Link} color={Color.Primary.Jl400} onPress={() => NavigationService.navigate(Route.Login)}>
+          <Text
+            variant={TextVariant.Link}
+            color={Color.Primary.Jl400}
+            onPress={() => NavigationService.navigate(Route.Login)}>
             Login
           </Text>
         </View>

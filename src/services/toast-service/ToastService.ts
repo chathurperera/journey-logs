@@ -1,10 +1,5 @@
 import Toast from 'react-native-toast-message';
 
-type ToastParams = {
-  message: string;
-  description: string;
-};
-
 export abstract class ToastService {
   public static success(message: string, description: string) {
     Toast.show({

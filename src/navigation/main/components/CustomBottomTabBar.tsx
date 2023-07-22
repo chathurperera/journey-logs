@@ -13,7 +13,7 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
   const renderNewDocumentIcon = () => {
     return (
       <Pressable
-        onPress={() => NavigationService.navigate(Route.EditorStack)}
+        onPress={() => NavigationService.navigate(Route.NotesStack)}
         style={[
           tw`w-18 h-18 rounded-full bg-black justify-center items-center border-2 flex-1 absolute bottom-1`,
           {
@@ -47,7 +47,6 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
             canPreventDefault: true,
           });
 
-          console.log('route.name', route.name);
           if (!isFocused && !event.defaultPrevented) {
             navigation.navigate(route.name);
           }

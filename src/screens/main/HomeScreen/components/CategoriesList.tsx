@@ -51,22 +51,30 @@ type ItemProps = {
 const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => (
   <Pressable
     onPress={onPress}
-    style={[tw`py-2 px-4 bg-black mr-2 rounded-[15px]`, { backgroundColor: backgroundColor }]}>
+    style={[
+      tw`py-1.5 px-4 bg-black border mr-2 border-gray-200 rounded-[15px]`,
+      { backgroundColor: backgroundColor },
+    ]}>
     <Text variant={TextVariant.Label2Regular} color={textColor}>
       {item.title}
     </Text>
   </Pressable>
 );
 
-export function FoldersList() {
+export function CategoriesList() {
   const [selectedId, setSelectedId] = useState<string>(DATA[0].id);
 
   const renderItem = ({ item }: { item: ItemData }) => {
-    const backgroundColor = item.id === selectedId ? Color.Neutral.JL900 : Color.Secondary.JL200;
+    const backgroundColor = item.id === selectedId ? Color.Primary.Jl450 : Color.Secondary.JL200;
     const color = item.id === selectedId ? Color.Neutral.white : Color.Neutral.JL900;
 
     return (
-      <Item item={item} onPress={() => setSelectedId(item.id)} backgroundColor={backgroundColor} textColor={color} />
+      <Item
+        item={item}
+        onPress={() => setSelectedId(item.id)}
+        backgroundColor={backgroundColor}
+        textColor={color}
+      />
     );
   };
 
