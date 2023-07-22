@@ -14,7 +14,7 @@ import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { MenuBottomSheet } from './components/MenuBottomSheet';
 
 export function PreviewNoteScreen({ route }) {
-  const { noteId } = route.params.params.params;
+  const { noteId } = route.params.params;
 
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
 

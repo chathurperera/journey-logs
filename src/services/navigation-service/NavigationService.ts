@@ -31,11 +31,8 @@ export class NavigationService {
         navParams: {
           screen: Route.Login,
           params: {
-            screen: Route.Login,
-            params: {
-              screen: route,
-              params: params,
-            },
+            screen: route,
+            params: params,
           },
         },
       },
@@ -45,11 +42,8 @@ export class NavigationService {
         navParams: {
           screen: Route.Signup,
           params: {
-            screen: Route.Signup,
-            params: {
-              screen: route,
-              params: params,
-            },
+            screen: route,
+            params: params,
           },
         },
       },
@@ -60,11 +54,8 @@ export class NavigationService {
         navParams: {
           screen: Route.HomeTab,
           params: {
-            screen: Route.HomeTab,
-            params: {
-              screen: route,
-              params: params,
-            },
+            screen: route,
+            params: params,
           },
         },
       },
@@ -75,11 +66,8 @@ export class NavigationService {
         navParams: {
           screen: Route.EditNote,
           params: {
-            screen: Route.EditNote,
-            params: {
-              screen: route,
-              params: params,
-            },
+            screen: route,
+            params: params,
           },
         },
       },
@@ -94,11 +82,8 @@ export class NavigationService {
         navParams: {
           screen: Route.PreviewNote,
           params: {
-            screen: Route.PreviewNote,
-            params: {
-              screen: route,
-              params: params,
-            },
+            screen: route,
+            params: params,
           },
         },
       },
@@ -109,11 +94,8 @@ export class NavigationService {
         navParams: {
           screen: Route.NewNoteTab,
           params: {
-            screen: Route.NewNoteTab,
-            params: {
-              screen: route,
-              params: params,
-            },
+            screen: route,
+            params: params,
           },
         },
       },
