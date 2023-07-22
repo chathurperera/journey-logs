@@ -3,7 +3,7 @@ export interface NoteData {
   categories?: string[];
   createdAt?: number;
   id?: string;
-  isLocked?: boolean;
+  isEncrypted?: boolean;
   title: string;
   updatedAt?: number;
   userId?: string;

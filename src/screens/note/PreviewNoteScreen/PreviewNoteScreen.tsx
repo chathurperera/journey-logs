@@ -18,14 +18,14 @@ export function PreviewNoteScreen({ route }) {
 
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
 
-  const MenuBottomSheetRef = useRef<Modalize>(null);
+  const MenuBottomSheetMethodsRef = useRef<Modalize>(null);
 
   const handleEditScreenNavigation = () => {
     NavigationService.navigate(Route.EditNote);
   };
 
   const handleMenuBottomSheet = () => {
-    MenuBottomSheetRef.current?.open();
+    MenuBottomSheetMethodsRef.current?.open();
   };
 
   const renderContent = () => (
@@ -65,7 +65,11 @@ export function PreviewNoteScreen({ route }) {
         </View>
         {isLoading ? <LoadingSpinner size="large" color={Color.Primary.Jl450} /> : renderContent()}
       </View>
-      <MenuBottomSheet ref={MenuBottomSheetRef} />
+      <MenuBottomSheet
+        ref={MenuBottomSheetMethodsRef}
+        noteId={noteId}
+        isEncrypted={noteData?.isEncrypted}
+      />
     </BaseScreenLayout>
   );
 }

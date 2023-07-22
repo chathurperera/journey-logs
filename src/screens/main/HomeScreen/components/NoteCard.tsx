@@ -14,7 +14,7 @@ interface NoteCardProps extends NoteData {
   onPress: () => void;
 }
 
-export function NoteCard({ title, body, createdAt, isLocked, id }: NoteCardProps) {
+export function NoteCard({ title, body, createdAt, isEncrypted, id }: NoteCardProps) {
   return (
     <Pressable
       onPress={() => NavigationService.navigate(Route.PreviewNote, { noteId: id })}
@@ -45,7 +45,7 @@ export function NoteCard({ title, body, createdAt, isLocked, id }: NoteCardProps
         </Text>
       </View>
 
-      {isLocked && (
+      {isEncrypted && (
         <>
           <BlurView
             blurType="light"
@@ -54,7 +54,7 @@ export function NoteCard({ title, body, createdAt, isLocked, id }: NoteCardProps
             style={tw`absolute inset-0 rounded-2.5`}
           />
 
-          <View style={tw`absolute m-auto left-0 right-0  h-full justify-center pt-10`}>
+          <View style={tw`absolute m-auto left-0 right-0  h-full justify-center pt-4`}>
             <Icon type="feather" name="lock" size={30} />
             <View style={tw`mt-2`}>
               <Text variant={TextVariant.Body1SemiBold} textAlign={TextAlignment.Center}>

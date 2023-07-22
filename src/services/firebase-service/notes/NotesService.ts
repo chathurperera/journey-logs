@@ -18,7 +18,7 @@ const createNote = async (noteData: NoteData) => {
         ...noteData,
         createdAt: currentTimestamp,
         updatedAt: currentTimestamp,
-        isLocked: false,
+        isEncrypted: false,
         categories: [],
       });
   } catch (error) {
@@ -55,4 +55,22 @@ const getSingleNote = async noteId => {
   }
 };
 
-export const NoteService = { createNote, getAllNotes, getSingleNote };
+const updateNote = async (noteId, payload) => {
+  try {
+    await firestore().collection('notes').doc(noteId).update(payload);
+    ToastService.success('Success', 'Document updated successfully');
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+const noteEncryption = async (noteId, encrypt) => {
+  try {
+    await firestore().collection('notes').doc(noteId).update({ isEncrypted: encrypt });
+    ToastService.success('Success', `Your note is ${encrypt ? 'locked' : 'unlocked'} now`);
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+export const NoteService = { createNote, getAllNotes, getSingleNote, updateNote, noteEncryption };
