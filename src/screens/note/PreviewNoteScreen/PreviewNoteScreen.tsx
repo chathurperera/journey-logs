@@ -1,11 +1,12 @@
 import { Icon } from '@rneui/base';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
-import { Text } from '@jl/components';
+import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
+import { useFetch } from '@jl/hooks';
 import { HeaderBackButton } from '@jl/navigation';
 import { NavigationService, NoteService } from '@jl/services';
 
@@ -14,7 +15,8 @@ import { MenuBottomSheet } from './components/MenuBottomSheet';
 
 export function PreviewNoteScreen({ route }) {
   const { noteId } = route.params.params.params;
-  const [noteData, setNoteData] = useState(null);
+
+  const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
 
   const MenuBottomSheetRef = useRef<Modalize>(null);
 
@@ -26,14 +28,14 @@ export function PreviewNoteScreen({ route }) {
     MenuBottomSheetRef.current?.open();
   };
 
-  const fetchData = async () => {
-    const data = await NoteService.getSingleNote(noteId);
-    setNoteData(data);
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const renderContent = () => (
+    <>
+      <View style={tw`mb-3`}>
+        <Text variant={TextVariant.Heading1Regular}>{noteData?.title}</Text>
+      </View>
+      <Text variant={TextVariant.Body1Regular}>{noteData?.body}</Text>
+    </>
+  );
 
   return (
     <BaseScreenLayout>
@@ -45,14 +47,23 @@ export function PreviewNoteScreen({ route }) {
           </Text>
           {/* TODO:: replace with a proper button variant */}
           <View style={tw`justify-between flex-row gap-3 items-center relative`}>
-            <Icon type="feather" name="edit" size={25} onPress={handleEditScreenNavigation} />
-            <Icon type="feather" name="more-vertical" size={25} onPress={handleMenuBottomSheet} />
+            <Icon
+              type="feather"
+              name="edit"
+              size={25}
+              onPress={!isLoading && handleEditScreenNavigation}
+              color={isLoading && Color.Neutral.JL200}
+            />
+            <Icon
+              type="feather"
+              name="more-vertical"
+              size={25}
+              onPress={!isLoading && handleMenuBottomSheet}
+              color={isLoading && Color.Neutral.JL200}
+            />
           </View>
         </View>
-        <View style={tw`mb-3`}>
-          <Text variant={TextVariant.Heading1Regular}>{noteData?.title}</Text>
-        </View>
-        <Text variant={TextVariant.Body1Regular}>{noteData?.body}</Text>
+        {isLoading ? <LoadingSpinner size="large" color={Color.Primary.Jl450} /> : renderContent()}
       </View>
       <MenuBottomSheet ref={MenuBottomSheetRef} />
     </BaseScreenLayout>
