@@ -30,5 +30,5 @@
       "@jl/utils": ["src/utils/index"],
     }
   },
-  "exclude": ["node_modules", "tmp", "babel.config.js", "metro.config.js", "jest.config.js"]
+  "exclude": ["node_modules", "tmp", "metro.config.js",]
 }

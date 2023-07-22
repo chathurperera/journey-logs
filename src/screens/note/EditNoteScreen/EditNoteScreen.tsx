@@ -19,25 +19,21 @@ const handleHead = ({ tintColor }) => (
 );
 const userId = auth().currentUser?.uid;
 
-export function EditNoteScreen({ route }) {
+export function EditNoteScreen({ route, testID }) {
   const RichTextEditorRef = useRef(null);
-  const { noteId } = route.params.params.params;
   const [isSaving, setIsSaving] = useState(false);
-
-  const { data: noteData } = useFetch(() => NoteService.getSingleNote(noteId));
-
   const [noteContent, setNoteContent] = useState({
     userId: userId,
     title: '',
     body: '',
   });
 
+  const { noteId } = route.params.params;
+  const { data: noteData } = useFetch(() => NoteService.getSingleNote(noteId));
+
   useEffect(() => {
     setNoteContent(prevState => ({ ...prevState, title: noteData?.title }));
-    RichTextEditorRef.current?.focusContentEditor();
   }, [noteData]);
-
-  //NOTE:: RichTextEditorRef.current?.insertText('some text'); can be used to insert data without typing
 
   const handleDocumentUpdate = async () => {
     const contentWithoutHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
@@ -76,12 +72,13 @@ export function EditNoteScreen({ route }) {
   };
 
   const handleEditorInitialization = () => {
+    RichTextEditorRef.current?.focusContentEditor();
     RichTextEditorRef.current?.insertText(noteData?.body);
   };
 
   return (
     <BaseScreenLayout>
-      <View style={[tw`mx-5 h-full pb-10`]}>
+      <View style={[tw`mx-5 h-full pb-10`]} testID={testID}>
         <View style={tw`justify-between flex-row items-center`}>
           <HeaderBackButton />
           {/* TODO:: replace with a proper button variant */}
