@@ -21,7 +21,7 @@ export function PreviewNoteScreen({ route }) {
   const MenuBottomSheetMethodsRef = useRef<Modalize>(null);
 
   const handleEditScreenNavigation = () => {
-    NavigationService.navigate(Route.EditNote);
+    NavigationService.navigate(Route.EditNote, { noteId: noteId });
   };
 
   const handleMenuBottomSheet = () => {
