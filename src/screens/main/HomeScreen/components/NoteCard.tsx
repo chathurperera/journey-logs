@@ -14,10 +14,10 @@ interface NoteCardProps extends NoteData {
   onPress: () => void;
 }
 
-export function NoteCard({ title, body, createdAt, isLocked }: NoteCardProps) {
+export function NoteCard({ title, body, createdAt, isEncrypted, id }: NoteCardProps) {
   return (
     <Pressable
-      onPress={() => NavigationService.navigate(Route.PreviewNote)}
+      onPress={() => NavigationService.navigate(Route.PreviewNote, { noteId: id })}
       style={[
         tw`border-neutral-50 mb-4 rounded-2.5 px-2.8 py-2.8 bg-[${Color.Neutral.white}] relative`,
         {
@@ -45,7 +45,7 @@ export function NoteCard({ title, body, createdAt, isLocked }: NoteCardProps) {
         </Text>
       </View>
 
-      {isLocked && (
+      {isEncrypted && (
         <>
           <BlurView
             blurType="light"
@@ -54,7 +54,7 @@ export function NoteCard({ title, body, createdAt, isLocked }: NoteCardProps) {
             style={tw`absolute inset-0 rounded-2.5`}
           />
 
-          <View style={tw`absolute m-auto left-0 right-0  h-full justify-center pt-10`}>
+          <View style={tw`absolute m-auto left-0 right-0  h-full justify-center pt-4`}>
             <Icon type="feather" name="lock" size={30} />
             <View style={tw`mt-2`}>
               <Text variant={TextVariant.Body1SemiBold} textAlign={TextAlignment.Center}>

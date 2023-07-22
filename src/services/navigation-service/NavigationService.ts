@@ -84,6 +84,11 @@ export class NavigationService {
         },
       },
 
+      [Route.NotesStack]: {
+        navRoute: Route.NotesStack,
+        navParams: params,
+      },
+
       [Route.PreviewNote]: {
         navRoute: Route.NotesStack,
         navParams: {
@@ -100,7 +105,7 @@ export class NavigationService {
 
       //Bottom Tab Routes
       [Route.NewNoteTab]: {
-        navRoute: Route.MainBottomTabRoutesStack,
+        navRoute: Route.NotesStack,
         navParams: {
           screen: Route.NewNoteTab,
           params: {

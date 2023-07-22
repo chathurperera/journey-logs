@@ -18,7 +18,7 @@ const createNote = async (noteData: NoteData) => {
         ...noteData,
         createdAt: currentTimestamp,
         updatedAt: currentTimestamp,
-        isLocked: false,
+        isEncrypted: false,
         categories: [],
       });
   } catch (error) {
@@ -42,8 +42,54 @@ const getAllNotes = async () => {
     return data;
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');
-    throw error; // Rethrow the error or handle it appropriately.
+    throw error;
   }
 };
 
-export const NoteService = { createNote, getAllNotes };
+const getSingleNote = async noteId => {
+  try {
+    const documentSnapshot = await firestore().collection('notes').doc(noteId).get();
+    return documentSnapshot?.data();
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+const updateNote = async (noteId, payload) => {
+  try {
+    await firestore().collection('notes').doc(noteId).update(payload);
+    ToastService.success('Success', 'Document updated successfully');
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+const noteEncryption = async (noteId, encrypt) => {
+  try {
+    await firestore().collection('notes').doc(noteId).update({ isEncrypted: encrypt });
+    ToastService.success(
+      'Success',
+      `Your note is ${encrypt ? 'locked' : 'unlocked'} now ${encrypt ? '🔒' : '🔓'}`,
+    );
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+const deleteNote = async noteId => {
+  try {
+    await firestore().collection('notes').doc(noteId).delete();
+    ToastService.success('Success', 'Note deleted successfully 🎉');
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+export const NoteService = {
+  createNote,
+  getAllNotes,
+  getSingleNote,
+  updateNote,
+  noteEncryption,
+  deleteNote,
+};
