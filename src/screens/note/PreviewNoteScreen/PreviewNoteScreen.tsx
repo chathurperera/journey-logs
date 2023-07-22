@@ -1,6 +1,7 @@
 import { Icon } from '@rneui/base';
-import React from 'react';
+import React, { useRef } from 'react';
 import { View } from 'react-native';
+import { Modalize } from 'react-native-modalize';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
@@ -9,10 +10,17 @@ import { HeaderBackButton } from '@jl/navigation';
 import { NavigationService } from '@jl/services';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
+import { MenuBottomSheet } from './components/MenuBottomSheet';
 
 export function PreviewNoteScreen() {
+  const MenuBottomSheetRef = useRef<Modalize>(null);
+
   const handleEditScreenNavigation = () => {
     NavigationService.navigate(Route.EditNote);
+  };
+
+  const handleMenuBottomSheet = () => {
+    MenuBottomSheetRef.current?.open();
   };
 
   return (
@@ -26,7 +34,7 @@ export function PreviewNoteScreen() {
           {/* TODO:: replace with a proper button variant */}
           <View style={tw`justify-between flex-row gap-3 items-center relative`}>
             <Icon type="feather" name="edit" size={25} onPress={handleEditScreenNavigation} />
-            <Icon type="feather" name="more-vertical" size={25} />
+            <Icon type="feather" name="more-vertical" size={25} onPress={handleMenuBottomSheet} />
           </View>
         </View>
         <View style={tw`mb-3`}>
@@ -51,6 +59,7 @@ export function PreviewNoteScreen() {
           tellus faucibus eleifend. Aliquam auctor vestibulum urna sed ultrices.
         </Text>
       </View>
+      <MenuBottomSheet ref={MenuBottomSheetRef} />
     </BaseScreenLayout>
   );
 }

@@ -40,12 +40,17 @@ enum Tertiary {}
 
 enum Error {}
 
+enum Warning {
+  JL100 = `#CC6D00`,
+}
+
 const JLColorPalette = {
   Primary,
   Neutral,
   Secondary,
   Tertiary,
   Error,
+  Warning,
 };
 
 export type Colors = Primary | Neutral | Secondary | Tertiary | Error;
