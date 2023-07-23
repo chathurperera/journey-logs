@@ -1,6 +1,7 @@
 import auth from '@react-native-firebase/auth';
 
-import { ToastService } from '@jl/services';
+import { Route } from '@jl/constants';
+import { NavigationService, ToastService } from '@jl/services';
 
 import { AccountService } from '../account';
 
@@ -24,10 +25,36 @@ const signUp = async ({ email, password, name }) => {
     });
 };
 
+const signIn = async ({ email, password }) => {
+  auth()
+    .signInWithEmailAndPassword(email, password)
+    .then(() => {
+      NavigationService.navigate(Route.MainStack);
+    })
+    .catch(error => {
+      console.log('error', error);
+    });
+};
+
+const forgetPassword = async ({ email }) => {
+  try {
+    await auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        NavigationService.navigate(Route.Login);
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
 const logOut = async () => {
   auth()
     .signOut()
     .then(() => console.log('User signed out!'));
 };
 
-export const AuthService = { signUp, logOut };
+export const AuthService = { signUp, logOut, signIn, forgetPassword };
