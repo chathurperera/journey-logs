@@ -28,6 +28,7 @@
     "@typescript-eslint/no-loop-func": "off",
     "@typescript-eslint/no-var-requires": "off",
     "react/prop-types": "off",
+    "react/no-unescaped-entities": "off",
     "react-hooks/exhaustive-deps": "off"
   }
 }

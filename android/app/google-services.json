@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "872429235982",
-    "project_id": "journey-logs-35cdc",
-    "storage_bucket": "journey-logs-35cdc.appspot.com"
+    "project_number": "741832281168",
+    "project_id": "journey-logs-android",
+    "storage_bucket": "journey-logs-android.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:872429235982:android:7b8de05b17272087e6f15f",
+        "mobilesdk_app_id": "1:741832281168:android:adf27887fedf7f90359555",
         "android_client_info": {
           "package_name": "com.journeylogs"
         }
       },
       "oauth_client": [
         {
-          "client_id": "872429235982-atmmhslt3h6129vul1fu8auasih183i9.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.journeylogs",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
-        {
-          "client_id": "872429235982-7u7qll893t25ds4pecgvt25opnnmvs5o.apps.googleusercontent.com",
+          "client_id": "741832281168-m0tij9s00nr45sacnh9sqdo71g2bi4c2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC2l0O5mEd0sw0k-MuTNP33ryVo6cMpOfY"
+          "current_key": "AIzaSyDoKC0Jjj3tVwDyGqsSrnoq6-6bYTLbzhE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "872429235982-7u7qll893t25ds4pecgvt25opnnmvs5o.apps.googleusercontent.com",
+              "client_id": "741832281168-m0tij9s00nr45sacnh9sqdo71g2bi4c2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

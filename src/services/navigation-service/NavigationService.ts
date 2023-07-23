@@ -48,6 +48,17 @@ export class NavigationService {
         },
       },
 
+      [Route.ForgetPassword]: {
+        navRoute: Route.AuthStack,
+        navParams: {
+          screen: Route.ForgetPassword,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       //Main Routes
       [Route.HomeTab]: {
         navRoute: Route.MainBottomTabRoutesStack,

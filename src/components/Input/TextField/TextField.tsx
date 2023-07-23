@@ -15,7 +15,16 @@ export interface TextFieldProps extends InputProps {
   control: Control;
 }
 
-export function TextField({ disabled, label, name, control, leftIcon, rightIcon, secureTextEntry }: TextFieldProps) {
+export function TextField({
+  disabled,
+  label,
+  name,
+  control,
+  leftIcon,
+  rightIcon,
+  secureTextEntry,
+  autoCapitalize = 'none',
+}: TextFieldProps) {
   const labelComponent = useMemo(
     () => (
       <>
@@ -39,6 +48,7 @@ export function TextField({ disabled, label, name, control, leftIcon, rightIcon,
             containerStyle={tw`px-0`}
             disabled={disabled}
             errorMessage={error?.message}
+            autoCapitalize={autoCapitalize}
             errorStyle={{ display: error?.message ? 'flex' : 'none' }}
             inputContainerStyle={tw`border-[${Color.Secondary.jl100}] border-[1px] rounded-2 py-1`}
             inputStyle={tw`px-2.5 text-[15px] font-Inter`}
