@@ -25,15 +25,15 @@ public class MainActivity extends ReactActivity {
     return "journeyLogs";
   }
 
-  @Override
-  protected ReactActivityDelegate createReactActivityDelegate() {
-    return new ReactActivityDelegate(this, getMainComponentName()) {
-      @Override
-      protected ReactRootView createRootView() {
-       return new RNGestureHandlerEnabledRootView(MainActivity.this);
-      }
-    };
-  }
+  // @Override
+  // protected ReactActivityDelegate createReactActivityDelegate() {
+  //   return new ReactActivityDelegate(this, getMainComponentName()) {
+  //     @Override
+  //     protected ReactRootView createRootView() {
+  //      return new RNGestureHandlerEnabledRootView(MainActivity.this);
+  //     }
+  //   };
+  // }
   
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link

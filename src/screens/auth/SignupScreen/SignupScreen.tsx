@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { View } from 'react-native';
 
@@ -16,8 +16,12 @@ export function SignupScreen() {
     resolver: zodResolver(signupValidationSchema),
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleOnSubmit = async formData => {
+    setIsLoading(true);
     await AuthService.signUp(formData);
+    setIsLoading(false);
   };
 
   return (
@@ -43,7 +47,7 @@ export function SignupScreen() {
               <PasswordField control={control} label="Confirm Password" name="confirmPassword" />
             </View>
           </View>
-          <Button title="Sign up" onPress={handleSubmit(handleOnSubmit)} />
+          <Button title="Sign up" onPress={handleSubmit(handleOnSubmit)} loading={isLoading} />
         </View>
         <View style={tw`gap-1 justify-center flex-row`}>
           <Text variant={TextVariant.Body1Regular}>Already have an account? </Text>

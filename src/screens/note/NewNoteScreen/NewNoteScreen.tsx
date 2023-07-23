@@ -5,7 +5,7 @@ import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor'
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, TextAlignment, TextVariant } from '@jl/constants';
+import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { HeaderBackButton } from '@jl/navigation';
 import { NavigationService, NoteService, ToastService } from '@jl/services';
 
@@ -49,7 +49,7 @@ export function NewNoteScreen() {
         userId: noteContent.userId,
       });
       setIsLoading(false);
-      NavigationService.goBack();
+      NavigationService.navigate(Route.HomeTab);
     }
   };
 
