@@ -17,8 +17,8 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
   return (
     <BaseScreenLayout testID={testID}>
       <View style={tw`mx-5 pt-5 flex-1`}>
-        <View style={tw`flex-row justify-between items-center`}>
-          <View style={tw`w-10 h-10 rounded-full bg-blue-700 justify-center`}>
+        <View style={tw`flex-row justify-center items-center relative`}>
+          <View style={tw`w-10 h-10 rounded-full bg-blue-700 justify-center absolute left-0`}>
             <Text
               variant={TextVariant.Body2SemiBold}
               color={Color.Neutral.white}
@@ -26,8 +26,9 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
               CP
             </Text>
           </View>
-          <Text variant={TextVariant.Title2}>Settings</Text>
-          <View></View>
+          <Text variant={TextVariant.Title2} textAlign={TextAlignment.Center}>
+            Settings
+          </Text>
         </View>
 
         <View style={tw`mt-10`}>

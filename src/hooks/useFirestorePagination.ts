@@ -1,4 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
+import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
 
 export const useFirestorePagination = (collectionName, pageSize = 5) => {
@@ -34,6 +35,22 @@ export const useFirestorePagination = (collectionName, pageSize = 5) => {
     fetchData();
   }, []);
 
+  const refreshData = useCallback(async () => {
+    setIsEndReached(false);
+    await fetchData();
+  }, [fetchData]);
+
+  useFocusEffect(
+    useCallback(() => {
+      refreshData();
+
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+      };
+    }, []),
+  );
+
   const fetchMoreData = async () => {
     if (isEndReached || isFetchingMore) return;
 
@@ -65,11 +82,6 @@ export const useFirestorePagination = (collectionName, pageSize = 5) => {
       setIsFetchingMore(false);
     }
   };
-
-  const refreshData = useCallback(async () => {
-    setIsEndReached(false);
-    await fetchData();
-  }, [fetchData]);
 
   return {
     data,
