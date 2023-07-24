@@ -6,6 +6,8 @@ jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
 jest.mock('react-native-gesture-handler');
 
+jest.mock('react-native-pell-rich-editor');
+
 jest.mock('@react-navigation/elements', () => ({
   useHeaderHeight: jest.fn(() => 50), // Mock the useHeaderHeight hook
 }));
@@ -32,19 +34,14 @@ jest.mock('@react-navigation/native', () => {
 });
 
 jest.mock('@react-native-firebase/auth', () => ({
-  auth: jest.fn(() => ({
-    currentUser: {
-      email: 'test@example.com',
-      uid: '123456',
-    },
-  })),
-}));
-
-jest.mock('@react-native-firebase/auth', () => ({
   auth: jest.fn().mockReturnValue({
     currentUser: {
       email: 'test@example.com',
       uid: '123456',
     },
   }),
+}));
+
+jest.mock('react-native-webview', () => ({
+  default: () => jest.fn(),
 }));
