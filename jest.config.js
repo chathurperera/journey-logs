@@ -9,6 +9,6 @@ module.exports = {
     '^.+\\.(bmp|gif|jpg|jpeg|mp4|png|psd|svg|webp)$': require.resolve('react-native/jest/assetFileTransformer.js'),
   },
   transformIgnorePatterns: [
-    'node_modules/(?!(jest-)?react-native|@react-native|@react-navigation|@rneui)',
+    'node_modules/(?!(jest-)?react-native|@react-native|@react-navigation|@rneui|react-native-pell-rich-editor)',
   ],
 };

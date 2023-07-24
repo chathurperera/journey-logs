@@ -16,4 +16,5 @@ export enum Route {
   SettingsTab = 'settings-tab',
   Signup = 'sign-up',
   SignupStack = 'sign-up-stack',
+  Tags = 'tags',
 }

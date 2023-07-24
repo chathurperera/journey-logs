@@ -114,7 +114,7 @@ export function EditNoteScreen({ route }) {
               disabled={false}
               containerStyle={tw`bg-slate-50`}
               style={tw` flex-1 text-lg`}
-              editorStyle={{ backgroundColor: '#F8FAFC', contentCSSText: 'font-size: 20px;' }}
+              editorStyle={{ backgroundColor: '#f1f1f1f5', contentCSSText: 'font-size: 20px;' }}
               focusable
               styleWithCSS
               placeholder={'Start typing'}

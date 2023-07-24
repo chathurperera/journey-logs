@@ -99,6 +99,17 @@ export class NavigationService {
         },
       },
 
+      [Route.Tags]: {
+        navRoute: Route.NotesStack,
+        navParams: {
+          screen: Route.Tags,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       //Bottom Tab Routes
       [Route.NewNoteTab]: {
         navRoute: Route.NotesStack,
