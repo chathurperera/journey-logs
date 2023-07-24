@@ -6,8 +6,8 @@ import { tw } from '@jl/config';
 import { TextVariant } from '@jl/constants';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
-import { CategoriesList } from './components/CategoriesList';
 import { NotesList } from './components/NotesList';
+import { TagsList } from './components/TagsList';
 
 export function HomeScreen() {
   return (
@@ -17,7 +17,7 @@ export function HomeScreen() {
           <Text variant={TextVariant.Heading3Regular}>Welcome to Journey logs</Text>
         </View>
         <View style={tw`mt-12.75 flex-row items-center`}>
-          <CategoriesList />
+          <TagsList />
         </View>
         <NotesList />
       </View>

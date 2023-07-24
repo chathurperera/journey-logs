@@ -4,8 +4,8 @@ import { Pressable, View } from 'react-native';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, TextAlignment, TextVariant } from '@jl/constants';
-import { AuthService } from '@jl/services';
+import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
+import { AuthService, NavigationService } from '@jl/services';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
@@ -26,7 +26,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
               CP
             </Text>
           </View>
-          <Text variant={TextVariant.Body2SemiBold}>Settings</Text>
+          <Text variant={TextVariant.Title2}>Settings</Text>
           <View></View>
         </View>
 
@@ -37,6 +37,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
             <Text variant={TextVariant.Body2SemiBold}>Account</Text>
           </Pressable>
           <Pressable
+            onPress={() => NavigationService.navigate(Route.Tags)}
             style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
             <Icon type="feather" name="tag" size={20} />
             <Text variant={TextVariant.Body2SemiBold}>Tags</Text>
@@ -52,7 +53,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
             <Text variant={TextVariant.Body2SemiBold}>Change Password</Text>
           </Pressable>
           <Pressable
-            style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row`}
+            style={tw`bg-[${Color.Neutral.white}] rounded-b-lg p-4 gap-4 flex-row`}
             onPress={() => AuthService.logOut()}>
             <Icon type="feather" name="log-out" size={20} />
             <Text variant={TextVariant.Body2SemiBold}>Logout</Text>

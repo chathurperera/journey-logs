@@ -1,3 +1,4 @@
+import { Icon } from '@rneui/base';
 import React, { useState } from 'react';
 import { FlatList, Pressable } from 'react-native';
 
@@ -52,16 +53,17 @@ const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => (
   <Pressable
     onPress={onPress}
     style={[
-      tw`py-1.5 px-4 bg-black border mr-2 border-gray-200 rounded-[15px]`,
+      tw`py-1.5 px-4 bg-black border mr-2 border-gray-200 rounded-[15px] gap-1 flex-row items-center`,
       { backgroundColor: backgroundColor },
     ]}>
-    <Text variant={TextVariant.Label2Regular} color={textColor}>
+    <Icon type="feather" name="hash" size={18} color={textColor} />
+    <Text variant={TextVariant.Label2SemiBold} color={textColor}>
       {item.title}
     </Text>
   </Pressable>
 );
 
-export function CategoriesList() {
+export function TagsList() {
   const [selectedId, setSelectedId] = useState<string>(DATA[0].id);
 
   const renderItem = ({ item }: { item: ItemData }) => {
