@@ -5,7 +5,7 @@ import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor'
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
+import { Color, IS_JEST_RUNTIME, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { HeaderBackButton } from '@jl/navigation';
 import { NavigationService, NoteService, ToastService } from '@jl/services';
 
@@ -17,10 +17,13 @@ const handleHead = ({ tintColor }) => (
   </Text>
 );
 
-const IS_JEST_RUNTIME = typeof jest !== 'undefined';
 const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-add9-a23de0693b8e';
 
-export function NewNoteScreen() {
+interface NewNoteScreenProps {
+  testID: string;
+}
+
+export function NewNoteScreen({ testID }: NewNoteScreenProps) {
   const RichTextEditorRef = useRef(null);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -29,8 +32,6 @@ export function NewNoteScreen() {
     title: '',
     body: '',
   });
-
-  //NOTE:: RichTextEditorRef.current?.insertText('some text'); can be used to insert data without typing
 
   const handleDocumentSave = async () => {
     const contentWithoutHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
@@ -68,7 +69,7 @@ export function NewNoteScreen() {
   };
 
   return (
-    <BaseScreenLayout>
+    <BaseScreenLayout testID={testID}>
       <View style={[tw`mx-5 h-full pb-10`]}>
         <View style={tw`justify-between flex-row items-center`}>
           <HeaderBackButton />
