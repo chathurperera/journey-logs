@@ -110,6 +110,17 @@ export class NavigationService {
           },
         },
       },
+
+      [Route.SettingsTab]: {
+        navRoute: Route.MainBottomTabRoutesStack,
+        navParams: {
+          screen: Route.NewNoteTab,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
     };
 
     const getNavigationRoute = (route: Route): NavigationRoute => {

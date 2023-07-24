@@ -31,7 +31,7 @@ enum Neutral {
 }
 
 enum Secondary {
-  JL300 = `#F8F8FA`,
+  JL300 = `#f1f1f1f5`,
   JL200 = `#FCFCFC`,
   jl100 = `#B4AEAE`,
 }
