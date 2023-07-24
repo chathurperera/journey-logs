@@ -11,7 +11,11 @@ import { AuthService, NavigationService } from '@jl/services';
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { LoginFormValues, loginValidationSchema } from './Login.validations';
 
-export function LoginScreen() {
+interface LoginScreenProps {
+  testID?: string;
+}
+
+export function LoginScreen({ testID }: LoginScreenProps) {
   const { handleSubmit, control } = useForm<LoginFormValues>({
     resolver: zodResolver(loginValidationSchema),
   });
@@ -24,8 +28,8 @@ export function LoginScreen() {
   };
 
   return (
-    <BaseScreenLayout>
-      <View style={tw`flex-1 justify-between mt-10 mx-5`}>
+    <BaseScreenLayout testID={testID}>
+      <View style={tw`flex-1 justify-between mt-10 mx-5`} testID={testID}>
         <View>
           <View style={tw`w-[210px] mb-14`}>
             <Text variant={TextVariant.Heading1Regular} color={Color.Neutral.JL900}>
