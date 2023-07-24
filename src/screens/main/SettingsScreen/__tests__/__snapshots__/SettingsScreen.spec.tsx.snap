@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`login screen should render LoginScreen correctly 1`] = `
+exports[`login screen should render SettingsScreen correctly 1`] = `
 <RCTSafeAreaView
   style={
     {
@@ -10,7 +10,7 @@ exports[`login screen should render LoginScreen correctly 1`] = `
       "position": "relative",
     }
   }
-  testID="LoginScreenTestID"
+  testID="SettingsScreenTestID"
 >
   <View
     onLayout={[Function]}
