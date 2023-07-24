@@ -5,7 +5,7 @@ import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor'
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
+import { Color, IS_JEST_RUNTIME, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
 import { HeaderBackButton } from '@jl/navigation';
 import { NavigationService, NoteService, ToastService } from '@jl/services';
@@ -17,7 +17,8 @@ const handleHead = ({ tintColor }) => (
     H1
   </Text>
 );
-const userId = auth().currentUser?.uid;
+
+const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-add9-a23de0693b8e';
 
 export function EditNoteScreen({ route }) {
   const RichTextEditorRef = useRef(null);

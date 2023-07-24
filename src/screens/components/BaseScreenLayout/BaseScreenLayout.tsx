@@ -9,12 +9,14 @@ import { Color } from '@jl/constants';
 interface BaseScreenLayoutProps {
   children: React.ReactNode;
   wrapWithScrollView?: boolean;
+  testID?: string;
   scrollRef?: Ref<ScrollView>;
 }
 
 export function BaseScreenLayout({
   children,
   scrollRef,
+  testID,
   wrapWithScrollView = true,
 }: BaseScreenLayoutProps) {
   const headerHeight = useHeaderHeight();
@@ -23,7 +25,8 @@ export function BaseScreenLayout({
     <ScrollView
       contentContainerStyle={tw`grow`}
       keyboardShouldPersistTaps="handled"
-      ref={scrollRef}>
+      ref={scrollRef}
+      testID={testID}>
       {children}
     </ScrollView>
   ) : (
@@ -31,7 +34,9 @@ export function BaseScreenLayout({
   );
 
   return (
-    <SafeAreaView style={tw`relative h-full pt-[${headerHeight}px] bg-[${Color.Secondary.JL300}]`}>
+    <SafeAreaView
+      style={tw`relative h-full pt-[${headerHeight}px] bg-[${Color.Secondary.JL300}]`}
+      testID={testID}>
       <KeyboardAvoidingView
         style={tw`flex-1`}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>

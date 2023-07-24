@@ -6,7 +6,9 @@ import { getCurrentTimestamp } from '@jl/utils';
 
 import { ToastService } from '../../toast-service';
 
-const userId = auth().currentUser?.uid;
+export const IS_JEST_RUNTIME = typeof jest !== 'undefined';
+
+const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-add9-a23de0693b8e';
 
 const createNote = async (noteData: NoteData) => {
   const currentTimestamp = getCurrentTimestamp();
