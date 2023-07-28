@@ -1,0 +1,81 @@
+name: Build Android .apk
+
+run-name: "Building the .apk with the tag triggered by @${{ github.actor }}"
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - "v*"
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # runs-on: ubuntu-22.04 # this is the Ubuntu version that this was created on
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: "11"
+          distribution: "adopt"
+          cache: "gradle"
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+
+      # Node, Yarn and NPM
+      - name: Setup Node  
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Run Yarn Install
+        run: yarn install
+        
+      - name: Make Gradlew Executable
+        run: cd android && chmod +x ./gradlew
+
+      - name: Generate App APK
+        run: cd android && ./gradlew assembleRelease --no-daemon
+
+      - name: List the .apks compiled
+        run: ls ./android/app/build/outputs/apk/release -hal
+
+      - name: Rename the .apk to the tag version
+        run: mv ./android/app/build/outputs/apk/release/app-release.apk ./android/app/build/outputs/apk/release/workflow_project${{ github.ref_name }}.apk
+      
+      #Updating the CHANGELOG
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ github.token }}
+          tag: ${{ github.ref_name }}
+
+      #Creating the release and upload artifacts   
+      - name: Create Release
+        uses: ncipollo/release-action@v1.12.0
+        with:
+          allowUpdates: true
+          draft: false
+          makeLatest: true
+          name: ${{ github.ref_name }}
+          body: ${{ steps.changelog.outputs.changes }}
+          token: ${{ github.token }}
+          artifacts: "android/app/build/outputs/apk/release/workflow_project${{ github.ref_name }}.apk"
+
+      #Commit CHANGELOG update
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          branch: main
+          commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]'
+          file_pattern: CHANGELOG.md
+          

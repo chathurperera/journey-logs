@@ -3,14 +3,7 @@
     "node": true,
     "es2021": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "airbnb-typescript",
-    "airbnb/hooks"
-  ],
+  "extends": ["prettier", "airbnb-typescript"],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -19,12 +12,17 @@
     "project": "tsconfig.json"
   },
   "ignorePatterns": ["!**/*", "public", ".cache", "node_modules"],
-  "plugins": ["react", "prettier", "import", "@typescript-eslint"],
+  "plugins": ["react", "prettier", "import"],
   "rules": {
     "prettier/prettier": ["off"], //NOTE::Turning on this option since it only will provides sync between eslint and prettier plugins. But it can cause some inconsistence sugestions.
     "react/jsx-filename-extension": "off",
     "@typescript-eslint/no-shadow": "off",
     "@typescript-eslint/lines-between-class-members": "off",
-    "@typescript-eslint/no-loop-func": "off"
+    "@typescript-eslint/no-loop-func": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/prop-types": "off",
+    "react/no-unescaped-entities": "off",
+    "react-hooks/exhaustive-deps": "off"
   }
 }
