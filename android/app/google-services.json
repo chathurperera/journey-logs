@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "741832281168",
+    "project_id": "journey-logs-android",
+    "storage_bucket": "journey-logs-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741832281168:android:adf27887fedf7f90359555",
+        "android_client_info": {
+          "package_name": "com.journeylogs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741832281168-m0tij9s00nr45sacnh9sqdo71g2bi4c2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoKC0Jjj3tVwDyGqsSrnoq6-6bYTLbzhE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741832281168-m0tij9s00nr45sacnh9sqdo71g2bi4c2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

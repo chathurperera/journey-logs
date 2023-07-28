@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tags screen should render TagsScreen correctly 1`] = `
+<RCTSafeAreaView
+  style={
+    {
+      "backgroundColor": "#f1f1f1f5",
+      "height": "100%",
+      "paddingTop": 50,
+      "position": "relative",
+    }
+  }
+  testID="TagsScreenTestID"
+>
+  <View
+    onLayout={[Function]}
+    style={
+      [
+        {
+          "flexBasis": "0%",
+          "flexGrow": 1,
+          "flexShrink": 1,
+        },
+        {
+          "paddingBottom": 0,
+        },
+      ]
+    }
+  />
+</RCTSafeAreaView>
+`;

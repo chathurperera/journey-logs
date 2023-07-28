@@ -1,9 +1,12 @@
 package com.journeylogs;
-
+import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+import org.devio.rn.splashscreen.SplashScreen;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,10 +15,26 @@ public class MainActivity extends ReactActivity {
    * rendering of the component.
    */
   @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    SplashScreen.show(this);
+    super.onCreate(null);
+  }
+
+  @Override
   protected String getMainComponentName() {
     return "journeyLogs";
   }
 
+  // @Override
+  // protected ReactActivityDelegate createReactActivityDelegate() {
+  //   return new ReactActivityDelegate(this, getMainComponentName()) {
+  //     @Override
+  //     protected ReactRootView createRootView() {
+  //      return new RNGestureHandlerEnabledRootView(MainActivity.this);
+  //     }
+  //   };
+  // }
+  
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
    * DefaultReactActivityDelegate} which allows you to easily enable Fabric and Concurrent React
@@ -32,4 +51,6 @@ public class MainActivity extends ReactActivity {
         DefaultNewArchitectureEntryPoint.getConcurrentReactEnabled() // concurrentRootEnabled
         );
   }
+
+
 }
