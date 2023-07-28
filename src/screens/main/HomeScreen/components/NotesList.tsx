@@ -1,3 +1,4 @@
+import auth from '@react-native-firebase/auth';
 import React, { useState } from 'react';
 import { FlatList, View } from 'react-native';
 
@@ -14,9 +15,10 @@ export function NotesList() {
 
   const collectionName = 'notes';
   const pageSize = 10;
+  const userId = auth().currentUser?.uid;
 
   const { data, isLoading, isFetchingMore, isEndReached, fetchMoreData, refreshData } =
-    useFirestorePagination(collectionName, pageSize);
+    useFirestorePagination(collectionName, pageSize, userId);
 
   const renderFooter = () => {
     if (isLoading) return <LoadingSpinner size="large" />;

@@ -33,6 +33,7 @@ const getAllNotes = async () => {
     const querySnapshot = await firestore()
       .collection('notes')
       .where('userId', '==', userId)
+      .orderBy('createdAt', 'desc')
       .limit(20)
       .get();
 

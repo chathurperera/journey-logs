@@ -2,7 +2,11 @@ import firestore from '@react-native-firebase/firestore';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
 
-export const useFirestorePagination = (collectionName, pageSize = 5) => {
+export const useFirestorePagination = (
+  collectionName: string,
+  pageSize: number,
+  userId: string,
+) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
@@ -16,6 +20,7 @@ export const useFirestorePagination = (collectionName, pageSize = 5) => {
       const query = firestore()
         .collection(collectionName)
         .orderBy('createdAt', 'desc')
+        .where('userId', '==', userId)
         .limit(pageSize);
 
       const snapshot = await query.get();
@@ -58,6 +63,7 @@ export const useFirestorePagination = (collectionName, pageSize = 5) => {
     try {
       const query = firestore()
         .collection(collectionName)
+        .where('userId', '==', userId)
         .orderBy('createdAt', 'desc')
         .startAfter(lastDocument)
         .limit(pageSize);
