@@ -60,18 +60,13 @@ export class NavigationService {
       },
 
       //Main Routes
-      [Route.HomeTab]: {
-        navRoute: Route.MainBottomTabRoutesStack,
-        navParams: {
-          screen: Route.HomeTab,
-          params: {
-            screen: route,
-            params: params,
-          },
-        },
-      },
 
       //Note Routes
+      [Route.NotesStack]: {
+        navRoute: Route.NotesStack,
+        navParams: params,
+      },
+
       [Route.EditNote]: {
         navRoute: Route.NotesStack,
         navParams: {
@@ -81,11 +76,6 @@ export class NavigationService {
             params: params,
           },
         },
-      },
-
-      [Route.NotesStack]: {
-        navRoute: Route.NotesStack,
-        navParams: params,
       },
 
       [Route.PreviewNote]: {
@@ -99,8 +89,14 @@ export class NavigationService {
         },
       },
 
+      //Settings Routes
+      [Route.SettingsStack]: {
+        navRoute: Route.SettingsStack,
+        navParams: params,
+      },
+
       [Route.Tags]: {
-        navRoute: Route.NotesStack,
+        navRoute: Route.SettingsStack,
         navParams: {
           screen: Route.Tags,
           params: {
@@ -110,7 +106,40 @@ export class NavigationService {
         },
       },
 
+      [Route.PinCode]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.PinCode,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.ConfirmPinCode]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.ConfirmPinCode,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       //Bottom Tab Routes
+      [Route.HomeTab]: {
+        navRoute: Route.MainBottomTabRoutesStack,
+        navParams: {
+          screen: Route.HomeTab,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       [Route.NewNoteTab]: {
         navRoute: Route.NotesStack,
         navParams: {
@@ -125,7 +154,7 @@ export class NavigationService {
       [Route.SettingsTab]: {
         navRoute: Route.MainBottomTabRoutesStack,
         navParams: {
-          screen: Route.NewNoteTab,
+          screen: Route.SettingsTab,
           params: {
             screen: route,
             params: params,

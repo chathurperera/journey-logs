@@ -7236,6 +7236,11 @@ react-native-pell-rich-editor@^1.9.0:
   resolved "https://registry.yarnpkg.com/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.9.0.tgz#e222b4cd8ead9b5e1de7b6cf2f31a3315c82e570"
   integrity sha512-BKzlu++FySzPXrb5bczD8b/ZZJtfzcD4z7FvW7TrH+4OENEQtaIiEMfmb5N09Kv3YVJcfm8fut8Y+GLNAcCQHA==
 
+react-native-pin-view@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-pin-view/-/react-native-pin-view-3.0.3.tgz#2294369db926b39a6b1288f26254683c168413c0"
+  integrity sha512-0xCQBpwrP06wDjUlfwViFMzi1ph+9Y1ytYWkGtdIcy9XcR5RK94DOGDisNUb8LrvHjVIoeuoDIkYPVcvv43GGA==
+
 react-native-ratings@8.0.4:
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-8.0.4.tgz#efd5ebad8acc08bf98d34d39b18fb7a6813ef991"

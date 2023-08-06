@@ -44,6 +44,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
             <Text variant={TextVariant.Body2SemiBold}>Tags</Text>
           </Pressable>
           <Pressable
+            onPress={() => NavigationService.navigate(Route.PinCode)}
             style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
             <Icon type="feather" name="key" size={20} />
             <Text variant={TextVariant.Body2SemiBold}>Change Pin</Text>
