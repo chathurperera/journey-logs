@@ -11,7 +11,7 @@ const signUp = async ({ email, password, name }) => {
     .then(async userCredential => {
       await auth().currentUser.sendEmailVerification();
       const userId = userCredential.user.uid;
-
+      console.log('new users id', userId);
       await AccountService.createNewAccount({ email, name, userId });
     })
     .catch(error => {

@@ -16,10 +16,12 @@ export function NotesList() {
   const collectionName = 'notes';
   const pageSize = 10;
   const userId = auth().currentUser?.uid;
+  console.log('userId in NotesList', userId);
 
   const { data, isLoading, isFetchingMore, isEndReached, fetchMoreData, refreshData } =
     useFirestorePagination(collectionName, pageSize, userId);
 
+  console.log('data', data);
   const renderFooter = () => {
     if (isLoading) return <LoadingSpinner size="large" />;
     if (data.length === 0)

@@ -10,11 +10,12 @@ import { NavigationService, NoteService } from '@jl/services';
 
 interface MenuBottomSheetProps {
   noteId: string;
+  body: string;
   isEncrypted: boolean;
 }
 
 export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
-  { noteId, isEncrypted }: MenuBottomSheetProps,
+  { noteId, isEncrypted, body }: MenuBottomSheetProps,
   ref,
 ) {
   const ModalizeRef = useRef<Modalize>(null);
@@ -30,7 +31,7 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
   );
 
   const handleNoteEncryption = async () => {
-    await NoteService.noteEncryption(noteId, !isEncrypted);
+    await NoteService.noteEncryption(noteId, body);
     ModalizeRef.current?.close();
   };
 

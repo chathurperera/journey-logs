@@ -1,6 +1,8 @@
 import firestore from '@react-native-firebase/firestore';
 
-const createNewAccount = async ({ email, name, userId }) => {
+import { NewAccountParams } from '@jl/models';
+
+const createNewAccount = async ({ email, name, userId }: NewAccountParams) => {
   await firestore()
     .collection('users')
     .doc(userId)

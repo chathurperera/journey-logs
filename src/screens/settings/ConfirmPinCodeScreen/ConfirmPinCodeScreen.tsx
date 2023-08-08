@@ -6,17 +6,22 @@ import ReactNativePinView from 'react-native-pin-view';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
-import { NavigationService } from '@jl/services';
+import { EncryptionService, NavigationService, PINEncryptionService } from '@jl/services';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
 export function ConfirmPinCodeScreen({ route }) {
-  const pinView = useRef(null);
   const { pinCode } = route.params.params;
+
+  const pinView = useRef(null);
 
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
   const [pinCodeMisMatch, setPinCodeMisMatch] = useState(false);
+
+  const saveNewPin = async () => {
+    await PINEncryptionService.createPin(enteredPin);
+  };
 
   useEffect(() => {
     setPinCodeMisMatch(false);
@@ -28,7 +33,19 @@ export function ConfirmPinCodeScreen({ route }) {
     }
 
     if (enteredPin === pinCode) {
-      console.log('matched');
+      const salt = EncryptionService.generateRandomBytes(16);
+      const recoveryKey = EncryptionService.generateRandomBytes(32);
+
+      const pinDerivedKey = EncryptionService.generatePinDerivedKey(enteredPin, salt);
+      const encryptedRecoveryKey = EncryptionService.generateEncryptedRecoveryKey(
+        recoveryKey,
+        pinDerivedKey,
+      );
+
+      saveNewPin();
+
+      console.log('encryptedRecoveryKey', encryptedRecoveryKey);
+
       NavigationService.navigate(Route.HomeTab);
     } else if (enteredPin.length === 4 && pinCode !== enteredPin) {
       setPinCodeMisMatch(true);

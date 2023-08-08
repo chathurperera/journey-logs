@@ -10,6 +10,11 @@ jest.mock('@react-navigation/elements', () => ({
   useHeaderHeight: jest.fn(() => 50), // Mock the useHeaderHeight hook
 }));
 
+jest.mock('react-native-quick-crypto', () => ({
+  randomBytes: jest.fn(() => Promise.resolve(Buffer.from('1234567890123456'))),
+  pbkdf2: jest.fn(() => Promise.resolve(Buffer.from('12345678901234567890123456789012'))),
+}));
+
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 jest.mock('react-native-reanimated', () => {

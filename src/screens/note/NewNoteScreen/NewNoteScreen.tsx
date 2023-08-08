@@ -46,6 +46,7 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
         setNoteContent({ ...noteContent, title: 'Untitled note' });
       }
 
+      console.log(noteContent.userId);
       await NoteService.createNote({
         title: noteContent.title,
         body: contentWithoutHTML,
