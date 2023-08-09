@@ -17,8 +17,6 @@ const handleHead = ({ tintColor }) => (
   </Text>
 );
 
-// const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-add9-a23de0693b8e';
-
 interface NewNoteScreenProps {
   testID: string;
 }
@@ -48,7 +46,6 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
         setNoteContent({ ...noteContent, title: 'Untitled note' });
       }
 
-      console.log(noteContent.userId);
       await NoteService.createNote({
         title: noteContent.title,
         userId: userId,

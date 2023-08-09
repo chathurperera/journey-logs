@@ -77,14 +77,23 @@ const noteEncryption = async (noteId: string, note: string, userId: string) => {
       .get()
       .then(async documentSnapshot => {
         if (documentSnapshot.exists) {
-          const { recoveryKey } = documentSnapshot.data();
-          const encryptedNote = await PINEncryptionService.getEncryptedNote(note, recoveryKey);
+          const { encryptedRecoveryKey } = documentSnapshot.data();
 
+          const encryptedNote = await PINEncryptionService.getEncryptedNote(
+            note,
+            encryptedRecoveryKey,
+          );
           //save the encrypted note back in database
           await firestore()
             .collection('notes')
             .doc(noteId)
-            .update({ isEncrypted: true, body: encryptedNote });
+            .update({ isEncrypted: true, body: encryptedNote })
+            .then(() => {
+              console.log('note encrypted success');
+            })
+            .catch(() => {
+              ToastService.error('Error', 'Something went wrong while encrypting your note');
+            });
         }
       })
       .catch(error => {

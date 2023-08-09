@@ -21,6 +21,7 @@ export const useFirestorePagination = (
         .collection(collectionName)
         .orderBy('createdAt', 'desc')
         .where('userId', '==', userId)
+        .where('isEncrypted', '==', false)
         .limit(pageSize);
 
       const snapshot = await query.get();

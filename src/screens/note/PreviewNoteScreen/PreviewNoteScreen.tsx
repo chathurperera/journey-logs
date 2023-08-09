@@ -68,7 +68,7 @@ export function PreviewNoteScreen({ route }) {
       <MenuBottomSheet
         ref={MenuBottomSheetMethodsRef}
         noteId={noteId}
-        body={noteData.body}
+        body={noteData?.body}
         isEncrypted={noteData?.isEncrypted}
       />
     </BaseScreenLayout>
