@@ -1,14 +1,8 @@
 import '@testing-library/jest-native/extend-expect';
 
-// import { useSelector } from 'react-redux';
 import { initializeStore } from '@jl/stores';
 
 initializeStore();
-
-// jest.mock('react-redux', () => ({
-//   ...jest.requireActual('react-redux'),
-//   useSelector: jest.fn(callback => callback({ userData: { userId: 'ajsonodqnunoeqnfo' } })),
-// }));
 
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
