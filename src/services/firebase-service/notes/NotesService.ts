@@ -1,4 +1,3 @@
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 import { NoteData } from '@jl/models';
@@ -7,13 +6,9 @@ import { getCurrentTimestamp } from '@jl/utils';
 import { PINEncryptionService } from '../../firebase-service/PINEncryption';
 import { ToastService } from '../../toast-service';
 
-export const IS_JEST_RUNTIME = typeof jest !== 'undefined';
-
-const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-add9-a23de0693b8e';
-
 const createNote = async (noteData: NoteData) => {
   const currentTimestamp = getCurrentTimestamp();
-
+  console.log('noteData userId', noteData.userId);
   try {
     await firestore()
       .collection('notes')
@@ -27,12 +22,12 @@ const createNote = async (noteData: NoteData) => {
 
     console.log('note created');
   } catch (error) {
+    console.log('error', error);
     ToastService.error('Error', 'Error while saving the note');
   }
 };
 
-const getAllNotes = async () => {
-  console.log('userId in getAllNotes', userId);
+const getAllNotes = async (userId: string) => {
   try {
     const querySnapshot = await firestore()
       .collection('notes')
@@ -74,7 +69,7 @@ const updateNote = async (
   }
 };
 
-const noteEncryption = async (noteId: string, note: string) => {
+const noteEncryption = async (noteId: string, note: string, userId: string) => {
   try {
     await firestore()
       .collection('users')
@@ -102,7 +97,7 @@ const noteEncryption = async (noteId: string, note: string) => {
   }
 };
 
-const noteDecryption = async (noteId: string, encryptedNote: string) => {
+const noteDecryption = async (noteId: string, encryptedNote: string, userId: string) => {
   try {
     await firestore()
       .collection('users')

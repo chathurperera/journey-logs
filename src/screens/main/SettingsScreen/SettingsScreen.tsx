@@ -5,7 +5,8 @@ import { Pressable, View } from 'react-native';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
-import { AuthService, NavigationService } from '@jl/services';
+import { NavigationService } from '@jl/services';
+import { useDispatch } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
@@ -14,6 +15,8 @@ interface SettingsScreenProps {
 }
 
 export function SettingsScreen({ testID }: SettingsScreenProps) {
+  const dispatch = useDispatch();
+
   return (
     <BaseScreenLayout testID={testID}>
       <View style={tw`mx-5 pt-5 flex-1`}>
@@ -56,7 +59,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
           </Pressable>
           <Pressable
             style={tw`bg-[${Color.Neutral.white}] rounded-b-lg p-4 gap-4 flex-row`}
-            onPress={() => AuthService.logOut()}>
+            onPress={() => dispatch.userStore.logoutUser()}>
             <Icon type="feather" name="log-out" size={20} />
             <Text variant={TextVariant.Body2SemiBold}>Logout</Text>
           </Pressable>

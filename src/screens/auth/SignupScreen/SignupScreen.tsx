@@ -6,7 +6,8 @@ import { View } from 'react-native';
 import { Button, PasswordField, Text, TextField } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
-import { AuthService, NavigationService } from '@jl/services';
+import { NavigationService } from '@jl/services';
+import { useDispatch } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { SignupFormValues, signupValidationSchema } from './Signup.validations';
@@ -16,11 +17,13 @@ export function SignupScreen() {
     resolver: zodResolver(signupValidationSchema),
   });
 
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOnSubmit = async formData => {
     setIsLoading(true);
-    await AuthService.signUp(formData);
+    await dispatch.userStore.signUp(formData);
     setIsLoading(false);
   };
 

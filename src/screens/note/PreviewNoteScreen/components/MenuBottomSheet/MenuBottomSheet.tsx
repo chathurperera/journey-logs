@@ -7,6 +7,7 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
 import { NavigationService, NoteService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 interface MenuBottomSheetProps {
   noteId: string;
@@ -30,8 +31,9 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
     [],
   );
 
+  const { userId } = useSelector(state => state.userStore.userData);
   const handleNoteEncryption = async () => {
-    await NoteService.noteEncryption(noteId, body);
+    await NoteService.noteEncryption(noteId, body, userId);
     ModalizeRef.current?.close();
   };
 

@@ -1,5 +1,25 @@
 import '@testing-library/jest-native/extend-expect';
 
+// import { useSelector } from 'react-redux';
+import { initializeStore } from '@jl/stores';
+
+initializeStore();
+
+// jest.mock('react-redux', () => ({
+//   ...jest.requireActual('react-redux'),
+//   useSelector: jest.fn(callback => callback({ userData: { userId: 'ajsonodqnunoeqnfo' } })),
+// }));
+
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: () => {},
+  useSelector: () => ({
+    userData: {
+      userId: 'testId',
+    },
+  }),
+}));
+
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
 jest.mock('react-native-gesture-handler');
@@ -14,6 +34,14 @@ jest.mock('react-native-quick-crypto', () => ({
   randomBytes: jest.fn(() => Promise.resolve(Buffer.from('1234567890123456'))),
   pbkdf2: jest.fn(() => Promise.resolve(Buffer.from('12345678901234567890123456789012'))),
 }));
+
+jest.mock('@react-native-async-storage/async-storage', () => {
+  const asyncStorage = jest.requireActual(
+    '@react-native-async-storage/async-storage/jest/async-storage-mock',
+  );
+  // jest.requireActual('./../services/persistent-storage-service');
+  return asyncStorage;
+});
 
 jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
