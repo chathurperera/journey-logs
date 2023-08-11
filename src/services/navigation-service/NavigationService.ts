@@ -89,6 +89,17 @@ export class NavigationService {
         },
       },
 
+      [Route.HiddenNotes]: {
+        navRoute: Route.NotesStack,
+        navParams: {
+          screen: Route.HiddenNotes,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       //Settings Routes
       [Route.SettingsStack]: {
         navRoute: Route.SettingsStack,

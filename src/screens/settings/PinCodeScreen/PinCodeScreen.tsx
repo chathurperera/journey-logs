@@ -6,14 +6,36 @@ import ReactNativePinView from 'react-native-pin-view';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Route, TextAlignment, TextVariant } from '@jl/constants';
-import { NavigationService } from '@jl/services';
+import { EncryptionService, NavigationService } from '@jl/services';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
-export function PinCodeScreen() {
+export function PinCodeScreen({ route }) {
+  const { pinExists } = route.params.params;
+
   const pinView = useRef(null);
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
+  const [, setIsIncorrectPin] = useState(false);
+
+  const PINVerification = () => {
+    if (pinExists) {
+      const salt = '131jno'; //get from DB
+      const encryptedRecoveryKey = 'dasjnfaons'; //get from DB
+      const derivedKey = EncryptionService.generatePinDerivedKey(enteredPin, salt);
+      const recoveryKey = EncryptionService.decryptRecoveryKey(encryptedRecoveryKey, derivedKey);
+
+      if (recoveryKey) {
+        console.log('PIN is correct');
+        // Now you can use the recoveryKey to decrypt notes
+      } else {
+        console.log('PIN is incorrect');
+        setIsIncorrectPin(true);
+      }
+    } else {
+      NavigationService.navigate(Route.ConfirmPinCode, { pinCode: enteredPin });
+    }
+  };
 
   useEffect(() => {
     if (enteredPin.length > 0) {
@@ -22,8 +44,7 @@ export function PinCodeScreen() {
       setShowRemoveButton(false);
     }
     if (enteredPin.length === 4) {
-      console.log('complemeted');
-      NavigationService.navigate(Route.ConfirmPinCode, { pinCode: enteredPin });
+      PINVerification();
     }
   }, [enteredPin]);
 
@@ -31,10 +52,10 @@ export function PinCodeScreen() {
     return (
       <View style={tw`mt-12.5`}>
         <Text variant={TextVariant.Title2} textAlign={TextAlignment.Center}>
-          Enter a PIN Code
+          {pinExists ? 'Enter you PIN Code' : 'Enter a PIN Code'}
         </Text>
         <Text variant={TextVariant.Body1Regular} textAlign={TextAlignment.Center}>
-          To keep your notes secure
+          {!pinExists ? 'To keep your notes secure' : ''}
         </Text>
       </View>
     );

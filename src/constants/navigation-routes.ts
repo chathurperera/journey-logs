@@ -5,6 +5,7 @@ export enum Route {
   EditNote = 'edit-note',
   ForgetPassword = 'forget-password',
   HomeTab = 'home-tab',
+  HiddenNotes = 'hidden-notes',
   Login = 'login',
   LoginStack = 'login-stack',
   MainBottomTabRoutesStack = 'main-bottom-tab-routes-stack',

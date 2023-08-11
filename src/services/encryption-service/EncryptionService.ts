@@ -17,7 +17,19 @@ const generateEncryptedRecoveryKey = (recoveryKey: string, pinDerivedKey: string
   return encryptedRecoveryKey;
 };
 
+const decryptRecoveryKey = (encryptedRecoveryKey: string, pinDerivedKey: string) => {
+  try {
+    const bytes = CryptoJS.AES.decrypt(encryptedRecoveryKey, pinDerivedKey);
+    const decryptedRecoveryKey = bytes.toString(CryptoJS.enc.Utf8);
+    return decryptedRecoveryKey;
+  } catch (error) {
+    console.error('Decryption failed:', error);
+    return null;
+  }
+};
+
 export const EncryptionService = {
+  decryptRecoveryKey,
   generateRandomBytes,
   generatePinDerivedKey,
   generateEncryptedRecoveryKey,

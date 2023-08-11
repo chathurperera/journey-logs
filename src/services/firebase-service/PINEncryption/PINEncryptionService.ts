@@ -12,15 +12,12 @@ const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-
 const createPin = async (PIN: string) => {
   try {
     const salt = EncryptionService.generateRandomBytes(16);
-    const recoveryKey = EncryptionService.generateRandomBytes(32);
+    const randomKey = EncryptionService.generateRandomBytes(32);
 
     const pinDerivedKey = EncryptionService.generatePinDerivedKey(PIN, salt);
-    const encryptedRecoveryKey = EncryptionService.generateEncryptedRecoveryKey(
-      recoveryKey,
-      pinDerivedKey,
-    );
+    const recoveryKey = EncryptionService.generateEncryptedRecoveryKey(randomKey, pinDerivedKey);
 
-    await firestore().collection('users').doc(userId).update({ salt, encryptedRecoveryKey });
+    await firestore().collection('users').doc(userId).update({ salt, recoveryKey });
     ToastService.success('Success', 'Pin created successfully');
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');

@@ -38,6 +38,12 @@ export const AppTextStyles: Record<TextVariant, React.CSSProperties> = {
     lineHeight: 48,
   },
 
+  [TextVariant.Heading3SemiBold]: {
+    fontSize: '20px',
+    fontWeight: FontWeight.SemiBold,
+    lineHeight: 48,
+  },
+
   // Title 1
   [TextVariant.Title1]: {
     fontSize: '20px',
@@ -153,7 +159,9 @@ function mapFontSizes(fontSize: any) {
 export function getAppTextStyles(variant: TextVariant) {
   const variantStyle = AppTextStyles[variant];
 
-  let textStyles = `${mapFontWeights(variantStyle?.fontWeight)} ${mapFontSizes(variantStyle?.fontSize)}`;
+  let textStyles = `${mapFontWeights(variantStyle?.fontWeight)} ${mapFontSizes(
+    variantStyle?.fontSize,
+  )}`;
 
   switch (variant) {
     case TextVariant.Title2:

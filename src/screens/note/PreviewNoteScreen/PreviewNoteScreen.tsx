@@ -1,5 +1,5 @@
 import { Icon } from '@rneui/base';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
@@ -8,15 +8,31 @@ import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
 import { HeaderBackButton } from '@jl/navigation';
-import { NavigationService, NoteService } from '@jl/services';
+import { NavigationService, NoteService, PINEncryptionService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { MenuBottomSheet } from './components/MenuBottomSheet';
 
 export function PreviewNoteScreen({ route }) {
   const { noteId } = route.params.params;
+  const [noteBody, setNoteBody] = useState('');
+
+  const { recoveryKey } = useSelector(state => state.userStore.userData);
 
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
+
+  useEffect(() => {
+    const getEncryptedNote = async () => {
+      const note = await PINEncryptionService.getDecryptedNote(noteData?.body, recoveryKey);
+      setNoteBody(note);
+    };
+    if (noteData?.isEncrypted) {
+      getEncryptedNote();
+    } else {
+      setNoteBody(noteData?.body);
+    }
+  }, []);
 
   const MenuBottomSheetMethodsRef = useRef<Modalize>(null);
 
@@ -33,7 +49,7 @@ export function PreviewNoteScreen({ route }) {
       <View style={tw`mb-3`}>
         <Text variant={TextVariant.Heading1Regular}>{noteData?.title}</Text>
       </View>
-      <Text variant={TextVariant.Body1Regular}>{noteData?.body}</Text>
+      <Text variant={TextVariant.Body1Regular}>{noteBody}</Text>
     </>
   );
 

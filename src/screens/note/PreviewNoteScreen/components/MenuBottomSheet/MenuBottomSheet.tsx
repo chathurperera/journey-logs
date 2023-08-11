@@ -31,9 +31,9 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
     [],
   );
 
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { recoveryKey } = useSelector(state => state.userStore.userData);
   const handleNoteEncryption = async () => {
-    await NoteService.noteEncryption(noteId, body, userId);
+    await NoteService.noteEncryption(noteId, body, recoveryKey);
     ModalizeRef.current?.close();
   };
 

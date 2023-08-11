@@ -69,66 +69,40 @@ const updateNote = async (
   }
 };
 
-const noteEncryption = async (noteId: string, note: string, userId: string) => {
+const noteEncryption = async (noteId: string, note: string, recoveryKey: string) => {
   try {
-    await firestore()
-      .collection('users')
-      .doc(userId)
-      .get()
-      .then(async documentSnapshot => {
-        if (documentSnapshot.exists) {
-          const { encryptedRecoveryKey } = documentSnapshot.data();
+    const encryptedNote = await PINEncryptionService.getEncryptedNote(note, recoveryKey);
 
-          const encryptedNote = await PINEncryptionService.getEncryptedNote(
-            note,
-            encryptedRecoveryKey,
-          );
-          //save the encrypted note back in database
-          await firestore()
-            .collection('notes')
-            .doc(noteId)
-            .update({ isEncrypted: true, body: encryptedNote })
-            .then(() => {
-              console.log('note encrypted success');
-            })
-            .catch(() => {
-              ToastService.error('Error', 'Something went wrong while encrypting your note');
-            });
-        }
+    await firestore()
+      .collection('notes')
+      .doc(noteId)
+      .update({ isEncrypted: true, body: encryptedNote })
+      .then(() => {
+        console.log('note encrypted success');
       })
-      .catch(error => {
-        console.log('error', error);
+      .catch(() => {
+        ToastService.error('Error', 'Something went wrong while encrypting your note');
       });
 
     ToastService.success('Success', 'Your note is Locked 🔒');
   } catch (error) {
-    ToastService.error('Error', 'Something went wrong');
+    ToastService.error('Error', 'Something went wrong while encrypting your note');
   }
 };
 
-const noteDecryption = async (noteId: string, encryptedNote: string, userId: string) => {
+const noteDecryption = async (noteId: string, encryptedNote: string, recoveryKey: string) => {
   try {
-    await firestore()
-      .collection('users')
-      .doc(userId)
-      .get()
-      .then(async documentSnapshot => {
-        if (documentSnapshot.exists) {
-          const { recoveryKey } = documentSnapshot.data();
-          const decryptedNote = await PINEncryptionService.getDecryptedNote(
-            encryptedNote,
-            recoveryKey,
-          );
+    const decryptedNote = await PINEncryptionService.getDecryptedNote(encryptedNote, recoveryKey);
 
-          //save the decrypted note back in database
-          await firestore()
-            .collection('notes')
-            .doc(noteId)
-            .update({ isEncrypted: false, body: decryptedNote });
-        }
+    await firestore()
+      .collection('notes')
+      .doc(noteId)
+      .update({ isEncrypted: false, body: decryptedNote })
+      .then(() => {
+        ToastService.success('Success', 'Note successfully removed from hidden list');
       })
-      .catch(error => {
-        console.log('error', error);
+      .catch(() => {
+        ToastService.error('Error', 'Something went wrong');
       });
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');
