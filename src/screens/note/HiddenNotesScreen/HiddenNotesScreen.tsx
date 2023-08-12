@@ -50,7 +50,7 @@ export function HiddenNotesScreen() {
             onPress={() => NavigationService.navigate(Route.SettingsTab)}>
             <Icon type="feather" name="chevron-left" size={30} color={Color.Neutral.JL800} />
           </Pressable>
-          <View style={tw`border w-full`}>
+          <View style={tw`w-full`}>
             <Text
               variant={TextVariant.Heading3SemiBold}
               color={Color.Neutral.JL900}

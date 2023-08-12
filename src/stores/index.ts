@@ -22,7 +22,7 @@ export const initializeStore = () => {
   const persistPlugin = createRematchPersist({
     key: 'root',
     storage: PersistentStorageService.getStorage(),
-    whitelist: ['userStore'],
+    whitelist: ['userStore', 'encryptionStore'],
   });
 
   // Add plugins not required for testing

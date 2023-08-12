@@ -21,17 +21,19 @@ export function PreviewNoteScreen({ route }) {
   const { recoveryKey } = useSelector(state => state.encryptionStore);
 
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
+  console.log('noteData', noteData);
 
   useEffect(() => {
     if (noteData?.isEncrypted) {
       const getEncryptedNote = async () => {
         const note = await NoteEncryption.getDecryptedNote(noteData?.body, recoveryKey);
+        console.log('decryptedNote', note);
         setDecryptedNote(note);
       };
 
       getEncryptedNote();
     }
-  }, []);
+  }, [isLoading]);
 
   const MenuBottomSheetMethodsRef = useRef<Modalize>(null);
 
@@ -62,7 +64,6 @@ export function PreviewNoteScreen({ route }) {
           <Text variant={TextVariant.Title2} color={Color.Neutral.JL500}>
             {noteData?.title}
           </Text>
-          {/* TODO:: replace with a proper button variant */}
           <View style={tw`justify-between flex-row gap-3 items-center relative`}>
             <Icon
               type="feather"
