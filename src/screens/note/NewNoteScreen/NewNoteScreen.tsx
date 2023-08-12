@@ -49,7 +49,7 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
       await NoteService.createNote({
         title: noteContent.title,
         userId: userId,
-        body: contentWithoutHTML,
+        body: replaceWhiteSpace,
       });
       setIsLoading(false);
       NavigationService.navigate(Route.HomeTab);
