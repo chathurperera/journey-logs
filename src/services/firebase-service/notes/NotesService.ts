@@ -8,7 +8,6 @@ import { NoteEncryption } from '../NoteEncryption';
 
 const createNote = async (noteData: NoteData) => {
   const currentTimestamp = getCurrentTimestamp();
-  console.log('noteData userId', noteData.userId);
   try {
     await firestore()
       .collection('notes')
@@ -19,10 +18,7 @@ const createNote = async (noteData: NoteData) => {
         isEncrypted: false,
         categories: [],
       });
-
-    console.log('note created');
   } catch (error) {
-    console.log('error', error);
     ToastService.error('Error', 'Error while saving the note');
   }
 };
@@ -72,7 +68,6 @@ const updateNote = async (
 const noteEncryption = async (noteId: string, note: string, recoveryKey: string) => {
   try {
     const encryptedNote = await NoteEncryption.getEncryptedNote(note, recoveryKey);
-    console.log('encryptedNote', encryptedNote);
     await firestore()
       .collection('notes')
       .doc(noteId)
@@ -80,12 +75,10 @@ const noteEncryption = async (noteId: string, note: string, recoveryKey: string)
       .then(() => {
         ToastService.success('Success', 'Your note is Locked 🔒');
       })
-      .catch(error => {
-        console.log('error', error);
+      .catch(() => {
         ToastService.error('Error', 'Something went wrong while encrypting your note');
       });
   } catch (error) {
-    console.log('error', error);
     ToastService.error('Error', 'Something went wrong while encrypting your note');
   }
 };

@@ -7,6 +7,7 @@ import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { NavigationService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
+import { isPinSessionExpired } from '@jl/utils';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
@@ -16,7 +17,23 @@ interface SettingsScreenProps {
 
 export function SettingsScreen({ testID }: SettingsScreenProps) {
   const dispatch = useDispatch();
-  const { salt } = useSelector(state => state.encryptionStore);
+
+  //salt is used to decide availability of a PIN code
+  //lastAccessedHiddenNotesAt is used to check the validity of the last session
+  const { salt, lastAccessedHiddenNotesAt } = useSelector(state => state.encryptionStore);
+
+  const hiddenNotesAccessNavigation = () => {
+    if (lastAccessedHiddenNotesAt) {
+      const expiredSession = isPinSessionExpired(lastAccessedHiddenNotesAt);
+      if (expiredSession) {
+        NavigationService.navigate(Route.PinCode, { pinExists: true });
+      } else {
+        NavigationService.navigate(Route.HiddenNotes);
+      }
+    } else {
+      NavigationService.navigate(Route.PinCode, { pinExists: salt !== '' });
+    }
+  };
 
   return (
     <BaseScreenLayout testID={testID}>
@@ -57,7 +74,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
           </Pressable>
           {salt !== '' && (
             <Pressable
-              onPress={() => NavigationService.navigate(Route.PinCode, { pinExists: salt !== '' })}
+              onPress={hiddenNotesAccessNavigation}
               style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
               <Icon type="feather" name="key" size={20} />
               <Text variant={TextVariant.Body2SemiBold}>Hidden notes</Text>

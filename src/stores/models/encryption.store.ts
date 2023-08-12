@@ -9,14 +9,16 @@ interface EncryptionState {
   recoveryKey: string;
   salt: string;
   failedAttempts: number;
-  lockoutTimestamp: string;
+  lockoutTimestamp: number;
+  lastAccessedHiddenNotesAt: number;
 }
 
 const initialState: EncryptionState = {
   recoveryKey: '',
   salt: '',
   failedAttempts: 0,
-  lockoutTimestamp: '',
+  lockoutTimestamp: 0,
+  lastAccessedHiddenNotesAt: 0,
 };
 
 export const encryptionStore = createModel<RootModel>()({
@@ -28,11 +30,17 @@ export const encryptionStore = createModel<RootModel>()({
     setSalt(state: EncryptionState, salt: string) {
       return { ...state, salt: salt };
     },
-    setLockoutTimestamp(state: EncryptionState, lockoutTimestamp: string) {
+    setLockoutTimestamp(state: EncryptionState, lockoutTimestamp: number) {
       return { ...state, lockoutTimestamp: lockoutTimestamp };
     },
     resetLockoutTimestamp(state: EncryptionState) {
-      return { ...state, lockoutTimestamp: '' };
+      return { ...state, lockoutTimestamp: null };
+    },
+    setLastAccessedHiddenNotesAt(state: EncryptionState, lastAccessedHiddenNotesAt: number) {
+      return { ...state, lastAccessedHiddenNotesAt: lastAccessedHiddenNotesAt };
+    },
+    resetLastAccessedHiddenNotesAt(state: EncryptionState) {
+      return { ...state, lastAccessedHiddenNotesAt: null };
     },
     incrementFailedAttempts(state: EncryptionState) {
       return { ...state, failedAttempts: state.failedAttempts + 1 };
@@ -41,7 +49,14 @@ export const encryptionStore = createModel<RootModel>()({
       return { ...state, failedAttempts: 0 };
     },
     resetToInitialState(state: EncryptionState) {
-      return { ...state, recoveryKey: '', salt: '', failedAttempts: 0, lockoutTimestamp: '' };
+      return {
+        ...state,
+        recoveryKey: '',
+        salt: '',
+        failedAttempts: 0,
+        lockoutTimestamp: null,
+        lastAccessedHiddenNotesAt: null,
+      };
     },
   },
   effects: dispatch => ({

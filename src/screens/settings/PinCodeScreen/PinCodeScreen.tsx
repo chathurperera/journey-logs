@@ -7,12 +7,14 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Route, TextAlignment, TextVariant } from '@jl/constants';
 import { EncryptionService, NavigationService } from '@jl/services';
-import { useSelector } from '@jl/stores';
+import { useDispatch, useSelector } from '@jl/stores';
+import { getCurrentTimestamp } from '@jl/utils';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
 export function PinCodeScreen({ route }) {
   const { pinExists } = route.params.params;
+  const dispatch = useDispatch();
 
   const { salt, recoveryKey } = useSelector(state => state.encryptionStore);
   const pinView = useRef(null);
@@ -26,10 +28,11 @@ export function PinCodeScreen({ route }) {
       const decryptedRecoveryKey = EncryptionService.decryptRecoveryKey(recoveryKey, derivedKey);
 
       if (decryptedRecoveryKey) {
-        console.log('PIN is correct');
+        const currentTimestamp = getCurrentTimestamp();
+        dispatch.encryptionStore.setLastAccessedHiddenNotesAt(currentTimestamp);
+
         NavigationService.navigate(Route.HiddenNotes);
       } else {
-        console.log('PIN is incorrect');
         setIsIncorrectPin(true);
       }
     } else {

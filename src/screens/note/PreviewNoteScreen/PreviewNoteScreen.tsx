@@ -21,13 +21,11 @@ export function PreviewNoteScreen({ route }) {
   const { recoveryKey } = useSelector(state => state.encryptionStore);
 
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
-  console.log('noteData', noteData);
 
   useEffect(() => {
     if (noteData?.isEncrypted) {
       const getEncryptedNote = async () => {
         const note = await NoteEncryption.getDecryptedNote(noteData?.body, recoveryKey);
-        console.log('decryptedNote', note);
         setDecryptedNote(note);
       };
 
