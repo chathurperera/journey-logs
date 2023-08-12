@@ -1,10 +1,12 @@
 import firestore from '@react-native-firebase/firestore';
 
-const createNewAccount = async ({ email, name, userId }) => {
+import { NewAccountParams } from '@jl/models';
+
+const createNewAccount = async ({ email, name, userId }: NewAccountParams) => {
   await firestore()
     .collection('users')
     .doc(userId)
-    .set({ email, name })
+    .set({ email, name, salt: '', recoveryKey: '' })
     .then(() => {
       console.log('User added!');
     })
@@ -13,4 +15,11 @@ const createNewAccount = async ({ email, name, userId }) => {
     });
 };
 
-export const AccountService = { createNewAccount };
+const getMe = async (userId: string) => {
+  try {
+    const documentSnapshot = await firestore().collection('users').doc(userId).get();
+    return documentSnapshot?.data();
+  } catch (error) {}
+};
+
+export const AccountService = { createNewAccount, getMe };

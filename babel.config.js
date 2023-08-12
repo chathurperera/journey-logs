@@ -5,7 +5,17 @@ module.exports = {
       'module-resolver',
       {
         root: ['./src'],
-        extensions: ['.ios.ts', '.android.ts', '.ts', '.ios.tsx', '.android.tsx', '.tsx', '.jsx', '.js', '.json'],
+        extensions: [
+          '.ios.ts',
+          '.android.ts',
+          '.ts',
+          '.ios.tsx',
+          '.android.tsx',
+          '.tsx',
+          '.jsx',
+          '.js',
+          '.json',
+        ],
         alias: {
           '@jl/assets': './src/assets/index',
           '@jl/components': './src/components/index',
@@ -18,6 +28,9 @@ module.exports = {
           '@jl/services': './src/services/index',
           '@jl/stores': './src/stores/index',
           '@jl/utils': './src/utils/index',
+          'crypto': 'react-native-quick-crypto',
+          'stream': 'stream-browserify',
+          'buffer': '@craftzdog/react-native-buffer',
         },
       },
     ],
@@ -26,6 +39,6 @@ module.exports = {
       {
         relativeSourceLocation: true,
       },
-    ]
+    ],
   ],
 };

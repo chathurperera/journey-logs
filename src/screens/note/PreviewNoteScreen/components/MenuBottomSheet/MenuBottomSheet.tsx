@@ -7,14 +7,16 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
 import { NavigationService, NoteService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 interface MenuBottomSheetProps {
   noteId: string;
+  body: string;
   isEncrypted: boolean;
 }
 
 export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
-  { noteId, isEncrypted }: MenuBottomSheetProps,
+  { noteId, isEncrypted, body }: MenuBottomSheetProps,
   ref,
 ) {
   const ModalizeRef = useRef<Modalize>(null);
@@ -29,8 +31,10 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
     [],
   );
 
+  const { recoveryKey } = useSelector(state => state.encryptionStore);
+
   const handleNoteEncryption = async () => {
-    await NoteService.noteEncryption(noteId, !isEncrypted);
+    await NoteService.noteEncryption(noteId, body, recoveryKey);
     ModalizeRef.current?.close();
   };
 
@@ -57,14 +61,16 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
           Add Tags
         </Text>
       </Pressable>
-      <Pressable
-        onPress={handleNoteEncryption}
-        style={tw`border-b-[${Color.Primary.Jl150}] p-4 flex-row items-center gap-2 border-b-2`}>
-        <Icon type="feather" name={isEncrypted ? 'unlock' : 'lock'} size={25} />
-        <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
-          {isEncrypted ? 'Unlock note' : 'Lock note'}
-        </Text>
-      </Pressable>
+      {recoveryKey !== '' && (
+        <Pressable
+          onPress={handleNoteEncryption}
+          style={tw`border-b-[${Color.Primary.Jl150}] p-4 flex-row items-center gap-2 border-b-2`}>
+          <Icon type="feather" name={isEncrypted ? 'unlock' : 'lock'} size={25} />
+          <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
+            {isEncrypted ? 'Unlock note' : 'Lock note'}
+          </Text>
+        </Pressable>
+      )}
       <Pressable
         onPress={handleNoteDeletion}
         style={tw`border-b-[${Color.Primary.Jl150}] p-4 flex-row items-center gap-2`}>

@@ -1,18 +1,13 @@
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
 import { NoteData } from '@jl/models';
 import { getCurrentTimestamp } from '@jl/utils';
 
 import { ToastService } from '../../toast-service';
-
-export const IS_JEST_RUNTIME = typeof jest !== 'undefined';
-
-const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-add9-a23de0693b8e';
+import { NoteEncryption } from '../NoteEncryption';
 
 const createNote = async (noteData: NoteData) => {
   const currentTimestamp = getCurrentTimestamp();
-
   try {
     await firestore()
       .collection('notes')
@@ -28,7 +23,7 @@ const createNote = async (noteData: NoteData) => {
   }
 };
 
-const getAllNotes = async () => {
+const getAllNotes = async (userId: string) => {
   try {
     const querySnapshot = await firestore()
       .collection('notes')
@@ -49,7 +44,7 @@ const getAllNotes = async () => {
   }
 };
 
-const getSingleNote = async noteId => {
+const getSingleNote = async (noteId: string) => {
   try {
     const documentSnapshot = await firestore().collection('notes').doc(noteId).get();
     return documentSnapshot?.data();
@@ -58,7 +53,10 @@ const getSingleNote = async noteId => {
   }
 };
 
-const updateNote = async (noteId, payload) => {
+const updateNote = async (
+  noteId: string,
+  payload: { title: string; body: string; userId: string },
+) => {
   try {
     await firestore().collection('notes').doc(noteId).update(payload);
     ToastService.success('Success', 'Document updated successfully');
@@ -67,13 +65,38 @@ const updateNote = async (noteId, payload) => {
   }
 };
 
-const noteEncryption = async (noteId, encrypt) => {
+const noteEncryption = async (noteId: string, note: string, recoveryKey: string) => {
   try {
-    await firestore().collection('notes').doc(noteId).update({ isEncrypted: encrypt });
-    ToastService.success(
-      'Success',
-      `Your note is ${encrypt ? 'locked' : 'unlocked'} now ${encrypt ? '🔒' : '🔓'}`,
-    );
+    const encryptedNote = await NoteEncryption.getEncryptedNote(note, recoveryKey);
+    await firestore()
+      .collection('notes')
+      .doc(noteId)
+      .update({ isEncrypted: true, body: encryptedNote })
+      .then(() => {
+        ToastService.success('Success', 'Your note is Locked 🔒');
+      })
+      .catch(() => {
+        ToastService.error('Error', 'Something went wrong while encrypting your note');
+      });
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong while encrypting your note');
+  }
+};
+
+const noteDecryption = async (noteId: string, encryptedNote: string, recoveryKey: string) => {
+  try {
+    const decryptedNote = await NoteEncryption.getDecryptedNote(encryptedNote, recoveryKey);
+
+    await firestore()
+      .collection('notes')
+      .doc(noteId)
+      .update({ isEncrypted: false, body: decryptedNote })
+      .then(() => {
+        ToastService.success('Success', 'Note successfully removed from hidden list');
+      })
+      .catch(() => {
+        ToastService.error('Error', 'Something went wrong');
+      });
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');
   }
@@ -90,9 +113,10 @@ const deleteNote = async noteId => {
 
 export const NoteService = {
   createNote,
+  deleteNote,
   getAllNotes,
   getSingleNote,
-  updateNote,
+  noteDecryption,
   noteEncryption,
-  deleteNote,
+  updateNote,
 };

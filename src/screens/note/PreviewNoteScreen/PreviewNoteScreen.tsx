@@ -1,5 +1,5 @@
 import { Icon } from '@rneui/base';
-import React, { useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
@@ -8,15 +8,30 @@ import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
 import { HeaderBackButton } from '@jl/navigation';
-import { NavigationService, NoteService } from '@jl/services';
+import { NavigationService, NoteEncryption, NoteService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { MenuBottomSheet } from './components/MenuBottomSheet';
 
 export function PreviewNoteScreen({ route }) {
   const { noteId } = route.params.params;
+  const [decryptedNote, setDecryptedNote] = useState('');
+
+  const { recoveryKey } = useSelector(state => state.encryptionStore);
 
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
+
+  useEffect(() => {
+    if (noteData?.isEncrypted) {
+      const getEncryptedNote = async () => {
+        const note = await NoteEncryption.getDecryptedNote(noteData?.body, recoveryKey);
+        setDecryptedNote(note);
+      };
+
+      getEncryptedNote();
+    }
+  }, [isLoading]);
 
   const MenuBottomSheetMethodsRef = useRef<Modalize>(null);
 
@@ -33,7 +48,9 @@ export function PreviewNoteScreen({ route }) {
       <View style={tw`mb-3`}>
         <Text variant={TextVariant.Heading1Regular}>{noteData?.title}</Text>
       </View>
-      <Text variant={TextVariant.Body1Regular}>{noteData?.body}</Text>
+      <Text variant={TextVariant.Body1Regular}>
+        {noteData?.isEncrypted ? decryptedNote : noteData?.body}
+      </Text>
     </>
   );
 
@@ -45,7 +62,6 @@ export function PreviewNoteScreen({ route }) {
           <Text variant={TextVariant.Title2} color={Color.Neutral.JL500}>
             {noteData?.title}
           </Text>
-          {/* TODO:: replace with a proper button variant */}
           <View style={tw`justify-between flex-row gap-3 items-center relative`}>
             <Icon
               type="feather"
@@ -68,6 +84,7 @@ export function PreviewNoteScreen({ route }) {
       <MenuBottomSheet
         ref={MenuBottomSheetMethodsRef}
         noteId={noteId}
+        body={noteData?.body}
         isEncrypted={noteData?.isEncrypted}
       />
     </BaseScreenLayout>

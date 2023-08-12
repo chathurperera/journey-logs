@@ -11,7 +11,9 @@ const Tab = createBottomTabNavigator();
 
 export function MainBottomTabRoutes() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={props => <CustomBottomTabBar {...props} />}>
+    <Tab.Navigator
+      screenOptions={{ headerShown: false }}
+      tabBar={props => <CustomBottomTabBar {...props} />}>
       <Tab.Screen name={Route.HomeTab} component={HomeScreen} />
       <Tab.Screen name={Route.CalendarTab} component={CalendarScreen} />
       <Tab.Screen name={Route.PlaceHolderRoute} component={PlaceHolderComponent} />

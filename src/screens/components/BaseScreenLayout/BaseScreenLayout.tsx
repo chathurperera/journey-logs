@@ -35,7 +35,7 @@ export function BaseScreenLayout({
 
   return (
     <SafeAreaView
-      style={tw`relative h-full pt-[${headerHeight}px] bg-[${Color.Secondary.JL300}]`}
+      style={tw`relative h-full pt-[${headerHeight}px] bg-[${Color.Neutral.white}]`}
       testID={testID}>
       <KeyboardAvoidingView
         style={tw`flex-1`}

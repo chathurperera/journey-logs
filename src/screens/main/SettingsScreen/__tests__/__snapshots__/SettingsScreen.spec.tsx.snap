@@ -4,7 +4,7 @@ exports[`login screen should render SettingsScreen correctly 1`] = `
 <RCTSafeAreaView
   style={
     {
-      "backgroundColor": "#f1f1f1f5",
+      "backgroundColor": "#ffffff",
       "height": "100%",
       "paddingTop": 50,
       "position": "relative",

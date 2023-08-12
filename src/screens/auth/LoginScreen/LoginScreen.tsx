@@ -6,7 +6,8 @@ import { View } from 'react-native';
 import { Button, PasswordField, Text, TextField } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
-import { AuthService, NavigationService } from '@jl/services';
+import { NavigationService } from '@jl/services';
+import { useDispatch } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { LoginFormValues, loginValidationSchema } from './Login.validations';
@@ -21,10 +22,16 @@ export function LoginScreen({ testID }: LoginScreenProps) {
   });
   const [isLoading, setIsLoading] = useState(false);
 
+  const dispatch = useDispatch();
+
   const handleOnSubmit = async formData => {
-    setIsLoading(true);
-    await AuthService.signIn(formData);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      await dispatch.userStore.login(formData);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   return (
