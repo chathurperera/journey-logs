@@ -7,12 +7,14 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Route, TextAlignment, TextVariant } from '@jl/constants';
 import { EncryptionService, NavigationService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
 export function PinCodeScreen({ route }) {
   const { pinExists } = route.params.params;
 
+  const { salt, recoveryKey } = useSelector(state => state.encryptionStore);
   const pinView = useRef(null);
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
@@ -20,14 +22,12 @@ export function PinCodeScreen({ route }) {
 
   const PINVerification = () => {
     if (pinExists) {
-      const salt = '131jno'; //get from DB
-      const encryptedRecoveryKey = 'dasjnfaons'; //get from DB
       const derivedKey = EncryptionService.generatePinDerivedKey(enteredPin, salt);
-      const recoveryKey = EncryptionService.decryptRecoveryKey(encryptedRecoveryKey, derivedKey);
+      const decryptedRecoveryKey = EncryptionService.decryptRecoveryKey(recoveryKey, derivedKey);
 
-      if (recoveryKey) {
+      if (decryptedRecoveryKey) {
         console.log('PIN is correct');
-        // Now you can use the recoveryKey to decrypt notes
+        NavigationService.navigate(Route.HiddenNotes);
       } else {
         console.log('PIN is incorrect');
         setIsIncorrectPin(true);
@@ -70,6 +70,7 @@ export function PinCodeScreen({ route }) {
           inputSize={32}
           ref={pinView}
           pinLength={4}
+          buttonViewStyle={tw`bg-slate-300`}
           buttonSize={60}
           onValueChange={value => setEnteredPin(value)}
           onButtonPress={key => {

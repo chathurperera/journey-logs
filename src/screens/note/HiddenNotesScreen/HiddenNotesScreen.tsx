@@ -1,12 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
+import { Icon } from '@rneui/base';
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, Pressable, View } from 'react-native';
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, TextVariant } from '@jl/constants';
+import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { useFirestorePagination } from '@jl/hooks';
-import { HeaderBackButton } from '@jl/navigation';
+import { NavigationService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
@@ -44,9 +45,16 @@ export function HiddenNotesScreen() {
     <BaseScreenLayout wrapWithScrollView={false}>
       <View style={[tw`mx-5 flex-1 pb-10 bg-white`]}>
         <View style={tw`justify-between flex-row items-center mb-3`}>
-          <HeaderBackButton />
-          <View style={tw`absolute mx-auto left-0 right-0 flex-row justify-center`}>
-            <Text variant={TextVariant.Heading3SemiBold} color={Color.Neutral.JL900}>
+          <Pressable
+            style={tw`py-1 absolute left-0 z-30`}
+            onPress={() => NavigationService.navigate(Route.SettingsTab)}>
+            <Icon type="feather" name="chevron-left" size={30} color={Color.Neutral.JL800} />
+          </Pressable>
+          <View style={tw`border w-full`}>
+            <Text
+              variant={TextVariant.Heading3SemiBold}
+              color={Color.Neutral.JL900}
+              textAlign={TextAlignment.Center}>
               Secured Notes
             </Text>
           </View>

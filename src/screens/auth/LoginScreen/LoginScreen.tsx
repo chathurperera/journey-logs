@@ -31,7 +31,6 @@ export function LoginScreen({ testID }: LoginScreenProps) {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.log('error');
     }
   };
 

@@ -5,3 +5,10 @@ export interface UserData {
   recoveryKey?: string;
   salt?: string;
 }
+
+export interface EncryptionData {
+  recoveryKey: string;
+  salt: string;
+  failedAttempts?: number;
+  lockoutTimestamp?: string;
+}

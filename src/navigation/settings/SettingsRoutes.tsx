@@ -6,6 +6,7 @@ import { ConfirmPinCodeScreen, PinCodeScreen } from '@jl/screens';
 
 export type SettingsStackParamList = {
   [Route.PinCode]: undefined;
+  [Route.ConfirmPinCode]: undefined;
 };
 
 const Stack = createNativeStackNavigator();

@@ -22,9 +22,13 @@ export function SignupScreen() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleOnSubmit = async formData => {
-    setIsLoading(true);
-    await dispatch.userStore.signUp(formData);
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      await dispatch.userStore.signUp(formData);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
 
   return (

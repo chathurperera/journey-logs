@@ -8,7 +8,7 @@ import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
 import { HeaderBackButton } from '@jl/navigation';
-import { NavigationService, NoteService, PINEncryptionService } from '@jl/services';
+import { NavigationService, NoteEncryption, NoteService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
@@ -16,21 +16,20 @@ import { MenuBottomSheet } from './components/MenuBottomSheet';
 
 export function PreviewNoteScreen({ route }) {
   const { noteId } = route.params.params;
-  const [noteBody, setNoteBody] = useState('');
+  const [decryptedNote, setDecryptedNote] = useState('');
 
-  const { recoveryKey } = useSelector(state => state.userStore.userData);
+  const { recoveryKey } = useSelector(state => state.encryptionStore);
 
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
 
   useEffect(() => {
-    const getEncryptedNote = async () => {
-      const note = await PINEncryptionService.getDecryptedNote(noteData?.body, recoveryKey);
-      setNoteBody(note);
-    };
     if (noteData?.isEncrypted) {
+      const getEncryptedNote = async () => {
+        const note = await NoteEncryption.getDecryptedNote(noteData?.body, recoveryKey);
+        setDecryptedNote(note);
+      };
+
       getEncryptedNote();
-    } else {
-      setNoteBody(noteData?.body);
     }
   }, []);
 
@@ -49,7 +48,9 @@ export function PreviewNoteScreen({ route }) {
       <View style={tw`mb-3`}>
         <Text variant={TextVariant.Heading1Regular}>{noteData?.title}</Text>
       </View>
-      <Text variant={TextVariant.Body1Regular}>{noteBody}</Text>
+      <Text variant={TextVariant.Body1Regular}>
+        {noteData?.isEncrypted ? decryptedNote : noteData?.body}
+      </Text>
     </>
   );
 

@@ -3,8 +3,8 @@ import firestore from '@react-native-firebase/firestore';
 import { NoteData } from '@jl/models';
 import { getCurrentTimestamp } from '@jl/utils';
 
-import { PINEncryptionService } from '../../firebase-service/PINEncryption';
 import { ToastService } from '../../toast-service';
+import { NoteEncryption } from '../NoteEncryption';
 
 const createNote = async (noteData: NoteData) => {
   const currentTimestamp = getCurrentTimestamp();
@@ -71,28 +71,28 @@ const updateNote = async (
 
 const noteEncryption = async (noteId: string, note: string, recoveryKey: string) => {
   try {
-    const encryptedNote = await PINEncryptionService.getEncryptedNote(note, recoveryKey);
-
+    const encryptedNote = await NoteEncryption.getEncryptedNote(note, recoveryKey);
+    console.log('encryptedNote', encryptedNote);
     await firestore()
       .collection('notes')
       .doc(noteId)
       .update({ isEncrypted: true, body: encryptedNote })
       .then(() => {
-        console.log('note encrypted success');
+        ToastService.success('Success', 'Your note is Locked 🔒');
       })
-      .catch(() => {
+      .catch(error => {
+        console.log('error', error);
         ToastService.error('Error', 'Something went wrong while encrypting your note');
       });
-
-    ToastService.success('Success', 'Your note is Locked 🔒');
   } catch (error) {
+    console.log('error', error);
     ToastService.error('Error', 'Something went wrong while encrypting your note');
   }
 };
 
 const noteDecryption = async (noteId: string, encryptedNote: string, recoveryKey: string) => {
   try {
-    const decryptedNote = await PINEncryptionService.getDecryptedNote(encryptedNote, recoveryKey);
+    const decryptedNote = await NoteEncryption.getDecryptedNote(encryptedNote, recoveryKey);
 
     await firestore()
       .collection('notes')

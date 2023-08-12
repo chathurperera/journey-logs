@@ -6,22 +6,22 @@ import ReactNativePinView from 'react-native-pin-view';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
-import { EncryptionService, NavigationService, PINEncryptionService } from '@jl/services';
+import { NavigationService } from '@jl/services';
+import { useDispatch, useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
 export function ConfirmPinCodeScreen({ route }) {
   const { pinCode } = route.params.params;
+  const { userId } = useSelector(state => state.userStore.userData);
+
+  const dispatch = useDispatch();
 
   const pinView = useRef(null);
 
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
   const [pinCodeMisMatch, setPinCodeMisMatch] = useState(false);
-
-  const saveNewPin = async () => {
-    await PINEncryptionService.createPin(enteredPin);
-  };
 
   useEffect(() => {
     setPinCodeMisMatch(false);
@@ -33,19 +33,7 @@ export function ConfirmPinCodeScreen({ route }) {
     }
 
     if (enteredPin === pinCode) {
-      const salt = EncryptionService.generateRandomBytes(16);
-      const recoveryKey = EncryptionService.generateRandomBytes(32);
-
-      const pinDerivedKey = EncryptionService.generatePinDerivedKey(enteredPin, salt);
-      const encryptedRecoveryKey = EncryptionService.generateEncryptedRecoveryKey(
-        recoveryKey,
-        pinDerivedKey,
-      );
-
-      saveNewPin();
-
-      console.log('encryptedRecoveryKey', encryptedRecoveryKey);
-
+      dispatch.encryptionStore.createNewPIN({ PIN: pinCode, userId: userId });
       NavigationService.navigate(Route.HomeTab);
     } else if (enteredPin.length === 4 && pinCode !== enteredPin) {
       setPinCodeMisMatch(true);
@@ -79,6 +67,7 @@ export function ConfirmPinCodeScreen({ route }) {
         <ReactNativePinView
           inputSize={32}
           ref={pinView}
+          buttonViewStyle={tw`bg-slate-300`}
           pinLength={4}
           buttonSize={60}
           onValueChange={value => setEnteredPin(value)}

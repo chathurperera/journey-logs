@@ -1,4 +1,3 @@
-import auth from '@react-native-firebase/auth';
 import { createModel } from '@rematch/core';
 
 import { LoginData, SignupData, UserData } from '@jl/models';
@@ -8,44 +7,52 @@ import { RootModel } from './index';
 
 interface UserState {
   userData: UserData;
-  isEmailVerified: boolean;
+  isAuthenticated: boolean;
 }
 
 const initialState = {
   userData: null,
-  isEmailVerified: false,
+  isAuthenticated: false,
 };
 
 export const userStore = createModel<RootModel>()({
-  state: { ...initialState },
+  state: { ...initialState } as UserState,
   reducers: {
     setUserData(state: UserState, userData: UserData | null) {
       return { ...state, userData };
     },
-    setEmailVerification(state: UserState, isEmailVerified: boolean) {
-      return { ...state, isEmailVerified: isEmailVerified };
+    setAuthState(state: UserState, isAuthenticated: boolean) {
+      return { ...state, isAuthenticated: isAuthenticated };
     },
   },
   effects: dispatch => ({
     async login(payload: LoginData) {
-      const { uid, email, emailVerified } = await AuthService.signIn(payload);
-      dispatch.userStore.setUserData({ userId: uid, email: email });
-      dispatch.userStore.setEmailVerification(emailVerified);
+      const { uid, email } = await AuthService.signIn(payload);
+      const { salt, recoveryKey } = await AccountService.getMe(uid);
+
+      dispatch.userStore.setUserData({
+        userId: uid,
+        email: email,
+      });
+      dispatch.userStore.setAuthState(true);
+
+      dispatch.encryptionStore.setSalt(salt);
+      dispatch.encryptionStore.setRecoveryKey(recoveryKey);
     },
 
     async signUp(payload: SignupData) {
-      const { uid, email, emailVerified } = await AuthService.signUp(payload);
-      dispatch.userStore.setUserData({ userId: uid, email: email, name: payload.name });
-      dispatch.userStore.setEmailVerification(emailVerified);
+      const { uid, email } = await AuthService.signUp(payload);
+      AccountService.createNewAccount({ email, name: payload.name, userId: uid });
 
-      await auth().currentUser.sendEmailVerification();
-      await AccountService.createNewAccount({ email, name: payload.name, userId: uid });
+      dispatch.userStore.setUserData({ userId: uid, email: email, name: payload.name });
+      dispatch.userStore.setAuthState(true);
     },
 
     async logoutUser() {
-      dispatch.userStore.setUserData(null);
-      dispatch.userStore.setEmailVerification(false);
       await AuthService.logOut();
+      dispatch.userStore.setUserData(null);
+      dispatch.userStore.setAuthState(false);
+      dispatch.encryptionStore.resetToInitialState();
     },
   }),
 });

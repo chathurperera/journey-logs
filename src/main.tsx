@@ -5,8 +5,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { useDeviceContext } from 'twrnc';
 
-import { initializeStore } from '@jl/stores';
-import { store } from '@jl/stores';
+import { initializeStore, store } from '@jl/stores';
 
 import App from './app/App';
 import { tw } from './config';

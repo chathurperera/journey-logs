@@ -1,24 +1,25 @@
-import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import CryptoJS from 'crypto-js';
 
-import { EncryptionService } from '../../encryption-service';
 import { ToastService } from '../../toast-service/ToastService';
 
-const IS_JEST_RUNTIME = typeof jest !== 'undefined';
-
-const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-add9-a23de0693b8e';
-
-const createPin = async (PIN: string) => {
+const savePinAndRecoveryKey = async (
+  PIN: string,
+  userId: string,
+  salt: string,
+  recoveryKey: string,
+) => {
   try {
-    const salt = EncryptionService.generateRandomBytes(16);
-    const randomKey = EncryptionService.generateRandomBytes(32);
-
-    const pinDerivedKey = EncryptionService.generatePinDerivedKey(PIN, salt);
-    const recoveryKey = EncryptionService.generateEncryptedRecoveryKey(randomKey, pinDerivedKey);
-
-    await firestore().collection('users').doc(userId).update({ salt, recoveryKey });
-    ToastService.success('Success', 'Pin created successfully');
+    await firestore()
+      .collection('users')
+      .doc(userId)
+      .update({ salt, recoveryKey })
+      .then(() => {
+        ToastService.success('Success', 'Pin created successfully');
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');
   }
@@ -43,4 +44,4 @@ const getDecryptedNote = async (encryptedNote: string, recoveryKey: string) => {
   }
 };
 
-export const PINEncryptionService = { createPin, getEncryptedNote, getDecryptedNote };
+export const NoteEncryption = { savePinAndRecoveryKey, getEncryptedNote, getDecryptedNote };

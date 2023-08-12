@@ -54,7 +54,6 @@ export const useFirestorePagination = (
   const fetchMoreData = async () => {
     if (isEndReached || isFetchingMore) return;
 
-    console.log('fetchMoreData fired');
     setIsFetchingMore(true);
     try {
       let query = initialQuery.startAfter(lastDocument).limit(pageSize);

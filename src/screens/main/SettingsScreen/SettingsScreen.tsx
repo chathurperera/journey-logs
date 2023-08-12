@@ -6,7 +6,7 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { NavigationService } from '@jl/services';
-import { useDispatch } from '@jl/stores';
+import { useDispatch, useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
@@ -16,6 +16,7 @@ interface SettingsScreenProps {
 
 export function SettingsScreen({ testID }: SettingsScreenProps) {
   const dispatch = useDispatch();
+  const { salt } = useSelector(state => state.encryptionStore);
 
   return (
     <BaseScreenLayout testID={testID}>
@@ -47,17 +48,21 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
             <Text variant={TextVariant.Body2SemiBold}>Tags</Text>
           </Pressable>
           <Pressable
-            onPress={() => NavigationService.navigate(Route.PinCode, { pinExists: true })}
+            onPress={() => NavigationService.navigate(Route.PinCode, { pinExists: salt !== '' })}
             style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
             <Icon type="feather" name="key" size={20} />
-            <Text variant={TextVariant.Body2SemiBold}>Change Pin</Text>
+            <Text variant={TextVariant.Body2SemiBold}>
+              {salt === '' ? 'Add PIN' : 'Change PIN'}
+            </Text>
           </Pressable>
-          <Pressable
-            onPress={() => NavigationService.navigate(Route.HiddenNotes)}
-            style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
-            <Icon type="feather" name="key" size={20} />
-            <Text variant={TextVariant.Body2SemiBold}>Hidden notes</Text>
-          </Pressable>
+          {salt !== '' && (
+            <Pressable
+              onPress={() => NavigationService.navigate(Route.PinCode, { pinExists: salt !== '' })}
+              style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
+              <Icon type="feather" name="key" size={20} />
+              <Text variant={TextVariant.Body2SemiBold}>Hidden notes</Text>
+            </Pressable>
+          )}
           <Pressable
             style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
             <Icon type="feather" name="lock" size={20} />
