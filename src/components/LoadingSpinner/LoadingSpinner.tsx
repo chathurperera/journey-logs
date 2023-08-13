@@ -9,7 +9,7 @@ export interface LoadingSpinnerProps {
 }
 
 export function LoadingSpinner({
-  color = Color.Primary.Jl150,
+  color = Color.Primary.Jl400,
   size = 'large',
 }: LoadingSpinnerProps) {
   return <ActivityIndicator size={size} animating={true} color={color} />;

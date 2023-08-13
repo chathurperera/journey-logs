@@ -11,6 +11,7 @@ export interface TextProps extends WithRNTextProps {
   children: React.ReactNode;
   textAlign?: TextAlignment;
   variant: TextVariant;
+  textTransform?: 'uppercase' | 'lowercase' | 'capitalize' | 'normal-case';
   underline?: boolean;
   onPress?: (event: GestureResponderEvent) => void;
 }

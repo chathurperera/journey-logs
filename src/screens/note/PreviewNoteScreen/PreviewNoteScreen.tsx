@@ -79,7 +79,7 @@ export function PreviewNoteScreen({ route }) {
             />
           </View>
         </View>
-        {isLoading ? <LoadingSpinner size="large" color={Color.Primary.Jl450} /> : renderContent()}
+        {isLoading ? <LoadingSpinner size="large" color={Color.Primary.Jl500} /> : renderContent()}
       </View>
       <MenuBottomSheet
         ref={MenuBottomSheetMethodsRef}

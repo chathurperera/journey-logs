@@ -47,7 +47,7 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
     <Modalize ref={ModalizeRef} adjustToContentHeight>
       <Pressable
         onPress={() => NavigationService.navigate(Route.EditNote)}
-        style={tw`border-b-[${Color.Primary.Jl150}] p-4 flex-row items-center gap-2 border-b-2`}>
+        style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2 border-b-2`}>
         <Icon type="feather" name="edit" size={25} />
         <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
           Edit note
@@ -55,7 +55,7 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
       </Pressable>
       <Pressable
         onPress={() => console.log('handle tags create screen navigation')}
-        style={tw`border-b-[${Color.Primary.Jl150}] p-4 flex-row items-center gap-2 border-b-2`}>
+        style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2 border-b-2`}>
         <Icon type="feather" name="tag" size={25} />
         <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
           Add Tags
@@ -64,7 +64,7 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
       {recoveryKey !== '' && (
         <Pressable
           onPress={handleNoteEncryption}
-          style={tw`border-b-[${Color.Primary.Jl150}] p-4 flex-row items-center gap-2 border-b-2`}>
+          style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2 border-b-2`}>
           <Icon type="feather" name={isEncrypted ? 'unlock' : 'lock'} size={25} />
           <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
             {isEncrypted ? 'Unlock note' : 'Lock note'}
@@ -73,7 +73,7 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
       )}
       <Pressable
         onPress={handleNoteDeletion}
-        style={tw`border-b-[${Color.Primary.Jl150}] p-4 flex-row items-center gap-2`}>
+        style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2`}>
         <Icon type="feather" name="trash-2" color={Color.Warning.JL100} size={25} />
         <Text variant={TextVariant.Body1SemiBold} color={Color.Warning.JL100}>
           Delete Note

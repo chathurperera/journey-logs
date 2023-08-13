@@ -28,11 +28,12 @@ export const userStore = createModel<RootModel>()({
   effects: dispatch => ({
     async login(payload: LoginData) {
       const { uid, email } = await AuthService.signIn(payload);
-      const { salt, recoveryKey } = await AccountService.getMe(uid);
+      const { salt, recoveryKey, name } = await AccountService.getMe(uid);
 
       dispatch.userStore.setUserData({
         userId: uid,
         email: email,
+        name: name,
       });
       dispatch.userStore.setAuthState(true);
 

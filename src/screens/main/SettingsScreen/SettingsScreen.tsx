@@ -1,6 +1,5 @@
-import { Icon } from '@rneui/base';
 import React from 'react';
-import { Pressable, View } from 'react-native';
+import { View } from 'react-native';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
@@ -10,6 +9,7 @@ import { useDispatch, useSelector } from '@jl/stores';
 import { isPinSessionExpired } from '@jl/utils';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
+import { SectionLink } from './components/SectionLink';
 
 interface SettingsScreenProps {
   testID: string;
@@ -21,6 +21,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
   //salt is used to decide availability of a PIN code
   //lastAccessedHiddenNotesAt is used to check the validity of the last session
   const { salt, lastAccessedHiddenNotesAt } = useSelector(state => state.encryptionStore);
+  const { name, email } = useSelector(state => state.userStore.userData);
 
   const hiddenNotesAccessNavigation = () => {
     if (lastAccessedHiddenNotesAt) {
@@ -35,62 +36,59 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
     }
   };
 
+  console.log('name', name);
   return (
     <BaseScreenLayout testID={testID}>
-      <View style={tw`mx-5 pt-5 flex-1`}>
-        <View style={tw`flex-row justify-center items-center relative`}>
-          <View style={tw`w-10 h-10 rounded-full bg-blue-700 justify-center absolute left-0`}>
+      <View style={tw`mx-5 flex-1`}>
+        <Text variant={TextVariant.Title2} textAlign={TextAlignment.Center}>
+          Settings
+        </Text>
+        <View style={tw`pt-7 items-center`}>
+          <View
+            style={tw`w-18 h-18  bg-[${Color.Primary.Jl500}] justify-center rounded-full flex-row pt-1 mb-3`}>
             <Text
-              variant={TextVariant.Body2SemiBold}
-              color={Color.Neutral.white}
-              textAlign={TextAlignment.Center}>
-              CP
+              variant={TextVariant.Heading1Regular}
+              // textAlign={TextAlignment.Center}
+              color={Color.Neutral.white}>
+              {name?.charAt(0)}
             </Text>
           </View>
-          <Text variant={TextVariant.Title2} textAlign={TextAlignment.Center}>
-            Settings
+          <Text variant={TextVariant.Body1Regular} color={Color.Neutral.JL400}>
+            {email}
           </Text>
         </View>
-
         <View style={tw`mt-10`}>
-          <Pressable
-            style={tw`bg-[${Color.Neutral.white}] rounded-t-lg p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
-            <Icon type="feather" name="user" size={20} />
-            <Text variant={TextVariant.Body2SemiBold}>Account</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => NavigationService.navigate(Route.Tags)}
-            style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
-            <Icon type="feather" name="tag" size={20} />
-            <Text variant={TextVariant.Body2SemiBold}>Tags</Text>
-          </Pressable>
-          <Pressable
-            onPress={() => NavigationService.navigate(Route.PinCode, { pinExists: salt !== '' })}
-            style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
-            <Icon type="feather" name="key" size={20} />
-            <Text variant={TextVariant.Body2SemiBold}>
-              {salt === '' ? 'Add PIN' : 'Change PIN'}
+          <View style={tw`mb-3`}>
+            <Text
+              variant={TextVariant.Body1Regular}
+              textTransform="uppercase"
+              color={Color.Neutral.JL300}>
+              ACCOUNT
             </Text>
-          </Pressable>
+          </View>
+          <SectionLink text="Account" onPress={() => console.log('account navigation')} />
+          <SectionLink
+            text="Change Password"
+            onPress={() => console.log('change password screen')}
+          />
+          <View style={tw`mb-3 mt-3`}>
+            <Text
+              variant={TextVariant.Body1Regular}
+              textTransform="uppercase"
+              color={Color.Neutral.JL300}>
+              Notes
+            </Text>
+          </View>
+          <SectionLink text="Tags" onPress={() => NavigationService.navigate(Route.Tags)} />
+          <SectionLink
+            text={salt === '' ? 'Add PIN' : 'Change PIN'}
+            onPress={() => NavigationService.navigate(Route.PinCode, { pinExists: salt !== '' })}
+          />
           {salt !== '' && (
-            <Pressable
-              onPress={hiddenNotesAccessNavigation}
-              style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
-              <Icon type="feather" name="key" size={20} />
-              <Text variant={TextVariant.Body2SemiBold}>Hidden notes</Text>
-            </Pressable>
+            <SectionLink text="Hidden Notes" onPress={() => hiddenNotesAccessNavigation()} />
           )}
-          <Pressable
-            style={tw`bg-[${Color.Neutral.white}]  p-4 gap-4 flex-row border-b-[${Color.Primary.Jl150}] border-b-2`}>
-            <Icon type="feather" name="lock" size={20} />
-            <Text variant={TextVariant.Body2SemiBold}>Change Password</Text>
-          </Pressable>
-          <Pressable
-            style={tw`bg-[${Color.Neutral.white}] rounded-b-lg p-4 gap-4 flex-row`}
-            onPress={() => dispatch.userStore.logoutUser()}>
-            <Icon type="feather" name="log-out" size={20} />
-            <Text variant={TextVariant.Body2SemiBold}>Logout</Text>
-          </Pressable>
+
+          <SectionLink text="Logout" onPress={() => dispatch.userStore.logoutUser()} />
         </View>
       </View>
     </BaseScreenLayout>
