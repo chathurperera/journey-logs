@@ -11,6 +11,8 @@ module.exports = {
       '2xlg': '26px',
       '3xlg': '29px',
       '4xlg': '32px',
+      '5xlg': '36px',
+      '6xlg': '48px',
     },
     extend: {
       fontFamily: {

@@ -16,7 +16,7 @@ const FontWeight = {
 export const AppTextStyles: Record<TextVariant, React.CSSProperties> = {
   //Headings
   [TextVariant.Heading1Regular]: {
-    fontSize: '32px',
+    fontSize: '48px',
     fontWeight: FontWeight.Regular,
     lineHeight: 72,
   },
@@ -54,7 +54,7 @@ export const AppTextStyles: Record<TextVariant, React.CSSProperties> = {
   // Title 2
   [TextVariant.Title2]: {
     fontSize: '23px',
-    fontWeight: FontWeight.Regular,
+    fontWeight: FontWeight.SemiBold,
     lineHeight: 40,
   },
 
@@ -153,6 +153,10 @@ function mapFontSizes(fontSize: any) {
       return 'text-3xlg';
     case '32px':
       return 'text-4xlg';
+    case '36px':
+      return 'text-5xlg';
+    case '48px':
+      return 'text-6xlg';
   }
 }
 
@@ -164,11 +168,12 @@ export function getAppTextStyles(variant: TextVariant) {
   )}`;
 
   switch (variant) {
-    case TextVariant.Title2:
     case TextVariant.Body1SemiBold:
     case TextVariant.Body2SemiBold:
       textStyles += ' font-InterSemiBold';
       break;
+    case TextVariant.Title2:
+      textStyles += ' font-InterBlack';
     default:
       textStyles += ' font-Inter';
   }

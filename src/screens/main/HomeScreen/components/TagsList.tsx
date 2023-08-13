@@ -67,7 +67,7 @@ export function TagsList() {
   const [selectedId, setSelectedId] = useState<string>(DATA[0].id);
 
   const renderItem = ({ item }: { item: ItemData }) => {
-    const backgroundColor = item.id === selectedId ? Color.Primary.Jl450 : Color.Secondary.JL200;
+    const backgroundColor = item.id === selectedId ? Color.Primary.Jl500 : Color.Secondary.JL200;
     const color = item.id === selectedId ? Color.Neutral.white : Color.Neutral.JL900;
 
     return (

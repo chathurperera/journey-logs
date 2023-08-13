@@ -78,6 +78,17 @@ export class NavigationService {
         },
       },
 
+      [Route.Tags]: {
+        navRoute: Route.NotesStack,
+        navParams: {
+          screen: Route.Tags,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       [Route.PreviewNote]: {
         navRoute: Route.NotesStack,
         navParams: {
@@ -104,17 +115,6 @@ export class NavigationService {
       [Route.SettingsStack]: {
         navRoute: Route.SettingsStack,
         navParams: params,
-      },
-
-      [Route.Tags]: {
-        navRoute: Route.SettingsStack,
-        navParams: {
-          screen: Route.Tags,
-          params: {
-            screen: route,
-            params: params,
-          },
-        },
       },
 
       [Route.PinCode]: {
