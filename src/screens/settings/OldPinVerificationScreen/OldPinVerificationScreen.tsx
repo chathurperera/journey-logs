@@ -7,25 +7,39 @@ import { images } from '@jl/assets';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
-import { NavigationService } from '@jl/services';
-import { useDispatch, useSelector } from '@jl/stores';
+import { EncryptionService, NavigationService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
-export function ConfirmPinCodeScreen({ route }) {
-  const { pinCode } = route.params.params;
-  const { userId } = useSelector(state => state.userStore.userData);
-
-  const dispatch = useDispatch();
+export function OldPinVerificationScreen() {
+  const { salt, recoveryKey } = useSelector(state => state.encryptionStore);
 
   const pinView = useRef(null);
 
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
-  const [pinCodeMisMatch, setPinCodeMisMatch] = useState(false);
+
+  const [oldPINVerificationFailed, setOldPINVerificationFailed] = useState(false);
+
+  const verifyPIN = async () => {
+    const { isValidPIN, masterKey } = await EncryptionService.verifyOldPIN(enteredPin, salt, recoveryKey);
+
+    console.log('isValidPIN', isValidPIN);
+    console.log('masterKey', masterKey);
+
+    if (isValidPIN) {
+      NavigationService.navigate(Route.ChangePinCode, {
+        oldPIN: enteredPin,
+        masterKey: masterKey,
+      });
+    } else {
+      setOldPINVerificationFailed(true);
+    }
+  };
 
   useEffect(() => {
-    setPinCodeMisMatch(false);
+    setOldPINVerificationFailed(false);
 
     if (enteredPin.length > 0) {
       setShowRemoveButton(true);
@@ -33,11 +47,8 @@ export function ConfirmPinCodeScreen({ route }) {
       setShowRemoveButton(false);
     }
 
-    if (enteredPin === pinCode) {
-      dispatch.encryptionStore.createNewPIN({ PIN: pinCode, userId: userId });
-      NavigationService.navigate(Route.HomeTab);
-    } else if (enteredPin.length === 4 && pinCode !== enteredPin) {
-      setPinCodeMisMatch(true);
+    if (enteredPin.length === 4) {
+      verifyPIN();
     }
   }, [enteredPin]);
 
@@ -47,14 +58,11 @@ export function ConfirmPinCodeScreen({ route }) {
         <Text
           variant={TextVariant.Heading3Regular}
           textAlign={TextAlignment.Center}
-          color={pinCodeMisMatch && Color.Warning.JL100}>
-          {pinCodeMisMatch ? 'Your entries did not match' : 'Confirm your PIN Code'}
+          color={oldPINVerificationFailed ? Color.Warning.JL700 : Color.Neutral.JL900}>
+          {oldPINVerificationFailed ? 'Invalid PIN' : 'Provide Your Old PIN'}
         </Text>
-        <Text
-          variant={TextVariant.Body1Regular}
-          textAlign={TextAlignment.Center}
-          color={pinCodeMisMatch && Color.Warning.JL100}>
-          {pinCodeMisMatch ? 'Please try again' : ''}
+        <Text variant={TextVariant.Body1Regular} textAlign={TextAlignment.Center} color={Color.Warning.JL500}>
+          {oldPINVerificationFailed ? 'Please try again' : ''}
         </Text>
       </View>
     );
@@ -74,8 +82,9 @@ export function ConfirmPinCodeScreen({ route }) {
           buttonViewStyle={tw`bg-[${Color.Neutral.JL50}]`}
           buttonTextStyle={tw`text-[${Color.Neutral.JL900}] text-4xlg font-normal`}
           buttonSize={70}
+          inputAreaStyle={tw`mb-6 mt-3`}
           buttonAreaStyle={tw`px-6`}
-          inputAreaStyle={tw`mb-6`}
+          // inputAreaStyle={tw`mb-10`}
           inputViewStyle={tw`w-5 h-5`}
           inputViewEmptyStyle={tw`bg-[${Color.Neutral.JL50}]`}
           onValueChange={value => setEnteredPin(value)}
@@ -88,7 +97,6 @@ export function ConfirmPinCodeScreen({ route }) {
           customRightButton={
             showRemoveButton ? <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} /> : undefined
           }
-          style={tw`mt-10.75`}
         />
       </View>
     </BaseScreenLayout>

@@ -36,7 +36,13 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
     }
   };
 
-  console.log('name', name);
+  const handleAddPINNavigation = () => {
+    if (salt === '') {
+      NavigationService.navigate(Route.PinCode, { pinExists: salt !== '' });
+    } else {
+      NavigationService.navigate(Route.OldPINVerification);
+    }
+  };
   return (
     <BaseScreenLayout testID={testID}>
       <View style={tw`mx-5 flex-1`}>
@@ -44,8 +50,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
           Settings
         </Text>
         <View style={tw`pt-7 items-center`}>
-          <View
-            style={tw`w-18 h-18  bg-[${Color.Primary.Jl500}] justify-center rounded-full flex-row pt-1 mb-3`}>
+          <View style={tw`w-18 h-18  bg-[${Color.Primary.Jl500}] justify-center rounded-full flex-row pt-1 mb-3`}>
             <Text
               variant={TextVariant.Heading1Regular}
               // textAlign={TextAlignment.Center}
@@ -59,34 +64,20 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
         </View>
         <View style={tw`mt-10`}>
           <View style={tw`mb-3`}>
-            <Text
-              variant={TextVariant.Body1Regular}
-              textTransform="uppercase"
-              color={Color.Neutral.JL300}>
+            <Text variant={TextVariant.Body1Regular} textTransform="uppercase" color={Color.Neutral.JL300}>
               ACCOUNT
             </Text>
           </View>
           <SectionLink text="Account" onPress={() => console.log('account navigation')} />
-          <SectionLink
-            text="Change Password"
-            onPress={() => console.log('change password screen')}
-          />
+          <SectionLink text="Change Password" onPress={() => console.log('change password screen')} />
           <View style={tw`mb-3 mt-3`}>
-            <Text
-              variant={TextVariant.Body1Regular}
-              textTransform="uppercase"
-              color={Color.Neutral.JL300}>
+            <Text variant={TextVariant.Body1Regular} textTransform="uppercase" color={Color.Neutral.JL300}>
               Notes
             </Text>
           </View>
           <SectionLink text="Tags" onPress={() => NavigationService.navigate(Route.Tags)} />
-          <SectionLink
-            text={salt === '' ? 'Add PIN' : 'Change PIN'}
-            onPress={() => NavigationService.navigate(Route.PinCode, { pinExists: salt !== '' })}
-          />
-          {salt !== '' && (
-            <SectionLink text="Hidden Notes" onPress={() => hiddenNotesAccessNavigation()} />
-          )}
+          <SectionLink text={salt === '' ? 'Add PIN' : 'Change PIN'} onPress={handleAddPINNavigation} />
+          {salt !== '' && <SectionLink text="Hidden Notes" onPress={() => hiddenNotesAccessNavigation()} />}
 
           <SectionLink text="Logout" onPress={() => dispatch.userStore.logoutUser()} />
         </View>

@@ -1,5 +1,6 @@
 import { createModel } from '@rematch/core';
 
+import { VALIDATION_STRING } from '@jl/constants';
 import { CreateNewPINData } from '@jl/models';
 import { EncryptionService, NoteEncryption } from '@jl/services';
 
@@ -63,14 +64,21 @@ export const encryptionStore = createModel<RootModel>()({
     async createNewPIN(payload: CreateNewPINData) {
       const salt = EncryptionService.generateRandomBytes(16);
       const randomKey = EncryptionService.generateRandomBytes(32);
+      const masterKey = VALIDATION_STRING + randomKey;
+
+      console.log('new PIN masterKey', masterKey);
 
       const pinDerivedKey = EncryptionService.generatePinDerivedKey(payload.PIN, salt);
-      const recoveryKey = EncryptionService.generateEncryptedRecoveryKey(randomKey, pinDerivedKey);
+      const recoveryKey = EncryptionService.generateEncryptedRecoveryKey(masterKey, pinDerivedKey);
 
-      await NoteEncryption.savePinAndRecoveryKey(payload.PIN, payload.userId, salt, recoveryKey);
+      await NoteEncryption.savePinAndRecoveryKey(payload.userId, salt, recoveryKey);
 
       dispatch.encryptionStore.setRecoveryKey(recoveryKey);
       dispatch.encryptionStore.setSalt(salt);
     },
+
+    // async changePIN(){
+
+    // }
   }),
 });

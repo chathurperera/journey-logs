@@ -22,7 +22,7 @@ const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-
 
 export function EditNoteScreen({ route }) {
   const RichTextEditorRef = useRef(null);
-  const { noteId } = route.params.params.params;
+  const { noteId } = route.params.params;
   const [isSaving, setIsSaving] = useState(false);
 
   const { data: noteData } = useFetch(() => NoteService.getSingleNote(noteId));
@@ -91,10 +91,7 @@ export function EditNoteScreen({ route }) {
               style={tw`bg-[${Color.Primary.Jl600}] py-2 px-6 rounded-3xl  gap-2 flex-row justify-between items-center`}
               onPress={handleDocumentUpdate}>
               {isSaving && <LoadingSpinner size="small" />}
-              <Text
-                variant={TextVariant.Label2SemiBold}
-                color={Color.Neutral.white}
-                textAlign={TextAlignment.Center}>
+              <Text variant={TextVariant.Label2SemiBold} color={Color.Neutral.white} textAlign={TextAlignment.Center}>
                 Update
               </Text>
             </Pressable>

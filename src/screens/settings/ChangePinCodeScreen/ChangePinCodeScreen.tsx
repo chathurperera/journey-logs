@@ -7,54 +7,54 @@ import { images } from '@jl/assets';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
-import { NavigationService } from '@jl/services';
+import { EncryptionService, NavigationService, NoteEncryption, ToastService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
-export function ConfirmPinCodeScreen({ route }) {
-  const { pinCode } = route.params.params;
-  const { userId } = useSelector(state => state.userStore.userData);
-
+export function ChangePinCodeScreen({ route }) {
+  const pinView = useRef(null);
   const dispatch = useDispatch();
 
-  const pinView = useRef(null);
+  const { masterKey } = route.params.params;
+  const { userId } = useSelector(state => state.userStore.userData);
+  const { salt } = useSelector(state => state.encryptionStore);
 
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
-  const [pinCodeMisMatch, setPinCodeMisMatch] = useState(false);
+  console.log('salt in ChangePinCodeScreen', salt);
+
+  const generateNewRecoveryKey = async () => {
+    try {
+      const newRecoveryKey = await EncryptionService.generateNewEncryptedRecoveryKey(enteredPin, salt, masterKey);
+
+      await NoteEncryption.savePinAndRecoveryKey(userId, salt, newRecoveryKey);
+      dispatch.encryptionStore.setRecoveryKey(newRecoveryKey);
+
+      ToastService.success('Success', 'PIN updated successfully');
+      NavigationService.navigate(Route.SettingsTab);
+    } catch (error) {
+      ToastService.error('Error', 'Something went wrong');
+    }
+  };
 
   useEffect(() => {
-    setPinCodeMisMatch(false);
-
     if (enteredPin.length > 0) {
       setShowRemoveButton(true);
     } else {
       setShowRemoveButton(false);
     }
 
-    if (enteredPin === pinCode) {
-      dispatch.encryptionStore.createNewPIN({ PIN: pinCode, userId: userId });
-      NavigationService.navigate(Route.HomeTab);
-    } else if (enteredPin.length === 4 && pinCode !== enteredPin) {
-      setPinCodeMisMatch(true);
+    if (enteredPin.length === 4) {
+      generateNewRecoveryKey();
     }
   }, [enteredPin]);
 
   const renderTitles = () => {
     return (
       <View style={tw`mt-12.5`}>
-        <Text
-          variant={TextVariant.Heading3Regular}
-          textAlign={TextAlignment.Center}
-          color={pinCodeMisMatch && Color.Warning.JL100}>
-          {pinCodeMisMatch ? 'Your entries did not match' : 'Confirm your PIN Code'}
-        </Text>
-        <Text
-          variant={TextVariant.Body1Regular}
-          textAlign={TextAlignment.Center}
-          color={pinCodeMisMatch && Color.Warning.JL100}>
-          {pinCodeMisMatch ? 'Please try again' : ''}
+        <Text variant={TextVariant.Title2} textAlign={TextAlignment.Center}>
+          Enter your New PIN
         </Text>
       </View>
     );
