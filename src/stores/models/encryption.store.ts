@@ -63,15 +63,13 @@ export const encryptionStore = createModel<RootModel>()({
   effects: dispatch => ({
     async createNewPIN(payload: CreateNewPINData) {
       const salt = EncryptionService.generateRandomBytes(16);
-      const randomKey = EncryptionService.generateRandomBytes(32);
-      const masterKey = VALIDATION_STRING + randomKey;
-
-      console.log('new PIN masterKey', masterKey);
+      const randomKey = EncryptionService.generateRandomBytes(16);
+      const recoveryKey = VALIDATION_STRING + randomKey;
 
       const pinDerivedKey = EncryptionService.generatePinDerivedKey(payload.PIN, salt);
-      const recoveryKey = EncryptionService.generateEncryptedRecoveryKey(masterKey, pinDerivedKey);
+      const encryptedRecoveryKey = EncryptionService.generateEncryptedRecoveryKey(recoveryKey, pinDerivedKey);
 
-      await NoteEncryption.savePinAndRecoveryKey(payload.userId, salt, recoveryKey);
+      await NoteEncryption.savePinAndRecoveryKey(payload.userId, salt, encryptedRecoveryKey);
 
       dispatch.encryptionStore.setRecoveryKey(recoveryKey);
       dispatch.encryptionStore.setSalt(salt);

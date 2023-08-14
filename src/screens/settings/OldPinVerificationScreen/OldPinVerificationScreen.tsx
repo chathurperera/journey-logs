@@ -7,13 +7,14 @@ import { images } from '@jl/assets';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
-import { EncryptionService, NavigationService } from '@jl/services';
+import { AccountService, EncryptionService, NavigationService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
 export function OldPinVerificationScreen() {
-  const { salt, recoveryKey } = useSelector(state => state.encryptionStore);
+  const { userId } = useSelector(state => state.userStore.userData);
+  const { salt } = useSelector(state => state.encryptionStore);
 
   const pinView = useRef(null);
 
@@ -23,10 +24,8 @@ export function OldPinVerificationScreen() {
   const [oldPINVerificationFailed, setOldPINVerificationFailed] = useState(false);
 
   const verifyPIN = async () => {
-    const { isValidPIN, masterKey } = await EncryptionService.verifyOldPIN(enteredPin, salt, recoveryKey);
-
-    console.log('isValidPIN', isValidPIN);
-    console.log('masterKey', masterKey);
+    const { recoveryKey: encryptedRecoveryKey } = await AccountService.getMe(userId);
+    const { isValidPIN, masterKey } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
 
     if (isValidPIN) {
       NavigationService.navigate(Route.ChangePinCode, {
