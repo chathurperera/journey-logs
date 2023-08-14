@@ -36,7 +36,7 @@ export function SignupScreen() {
       <View style={tw`flex-1 justify-between mt-10 mx-5`}>
         <View>
           <View style={tw`w-[210px] mb-14`}>
-            <Text variant={TextVariant.Heading1Regular} color={Color.Neutral.JL900}>
+            <Text variant={TextVariant.Heading2SemiBold} color={Color.Neutral.JL900}>
               Sign up to Journey Logs
             </Text>
           </View>

@@ -46,11 +46,9 @@ export function PreviewNoteScreen({ route }) {
   const renderContent = () => (
     <>
       <View style={tw`mb-3`}>
-        <Text variant={TextVariant.Heading1Regular}>{noteData?.title}</Text>
+        <Text variant={TextVariant.Title2}>{noteData?.title}</Text>
       </View>
-      <Text variant={TextVariant.Body1Regular}>
-        {noteData?.isEncrypted ? decryptedNote : noteData?.body}
-      </Text>
+      <Text variant={TextVariant.Body2Regular}>{noteData?.isEncrypted ? decryptedNote : noteData?.body}</Text>
     </>
   );
 

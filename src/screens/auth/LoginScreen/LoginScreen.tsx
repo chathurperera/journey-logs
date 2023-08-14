@@ -39,7 +39,7 @@ export function LoginScreen({ testID }: LoginScreenProps) {
       <View style={tw`flex-1 justify-between mt-10 mx-5`} testID={testID}>
         <View>
           <View style={tw`w-[210px] mb-14`}>
-            <Text variant={TextVariant.Heading1Regular} color={Color.Neutral.JL900}>
+            <Text variant={TextVariant.Heading2SemiBold} color={Color.Neutral.JL900}>
               Log in to Journey Logs
             </Text>
           </View>

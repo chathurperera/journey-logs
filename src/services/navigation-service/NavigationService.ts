@@ -139,6 +139,39 @@ export class NavigationService {
         },
       },
 
+      [Route.ChangePinCode]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.ChangePinCode,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.OldPINVerification]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.OldPINVerification,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.MaxPinCodeAttemptsReached]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.MaxPinCodeAttemptsReached,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       //Bottom Tab Routes
       [Route.HomeTab]: {
         navRoute: Route.MainBottomTabRoutesStack,

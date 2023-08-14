@@ -38,6 +38,7 @@ export const userStore = createModel<RootModel>()({
       dispatch.userStore.setAuthState(true);
 
       dispatch.encryptionStore.setSalt(salt);
+      console.log('recoveryKey in login effect in user.store', recoveryKey);
       dispatch.encryptionStore.setRecoveryKey(recoveryKey);
     },
 

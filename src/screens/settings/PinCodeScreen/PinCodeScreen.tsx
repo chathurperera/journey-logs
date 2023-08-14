@@ -1,11 +1,12 @@
 import { Icon } from '@rneui/base';
 import React, { useEffect, useRef, useState } from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import ReactNativePinView from 'react-native-pin-view';
 
+import { images } from '@jl/assets';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Route, TextAlignment, TextVariant } from '@jl/constants';
+import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { EncryptionService, NavigationService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
 import { getCurrentTimestamp } from '@jl/utils';
@@ -22,12 +23,11 @@ export function PinCodeScreen({ route }) {
   const [enteredPin, setEnteredPin] = useState('');
   const [, setIsIncorrectPin] = useState(false);
 
-  const PINVerification = () => {
+  const PINVerification = async () => {
     if (pinExists) {
-      const derivedKey = EncryptionService.generatePinDerivedKey(enteredPin, salt);
-      const decryptedRecoveryKey = EncryptionService.decryptRecoveryKey(recoveryKey, derivedKey);
+      const { isValidPIN } = await EncryptionService.verifyOldPIN(enteredPin, salt, recoveryKey);
 
-      if (decryptedRecoveryKey) {
+      if (isValidPIN) {
         const currentTimestamp = getCurrentTimestamp();
         dispatch.encryptionStore.setLastAccessedHiddenNotesAt(currentTimestamp);
 
@@ -54,7 +54,7 @@ export function PinCodeScreen({ route }) {
   const renderTitles = () => {
     return (
       <View style={tw`mt-12.5`}>
-        <Text variant={TextVariant.Title2} textAlign={TextAlignment.Center}>
+        <Text variant={TextVariant.Title2} textAlign={TextAlignment.Center} color={Color.Neutral.JL600}>
           {pinExists ? 'Enter you PIN Code' : 'Enter a PIN Code'}
         </Text>
         <Text variant={TextVariant.Body1Regular} textAlign={TextAlignment.Center}>
@@ -66,15 +66,22 @@ export function PinCodeScreen({ route }) {
 
   return (
     <BaseScreenLayout>
-      <View style={tw`border flex-1 justify-center`}>
-        <View style={tw`w-20 h-20 rounded-lg mx-auto border-gray-500 border`}></View>
+      <View style={tw`flex-1 justify-center`}>
+        <View style={tw`flex-row justify-center`}>
+          <Image source={images.logo} style={tw`w-20 h-20`} />
+        </View>
         {renderTitles()}
         <ReactNativePinView
           inputSize={32}
           ref={pinView}
           pinLength={4}
-          buttonViewStyle={tw`bg-slate-300`}
-          buttonSize={60}
+          buttonViewStyle={tw`bg-[${Color.Neutral.JL50}]`}
+          buttonTextStyle={tw`text-[${Color.Neutral.JL900}] text-4xlg font-normal`}
+          buttonSize={70}
+          buttonAreaStyle={tw`px-6`}
+          inputAreaStyle={tw`mb-6 mt-3`}
+          inputViewStyle={tw`w-5 h-5`}
+          inputViewEmptyStyle={tw`bg-[${Color.Neutral.JL50}]`}
           onValueChange={value => setEnteredPin(value)}
           onButtonPress={key => {
             if (key === 'custom_right') {
@@ -83,9 +90,8 @@ export function PinCodeScreen({ route }) {
           }}
           //@ts-ignore
           customRightButton={
-            showRemoveButton ? <Icon type="feather" name="delete" size={20} /> : undefined
+            showRemoveButton ? <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} /> : undefined
           }
-          style={tw`mt-10.75`}
         />
       </View>
     </BaseScreenLayout>

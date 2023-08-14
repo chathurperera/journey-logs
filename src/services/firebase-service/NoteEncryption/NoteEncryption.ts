@@ -3,23 +3,9 @@ import CryptoJS from 'crypto-js';
 
 import { ToastService } from '../../toast-service/ToastService';
 
-const savePinAndRecoveryKey = async (
-  PIN: string,
-  userId: string,
-  salt: string,
-  recoveryKey: string,
-) => {
+const savePinAndRecoveryKey = async (userId: string, salt: string, recoveryKey: string) => {
   try {
-    await firestore()
-      .collection('users')
-      .doc(userId)
-      .update({ salt, recoveryKey })
-      .then(() => {
-        ToastService.success('Success', 'Pin created successfully');
-      })
-      .catch(error => {
-        console.log('error', error);
-      });
+    await firestore().collection('users').doc(userId).update({ salt, recoveryKey });
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');
   }
