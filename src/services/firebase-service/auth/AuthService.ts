@@ -24,7 +24,7 @@ const signUp = async ({ email, password }: SignupData) => {
 const signIn = async ({ email, password }: LoginData) => {
   try {
     const response = await auth().signInWithEmailAndPassword(email, password);
-    console.log('response', response);
+
     return response.user;
   } catch (error) {
     if (error.code === 'auth/user-disabled') {
@@ -57,9 +57,11 @@ const forgetPassword = async ({ email }) => {
 };
 
 const logOut = async () => {
-  auth()
-    .signOut()
-    .then(() => console.log('User signed out!'));
+  try {
+    auth().signOut();
+  } catch (error) {
+    console.log('error', error);
+  }
 };
 
 export const AuthService = { signUp, logOut, signIn, forgetPassword };

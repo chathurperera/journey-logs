@@ -8,28 +8,27 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { EncryptionService, NavigationService, NoteEncryption, ToastService } from '@jl/services';
-import { useDispatch, useSelector } from '@jl/stores';
+import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
-export function ChangePinCodeScreen({ route }) {
+export function ChangePinCodeScreen() {
   const pinView = useRef(null);
-  const dispatch = useDispatch();
 
-  const { masterKey } = route.params.params;
   const { userId } = useSelector(state => state.userStore.userData);
-  const { salt } = useSelector(state => state.encryptionStore);
+  const { salt, recoveryKey } = useSelector(state => state.encryptionStore);
 
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
-  console.log('salt in ChangePinCodeScreen', salt);
 
   const generateNewRecoveryKey = async () => {
     try {
-      const newRecoveryKey = await EncryptionService.generateNewEncryptedRecoveryKey(enteredPin, salt, masterKey);
-
-      await NoteEncryption.savePinAndRecoveryKey(userId, salt, newRecoveryKey);
-      dispatch.encryptionStore.setRecoveryKey(newRecoveryKey);
+      const newEncryptedRecoveryKey = await EncryptionService.generateNewEncryptedRecoveryKey(
+        enteredPin,
+        salt,
+        recoveryKey,
+      );
+      await NoteEncryption.savePinAndRecoveryKey(userId, salt, newEncryptedRecoveryKey);
 
       ToastService.success('Success', 'PIN updated successfully');
       NavigationService.navigate(Route.SettingsTab);

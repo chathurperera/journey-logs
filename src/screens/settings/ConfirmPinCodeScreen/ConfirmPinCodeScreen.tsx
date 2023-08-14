@@ -7,7 +7,7 @@ import { images } from '@jl/assets';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
-import { NavigationService } from '@jl/services';
+import { NavigationService, ToastService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
@@ -34,8 +34,14 @@ export function ConfirmPinCodeScreen({ route }) {
     }
 
     if (enteredPin === pinCode) {
-      dispatch.encryptionStore.createNewPIN({ PIN: pinCode, userId: userId });
-      NavigationService.navigate(Route.HomeTab);
+      try {
+        dispatch.encryptionStore.createNewPIN({ PIN: pinCode, userId: userId });
+        ToastService.success('Success', 'PIN created successfully');
+
+        NavigationService.navigate(Route.HomeTab);
+      } catch (error) {
+        ToastService.error('Failed', 'PIN creation unsuccessful');
+      }
     } else if (enteredPin.length === 4 && pinCode !== enteredPin) {
       setPinCodeMisMatch(true);
     }

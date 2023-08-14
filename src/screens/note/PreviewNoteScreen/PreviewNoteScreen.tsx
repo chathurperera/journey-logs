@@ -19,7 +19,6 @@ export function PreviewNoteScreen({ route }) {
   const [decryptedNote, setDecryptedNote] = useState('');
 
   const { recoveryKey } = useSelector(state => state.encryptionStore);
-
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
 
   useEffect(() => {

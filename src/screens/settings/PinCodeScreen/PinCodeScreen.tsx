@@ -7,7 +7,7 @@ import { images } from '@jl/assets';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
-import { EncryptionService, NavigationService } from '@jl/services';
+import { AccountService, EncryptionService, NavigationService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
 import { getCurrentTimestamp } from '@jl/utils';
 
@@ -17,7 +17,9 @@ export function PinCodeScreen({ route }) {
   const { pinExists } = route.params.params;
   const dispatch = useDispatch();
 
-  const { salt, recoveryKey } = useSelector(state => state.encryptionStore);
+  const { salt } = useSelector(state => state.encryptionStore);
+  const { userId } = useSelector(state => state.userStore.userData);
+
   const pinView = useRef(null);
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
@@ -25,7 +27,9 @@ export function PinCodeScreen({ route }) {
 
   const PINVerification = async () => {
     if (pinExists) {
-      const { isValidPIN } = await EncryptionService.verifyOldPIN(enteredPin, salt, recoveryKey);
+      //USe the encrypted recovery key since we are doing a verification here
+      const { recoveryKey: encryptedRecoveryKey } = await AccountService.getMe(userId);
+      const { isValidPIN } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
 
       if (isValidPIN) {
         const currentTimestamp = getCurrentTimestamp();
