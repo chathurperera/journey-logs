@@ -60,38 +60,17 @@ export class NavigationService {
       },
 
       //Main Routes
-      [Route.HomeTab]: {
-        navRoute: Route.MainBottomTabRoutesStack,
-        navParams: {
-          screen: Route.HomeTab,
-          params: {
-            screen: route,
-            params: params,
-          },
-        },
-      },
 
       //Note Routes
-      [Route.EditNote]: {
-        navRoute: Route.NotesStack,
-        navParams: {
-          screen: Route.EditNote,
-          params: {
-            screen: route,
-            params: params,
-          },
-        },
-      },
-
       [Route.NotesStack]: {
         navRoute: Route.NotesStack,
         navParams: params,
       },
 
-      [Route.PreviewNote]: {
+      [Route.EditNote]: {
         navRoute: Route.NotesStack,
         navParams: {
-          screen: Route.PreviewNote,
+          screen: Route.EditNote,
           params: {
             screen: route,
             params: params,
@@ -110,7 +89,101 @@ export class NavigationService {
         },
       },
 
+      [Route.PreviewNote]: {
+        navRoute: Route.NotesStack,
+        navParams: {
+          screen: Route.PreviewNote,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.HiddenNotes]: {
+        navRoute: Route.NotesStack,
+        navParams: {
+          screen: Route.HiddenNotes,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      //Settings Routes
+      [Route.SettingsStack]: {
+        navRoute: Route.SettingsStack,
+        navParams: params,
+      },
+
+      [Route.PinCode]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.PinCode,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.ConfirmPinCode]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.ConfirmPinCode,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.ChangePinCode]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.ChangePinCode,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.OldPINVerification]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.OldPINVerification,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.MaxPinCodeAttemptsReached]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.MaxPinCodeAttemptsReached,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       //Bottom Tab Routes
+      [Route.HomeTab]: {
+        navRoute: Route.MainBottomTabRoutesStack,
+        navParams: {
+          screen: Route.HomeTab,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       [Route.NewNoteTab]: {
         navRoute: Route.NotesStack,
         navParams: {
@@ -125,7 +198,7 @@ export class NavigationService {
       [Route.SettingsTab]: {
         navRoute: Route.MainBottomTabRoutesStack,
         navParams: {
-          screen: Route.NewNoteTab,
+          screen: Route.SettingsTab,
           params: {
             screen: route,
             params: params,

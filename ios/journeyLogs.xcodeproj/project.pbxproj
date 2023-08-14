@@ -18,7 +18,7 @@
 		6BF5C94BC2FA4057AE5F5E0F /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C48F1C230D144F086C9C128 /* Inter-Black.ttf */; };
 		73BCFCB2D20646D4B281A8EC /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5ABA4EDEE39A404D96E7E6F1 /* Inter-SemiBold.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-journeyLogs-journeyLogsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-journeyLogs-journeyLogsTests.a */; };
-		7726368A2A534BFF00E43E8C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 772636892A534BFF00E43E8C /* GoogleService-Info.plist */; };
+		775A8C902A81643B00787072 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 775A8C8F2A81643B00787072 /* GoogleService-Info.plist */; };
 		77834F102A5378A30038D772 /* google-services.json in Resources */ = {isa = PBXBuildFile; fileRef = 77834F0F2A5378A20038D772 /* google-services.json */; };
 		789974B0A72D45A3A9733668 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C07CC830C50743E7A0EE6CA0 /* Inter-ExtraBold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -57,6 +57,7 @@
 		657ABD378C614643A9601921 /* Inter-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Light.ttf"; path = "../assets/fonts/Inter-Light.ttf"; sourceTree = "<group>"; };
 		770390FD2A504ED000B1FA41 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		772636892A534BFF00E43E8C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		775A8C8F2A81643B00787072 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		77834F0F2A5378A20038D772 /* google-services.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "google-services.json"; sourceTree = "<group>"; };
 		77A47DE32A502BFC00AFEE76 /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = journeyLogs/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -142,6 +143,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				775A8C8F2A81643B00787072 /* GoogleService-Info.plist */,
 				77834F0F2A5378A20038D772 /* google-services.json */,
 				772636892A534BFF00E43E8C /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* journeyLogs */,
@@ -293,7 +295,6 @@
 				6BF5C94BC2FA4057AE5F5E0F /* Inter-Black.ttf in Resources */,
 				5CE0009B33D647C280F2E07D /* Inter-Bold.ttf in Resources */,
 				789974B0A72D45A3A9733668 /* Inter-ExtraBold.ttf in Resources */,
-				7726368A2A534BFF00E43E8C /* GoogleService-Info.plist in Resources */,
 				499E17C0A00245D1A79D04A2 /* Inter-ExtraLight.ttf in Resources */,
 				5BA494D0E8814CD1A25A2CC1 /* Inter-Light.ttf in Resources */,
 				B2AC37D326DE4CCCA9434DB5 /* Inter-Medium.ttf in Resources */,
@@ -301,6 +302,7 @@
 				73BCFCB2D20646D4B281A8EC /* Inter-SemiBold.ttf in Resources */,
 				77834F102A5378A30038D772 /* google-services.json in Resources */,
 				BD4461C267A942E69BB52913 /* Inter-Thin.ttf in Resources */,
+				775A8C902A81643B00787072 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,7 +564,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -588,7 +590,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

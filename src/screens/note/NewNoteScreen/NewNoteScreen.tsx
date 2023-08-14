@@ -1,13 +1,13 @@
-import auth from '@react-native-firebase/auth';
 import React, { useRef, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor';
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, IS_JEST_RUNTIME, Route, TextAlignment, TextVariant } from '@jl/constants';
+import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { HeaderBackButton } from '@jl/navigation';
 import { NavigationService, NoteService, ToastService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
@@ -17,8 +17,6 @@ const handleHead = ({ tintColor }) => (
   </Text>
 );
 
-const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-add9-a23de0693b8e';
-
 interface NewNoteScreenProps {
   testID: string;
 }
@@ -26,9 +24,11 @@ interface NewNoteScreenProps {
 export function NewNoteScreen({ testID }: NewNoteScreenProps) {
   const RichTextEditorRef = useRef(null);
 
+  const { userId } = useSelector(state => state.userStore.userData);
+
   const [isLoading, setIsLoading] = useState(false);
   const [noteContent, setNoteContent] = useState({
-    userId: userId,
+    userId: '',
     title: '',
     body: '',
   });
@@ -48,8 +48,8 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
 
       await NoteService.createNote({
         title: noteContent.title,
-        body: contentWithoutHTML,
-        userId: noteContent.userId,
+        userId: userId,
+        body: replaceWhiteSpace,
       });
       setIsLoading(false);
       NavigationService.navigate(Route.HomeTab);

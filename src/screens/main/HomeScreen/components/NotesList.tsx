@@ -1,3 +1,4 @@
+import firestore from '@react-native-firebase/firestore';
 import React, { useState } from 'react';
 import { FlatList, View } from 'react-native';
 
@@ -6,17 +7,23 @@ import { tw } from '@jl/config';
 import { TextVariant } from '@jl/constants';
 import { useFirestorePagination } from '@jl/hooks';
 import { NoteData } from '@jl/models';
+import { useSelector } from '@jl/stores';
 
 import { NoteCard } from './NoteCard';
 
 export function NotesList() {
   const [selectedId, setSelectedId] = useState<string>();
+  const { userId } = useSelector(state => state.userStore.userData);
 
-  const collectionName = 'notes';
   const pageSize = 10;
+  let query = firestore()
+    .collection('notes')
+    .where('userId', '==', userId)
+    .where('isEncrypted', '==', false)
+    .orderBy('createdAt', 'desc');
 
   const { data, isLoading, isFetchingMore, isEndReached, fetchMoreData, refreshData } =
-    useFirestorePagination(collectionName, pageSize);
+    useFirestorePagination(query, pageSize);
 
   const renderFooter = () => {
     if (isLoading) return <LoadingSpinner size="large" />;

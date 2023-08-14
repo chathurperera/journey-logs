@@ -1,8 +1,11 @@
-import firestore from '@react-native-firebase/firestore';
+import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
 
-export const useFirestorePagination = (collectionName, pageSize = 5) => {
+export const useFirestorePagination = (
+  initialQuery: FirebaseFirestoreTypes.Query,
+  pageSize: number,
+) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
@@ -13,10 +16,7 @@ export const useFirestorePagination = (collectionName, pageSize = 5) => {
     setIsLoading(true);
 
     try {
-      const query = firestore()
-        .collection(collectionName)
-        .orderBy('createdAt', 'desc')
-        .limit(pageSize);
+      let query = initialQuery.limit(pageSize);
 
       const snapshot = await query.get();
       const lastVisible = snapshot.docs[snapshot.docs.length - 1];
@@ -56,12 +56,7 @@ export const useFirestorePagination = (collectionName, pageSize = 5) => {
 
     setIsFetchingMore(true);
     try {
-      const query = firestore()
-        .collection(collectionName)
-        .orderBy('createdAt', 'desc')
-        .startAfter(lastDocument)
-        .limit(pageSize);
-
+      let query = initialQuery.startAfter(lastDocument).limit(pageSize);
       const snapshot = await query.get();
 
       if (snapshot.docs.length === 0) {

@@ -1,32 +1,31 @@
 /* eslint-disable @typescript-eslint/quotes */
 
 enum Primary {
-  Jl900 = `#201452`,
-  Jl800 = `#37257B`,
-  Jl700 = `#4D37A5`,
-  Jl600 = `#6448CE`,
-  Jl500 = `#7A5AF8`,
-  Jl450 = `#9E1DFF`,
-  Jl400 = `#957BF9`,
-  Jl300 = `#AF9CFB`,
-  Jl200 = `#CABDFC`,
-  Jl150 = `#F8FAFC`,
-  Jl100 = `#E4DEFE`,
-  Jl50 = `#F2EFFE`,
+  Jl900 = `#152c6b`,
+  Jl800 = `#1c3a8c`,
+  Jl700 = `#244bb5`,
+  Jl600 = `#2e60e8`,
+  Jl500 = `#3269ff`,
+  Jl400 = `#5b87ff`,
+  Jl300 = `#769bff`,
+  Jl200 = `#a1baff`,
+  Jl100 = `#bfd1ff`,
+  Jl50 = `#ebf0ff`,
 }
 
 enum Neutral {
   black = `#000000`,
-  JL900 = `#080808`,
-  JL800 = `#101010`,
-  JL700 = `#181818`,
-  JL600 = `#202020`,
-  JL500 = `#282828`,
-  JL400 = `#464646`,
-  JL300 = `#636363`,
-  JL200 = `#818181`,
-  JL100 = `#9E9E9E`,
-  JL50 = `#ADADAD`,
+  JL900 = `#303030`,
+  JL800 = `#3f3f3f`,
+  JL700 = `#525252`,
+  JL600 = `#696969`,
+  JL500 = `#737373`,
+  JL400 = `#8f8f8f`,
+  JL350 = `#fafafa`,
+  JL300 = `#a1a1a1`,
+  JL200 = `#bfbfbf`,
+  JL100 = `#d4d4d4`,
+  JL50 = `#f1f1f1`,
   white = `#ffffff`,
 }
 
@@ -41,7 +40,16 @@ enum Tertiary {}
 enum Error {}
 
 enum Warning {
-  JL100 = `#CC6D00`,
+  JL50 = `#fff3e6`,
+  JL100 = `#ffdab0`,
+  JL200 = `#ffc88a`,
+  JL300 = `#ffaf54`,
+  JL400 = `#ffa033`,
+  JL500 = `#ff8800`,
+  JL600 = `#e87c00`,
+  JL700 = `#b56100`,
+  JL800 = `#8c4b00`,
+  JL900 = `#6b3900`,
 }
 
 const JLColorPalette = {

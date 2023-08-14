@@ -12,6 +12,7 @@ export function Text({
   children,
   variant,
   textAlign = TextAlignment.Left,
+  textTransform = 'normal-case',
   onPress,
   numberOfLines,
   ellipsizeMode,
@@ -23,7 +24,7 @@ export function Text({
     textStyles += ' underline';
   }
 
-  textStyles += ` text-${textAlign}`;
+  textStyles += ` text-${textAlign} ${textTransform}`;
   return (
     <RNText
       onPress={onPress}

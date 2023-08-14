@@ -4,8 +4,10 @@ export enum TextVariant {
   Heading1Bold = 'Heading1Bold',
 
   Heading2Bold = 'Heading2Bold',
+  Heading2SemiBold = 'Heading2SemiBold',
 
   Heading3Regular = 'Heading3Regular',
+  Heading3SemiBold = 'Heading3SemiBold',
 
   // Title 1
   Title1 = 'Title1',
