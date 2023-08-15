@@ -5,20 +5,22 @@ import { Modalize } from 'react-native-modalize';
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, Route, TextVariant } from '@jl/constants';
+import { Color, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
 import { HeaderBackButton } from '@jl/navigation';
-import { NavigationService, NoteEncryption, NoteService } from '@jl/services';
+import { NoteEncryption, NoteService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { MenuBottomSheet } from './components/MenuBottomSheet';
+import { PINCheckModal } from './components/PINCheckModal';
 
 export function PreviewNoteScreen({ route }) {
   const { noteId } = route.params.params;
   const [decryptedNote, setDecryptedNote] = useState('');
+  const [isModalVisible, setModalVisible] = useState(false);
 
-  const { recoveryKey } = useSelector(state => state.encryptionStore);
+  const { recoveryKey, salt } = useSelector(state => state.encryptionStore);
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
 
   useEffect(() => {
@@ -34,8 +36,13 @@ export function PreviewNoteScreen({ route }) {
 
   const MenuBottomSheetMethodsRef = useRef<Modalize>(null);
 
-  const handleEditScreenNavigation = () => {
-    NavigationService.navigate(Route.EditNote, { noteId: noteId });
+  const handleNoteEncryption = async () => {
+    console.log('recoveryKey', recoveryKey);
+    if (recoveryKey === '') {
+      setModalVisible(true);
+    } else {
+      await NoteService.noteEncryption(noteId, noteData.body, recoveryKey);
+    }
   };
 
   const handleMenuBottomSheet = () => {
@@ -60,13 +67,15 @@ export function PreviewNoteScreen({ route }) {
             {noteData?.title}
           </Text>
           <View style={tw`justify-between flex-row gap-3 items-center relative`}>
-            <Icon
-              type="feather"
-              name="edit"
-              size={25}
-              onPress={!isLoading && handleEditScreenNavigation}
-              color={isLoading && Color.Neutral.JL200}
-            />
+            {salt !== '' && (
+              <Icon
+                type="feather"
+                name={noteData?.isEncrypted ? 'unlock' : 'lock'}
+                size={25}
+                onPress={!isLoading && handleNoteEncryption}
+                color={isLoading && Color.Neutral.JL200}
+              />
+            )}
             <Icon
               type="feather"
               name="more-vertical"
@@ -78,6 +87,12 @@ export function PreviewNoteScreen({ route }) {
         </View>
         {isLoading ? <LoadingSpinner size="large" color={Color.Primary.Jl500} /> : renderContent()}
       </View>
+      <PINCheckModal
+        isModalVisible={isModalVisible}
+        toggleModal={() => setModalVisible(state => !state)}
+        noteId={noteId}
+        note={noteData?.body}
+      />
       <MenuBottomSheet
         ref={MenuBottomSheetMethodsRef}
         noteId={noteId}

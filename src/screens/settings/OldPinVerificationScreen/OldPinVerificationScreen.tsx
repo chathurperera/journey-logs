@@ -24,13 +24,13 @@ export function OldPinVerificationScreen() {
   const [oldPINVerificationFailed, setOldPINVerificationFailed] = useState(false);
 
   const verifyPIN = async () => {
-    const { recoveryKey: encryptedRecoveryKey } = await AccountService.getMe(userId);
-    const { isValidPIN, masterKey } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
+    const { encryptedRecoveryKey } = await AccountService.getMe(userId);
+    const { isValidPIN, recoveryKey } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
 
     if (isValidPIN) {
       NavigationService.navigate(Route.ChangePinCode, {
         oldPIN: enteredPin,
-        masterKey: masterKey,
+        recoveryKey: recoveryKey,
       });
     } else {
       setOldPINVerificationFailed(true);
