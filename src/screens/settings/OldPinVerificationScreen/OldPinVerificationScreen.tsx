@@ -1,6 +1,6 @@
 import { Icon } from '@rneui/base';
 import React, { useEffect, useRef, useState } from 'react';
-import { Image, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import ReactNativePinView from 'react-native-pin-view';
 
 import { images } from '@jl/assets';
@@ -69,6 +69,11 @@ export function OldPinVerificationScreen() {
 
   return (
     <BaseScreenLayout>
+      <View style={tw`items-start pl-5`}>
+        <Pressable style={tw`py-1`} onPress={() => NavigationService.goBack()}>
+          <Icon type="feather" name="chevron-left" size={30} color={Color.Neutral.JL800} />
+        </Pressable>
+      </View>
       <View style={tw`flex-1 justify-center`}>
         <View style={tw`flex-row justify-center`}>
           <Image source={images.logo} style={tw`w-20 h-20`} />
