@@ -35,11 +35,8 @@ const decryptRecoveryKey = async (encryptedRecoveryKey: string, pinDerivedKey: s
 const verifyOldPIN = async (oldPin: string, salt: string, encryptedRecoveryKey: string) => {
   try {
     const oldPinDerivedKey = generatePinDerivedKey(oldPin, salt);
-    console.log('oldPinDerivedKey', oldPinDerivedKey);
-    console.log('encryptedRecoveryKey', encryptedRecoveryKey);
 
     const decryptedRecoveryKey = await decryptRecoveryKey(encryptedRecoveryKey, oldPinDerivedKey);
-    console.log('decryptedRecoveryKey', decryptedRecoveryKey);
     const isValid = decryptedRecoveryKey.startsWith(VALIDATION_STRING);
 
     return { isValidPIN: isValid, recoveryKey: decryptedRecoveryKey };

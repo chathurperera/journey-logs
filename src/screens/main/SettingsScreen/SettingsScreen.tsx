@@ -6,7 +6,7 @@ import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { NavigationService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
-import { isPinSessionExpired } from '@jl/utils';
+import { getRemainingLockoutTime, isPinSessionExpired, validateLockoutPeriod } from '@jl/utils';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { SectionLink } from './components/SectionLink';
@@ -18,21 +18,26 @@ interface SettingsScreenProps {
 export function SettingsScreen({ testID }: SettingsScreenProps) {
   const dispatch = useDispatch();
 
-  const { salt, lastAccessedHiddenNotesAt } = useSelector(state => state.encryptionStore);
+  const { salt, lastAccessedHiddenNotesAt, lockoutTimestamp } = useSelector(state => state.encryptionStore);
   const { name, email } = useSelector(state => state.userStore.userData);
 
-  const hiddenNotesAccessNavigation = () => {
-    if (lastAccessedHiddenNotesAt) {
-      const expiredSession = isPinSessionExpired(lastAccessedHiddenNotesAt);
+  const isInLockedPeriod = validateLockoutPeriod(lockoutTimestamp);
 
-      if (expiredSession) {
-        NavigationService.navigate(Route.PinCode, { pinExists: true });
-      } else {
-        NavigationService.navigate(Route.HiddenNotes);
-      }
-    } else {
-      NavigationService.navigate(Route.PinCode, { pinExists: salt !== '' });
+  const hiddenNotesAccessNavigation = () => {
+    if (isInLockedPeriod) {
+      const remainingSeconds = getRemainingLockoutTime(lockoutTimestamp);
+      return NavigationService.navigate(Route.MaxPinCodeAttemptsReached, { remainingSeconds: remainingSeconds });
     }
+
+    if (lastAccessedHiddenNotesAt && isPinSessionExpired(lastAccessedHiddenNotesAt)) {
+      return NavigationService.navigate(Route.PinCode, { pinExists: true });
+    }
+
+    if (lastAccessedHiddenNotesAt) {
+      return NavigationService.navigate(Route.HiddenNotes);
+    }
+
+    NavigationService.navigate(Route.PinCode, { pinExists: Boolean(salt) });
   };
 
   const handleAddPINNavigation = () => {
@@ -42,6 +47,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
       NavigationService.navigate(Route.OldPINVerification);
     }
   };
+
   return (
     <BaseScreenLayout testID={testID}>
       <View style={tw`mx-5 flex-1`}>
