@@ -1,13 +1,8 @@
 import moment from 'moment';
 
-import { getCurrentTimestamp } from './moment-utils';
+export const isPinSessionExpired = (lastSessionTimestamp: number, maxDurationInMinutes: number = 5) => {
+  const timeDifference = moment().diff(moment(lastSessionTimestamp * 1000), 'minute');
+  console.log('timeDifference', timeDifference);
 
-export const isPinSessionExpired = (
-  lastSessionTimestamp: number,
-  maxDurationInMilliSeconds: number = 300000,
-) => {
-  const currentTimestamp = getCurrentTimestamp();
-
-  const timeDifference = moment(currentTimestamp).diff(moment(lastSessionTimestamp));
-  return timeDifference > maxDurationInMilliSeconds;
+  return timeDifference > maxDurationInMinutes;
 };

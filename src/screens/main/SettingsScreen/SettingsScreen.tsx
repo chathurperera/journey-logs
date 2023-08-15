@@ -18,14 +18,13 @@ interface SettingsScreenProps {
 export function SettingsScreen({ testID }: SettingsScreenProps) {
   const dispatch = useDispatch();
 
-  //salt is used to decide availability of a PIN code
-  //lastAccessedHiddenNotesAt is used to check the validity of the last session
   const { salt, lastAccessedHiddenNotesAt } = useSelector(state => state.encryptionStore);
   const { name, email } = useSelector(state => state.userStore.userData);
 
   const hiddenNotesAccessNavigation = () => {
     if (lastAccessedHiddenNotesAt) {
       const expiredSession = isPinSessionExpired(lastAccessedHiddenNotesAt);
+
       if (expiredSession) {
         NavigationService.navigate(Route.PinCode, { pinExists: true });
       } else {

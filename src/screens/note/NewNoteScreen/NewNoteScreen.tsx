@@ -79,10 +79,7 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
               style={tw`bg-[${Color.Primary.Jl600}] py-2 px-6 rounded-3xl  gap-2 flex-row justify-between items-center`}
               onPress={handleDocumentSave}>
               {isLoading && <LoadingSpinner size="small" />}
-              <Text
-                variant={TextVariant.Label2SemiBold}
-                color={Color.Neutral.white}
-                textAlign={TextAlignment.Center}>
+              <Text variant={TextVariant.Label2SemiBold} color={Color.Neutral.white} textAlign={TextAlignment.Center}>
                 Save
               </Text>
             </Pressable>
@@ -90,17 +87,13 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
         </View>
         <View style={tw`pt-5`}>
           <View style={tw`h-full`}>
-            <TextInput
-              placeholder="Title"
-              style={tw`text-4xlg pl-2`}
-              onChangeText={handleTitleTextChange}
-            />
+            <TextInput placeholder="Title" style={tw`text-4xlg pl-2`} onChangeText={handleTitleTextChange} />
             <RichEditor
               ref={RichTextEditorRef}
               disabled={false}
-              containerStyle={tw`bg-slate-50`}
-              style={tw` flex-1 text-lg`}
-              editorStyle={{ backgroundColor: '#f1f1f1f5', contentCSSText: 'font-size: 20px;' }}
+              containerStyle={tw`bg-[${Color.Neutral.white}]`}
+              style={tw`flex-1 text-lg bg-[${Color.Neutral.white}]`}
+              editorStyle={{ backgroundColor: '#fff', contentCSSText: 'font-size: 20px;' }}
               focusable
               styleWithCSS
               placeholder={'Start typing'}
@@ -109,6 +102,11 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
             <View style={tw``}>
               <RichToolbar
                 editor={RichTextEditorRef}
+                style={tw`bg-[${Color.Neutral.black}] h-12.5 rounded-xl`}
+                unselectedButtonStyle={tw``}
+                iconSize={23}
+                iconTint={Color.Neutral.JL300}
+                selectedIconTint={Color.Neutral.white}
                 actions={[
                   actions.setBold,
                   actions.setItalic,
@@ -120,6 +118,7 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
                   actions.undo,
                   actions.redo,
                 ]}
+                // style={tw``}
                 iconMap={{ [actions.heading1]: handleHead }}
               />
             </View>
