@@ -27,8 +27,7 @@ export function PinCodeScreen({ route }) {
 
   const PINVerification = async () => {
     if (pinExists) {
-      //USe the encrypted recovery key since we are doing a verification here
-      const { recoveryKey: encryptedRecoveryKey } = await AccountService.getMe(userId);
+      const { encryptedRecoveryKey } = await AccountService.getMe(userId);
       const { isValidPIN } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
 
       if (isValidPIN) {

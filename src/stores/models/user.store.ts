@@ -28,7 +28,7 @@ export const userStore = createModel<RootModel>()({
   effects: dispatch => ({
     async login(payload: LoginData) {
       const { uid, email } = await AuthService.signIn(payload);
-      const { salt, name } = await AccountService.getMe(uid);
+      const { salt, name, encryptedRecoveryKey } = await AccountService.getMe(uid);
 
       dispatch.userStore.setUserData({
         userId: uid,
@@ -37,6 +37,7 @@ export const userStore = createModel<RootModel>()({
       });
       dispatch.userStore.setAuthState(true);
       dispatch.encryptionStore.setSalt(salt);
+      dispatch.encryptionStore.setEncryptedRecoveryKey(encryptedRecoveryKey);
     },
 
     async signUp(payload: SignupData) {
