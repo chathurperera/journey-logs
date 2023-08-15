@@ -1,13 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
 
 import { NoteData } from '@jl/models';
-import { getCurrentTimestampInMilliSeconds } from '@jl/utils';
+import { getCurrentTimestampInSeconds } from '@jl/utils';
 
 import { ToastService } from '../../toast-service';
 import { NoteEncryption } from '../NoteEncryption';
 
 const createNote = async (noteData: NoteData) => {
-  const currentTimestamp = getCurrentTimestampInMilliSeconds();
+  const currentTimestamp = getCurrentTimestampInSeconds();
   try {
     await firestore()
       .collection('notes')

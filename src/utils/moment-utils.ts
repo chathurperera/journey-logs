@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const getCurrentTimestampInMilliSeconds = () => {
+export const getCurrentTimestampInSeconds = () => {
   const timestamp = moment().unix();
   return timestamp;
 };

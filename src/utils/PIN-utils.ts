@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-import { getCurrentTimestampInMilliSeconds } from './moment-utils';
+import { getCurrentTimestampInSeconds } from './moment-utils';
 
 export const isPinSessionExpired = (lastSessionTimestamp: number, maxDurationInMinutes: number = 5) => {
   const timeDifference = moment().diff(moment(lastSessionTimestamp * 1000), 'minute');
@@ -14,7 +14,7 @@ export const validateLockoutPeriod = (lockoutTimestamp: number) => {
 };
 
 export const getRemainingLockoutTime = (lockoutTimestamp: number) => {
-  const currentTimestamp = getCurrentTimestampInMilliSeconds();
+  const currentTimestamp = getCurrentTimestampInSeconds();
   const difference = lockoutTimestamp + 300 - currentTimestamp;
   return difference;
 };
