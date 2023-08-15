@@ -1,13 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
 
 import { NoteData } from '@jl/models';
-import { getCurrentTimestamp } from '@jl/utils';
+import { getCurrentTimestampInMilliSeconds } from '@jl/utils';
 
 import { ToastService } from '../../toast-service';
 import { NoteEncryption } from '../NoteEncryption';
 
 const createNote = async (noteData: NoteData) => {
-  const currentTimestamp = getCurrentTimestamp();
+  const currentTimestamp = getCurrentTimestampInMilliSeconds();
   try {
     await firestore()
       .collection('notes')
@@ -53,10 +53,7 @@ const getSingleNote = async (noteId: string) => {
   }
 };
 
-const updateNote = async (
-  noteId: string,
-  payload: { title: string; body: string; userId: string },
-) => {
+const updateNote = async (noteId: string, payload: { title: string; body: string; userId: string }) => {
   try {
     await firestore().collection('notes').doc(noteId).update(payload);
     ToastService.success('Success', 'Document updated successfully');
