@@ -44,6 +44,27 @@ const getAllNotes = async (userId: string) => {
   }
 };
 
+const getAllNotesByMonth = async (startTimestamp: number, endTimestamp: number, userId: string) => {
+  try {
+    const documentSnapshot = await firestore()
+      .collection('notes')
+      .where('userId', '==', userId)
+      .where('createdAt', '>=', startTimestamp)
+      .where('createdAt', '<', endTimestamp)
+      .get();
+
+    const data = documentSnapshot.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id,
+    })) as NoteData[];
+
+    return data;
+  } catch (error) {
+    console.log('error', error);
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
 const getSingleNote = async (noteId: string) => {
   try {
     const documentSnapshot = await firestore().collection('notes').doc(noteId).get();
@@ -99,7 +120,7 @@ const noteDecryption = async (noteId: string, encryptedNote: string, recoveryKey
   }
 };
 
-const deleteNote = async noteId => {
+const deleteNote = async (noteId: string) => {
   try {
     await firestore().collection('notes').doc(noteId).delete();
     ToastService.success('Success', 'Note deleted successfully 🎉');
@@ -115,5 +136,6 @@ export const NoteService = {
   getSingleNote,
   noteDecryption,
   noteEncryption,
+  getAllNotesByMonth,
   updateNote,
 };
