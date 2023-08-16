@@ -205,6 +205,17 @@ export class NavigationService {
           },
         },
       },
+
+      [Route.FavouritesTab]: {
+        navRoute: Route.MainBottomTabRoutesStack,
+        navParams: {
+          screen: Route.FavouritesTab,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
     };
 
     const getNavigationRoute = (route: Route): NavigationRoute => {

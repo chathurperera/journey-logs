@@ -16,6 +16,7 @@ const createNote = async (noteData: NoteData) => {
         createdAt: currentTimestamp,
         updatedAt: currentTimestamp,
         isEncrypted: false,
+        isFavourite: false,
         categories: [],
       });
   } catch (error) {
@@ -151,12 +152,35 @@ const deleteNote = async (noteId: string) => {
   }
 };
 
+const getFavourites = async (userId: string) => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('notes')
+      .where('userId', '==', userId)
+      .where('isFavourite', '==', true)
+      .orderBy('createdAt', 'desc')
+      .limit(20)
+      .get();
+
+    const data = querySnapshot.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id,
+    })) as NoteData[];
+
+    return data;
+  } catch (error) {
+    console.log('erro', error);
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
 export const NoteService = {
   createNote,
   deleteNote,
   getAllNotes,
   getSingleNote,
   noteDecryption,
+  getFavourites,
   noteEncryption,
   getAllNotesByMonth,
   getAllNotesByDay,
