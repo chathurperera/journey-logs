@@ -11,7 +11,7 @@ import { NavigationService } from '@jl/services';
 import { getRelativeTimeFromTimestamp } from '@jl/utils';
 
 interface NoteCardProps extends NoteData {
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 export function NoteCard({ title, body, createdAt, isEncrypted, id }: NoteCardProps) {

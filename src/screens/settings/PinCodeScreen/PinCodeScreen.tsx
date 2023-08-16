@@ -9,7 +9,7 @@ import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { AccountService, EncryptionService, NavigationService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
-import { getCurrentTimestampInMilliSeconds } from '@jl/utils';
+import { getCurrentTimestampInSeconds } from '@jl/utils';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
@@ -29,7 +29,7 @@ export function PinCodeScreen({ route }) {
     if (pinExists) {
       const { encryptedRecoveryKey } = await AccountService.getMe(userId);
       const { isValidPIN } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
-      const currentTimestamp = getCurrentTimestampInMilliSeconds();
+      const currentTimestamp = getCurrentTimestampInSeconds();
 
       if (isValidPIN) {
         dispatch.encryptionStore.setLastAccessedHiddenNotesAt(currentTimestamp);
