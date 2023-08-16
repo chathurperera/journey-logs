@@ -21,9 +21,9 @@ export function BottomTabBarIcon({ isFocused, routeName, onPress }: BottomTabBar
       iconName = 'home';
       iconLabel = 'Home';
       break;
-    case Route.SearchTab:
-      iconName = 'search';
-      iconLabel = 'Search';
+    case Route.FavouritesTab:
+      iconName = 'heart';
+      iconLabel = 'Favourites';
       break;
     case Route.SettingsTab:
       iconName = 'settings';
@@ -40,16 +40,9 @@ export function BottomTabBarIcon({ isFocused, routeName, onPress }: BottomTabBar
     <>
       <Pressable onPress={onPress}>
         <View style={tw`mb-.5`}>
-          <Icon
-            type="feather"
-            name={iconName}
-            color={isFocused ? Color.Neutral.JL700 : Color.Neutral.JL50}
-            size={28}
-          />
+          <Icon type="feather" name={iconName} color={isFocused ? Color.Neutral.JL700 : Color.Neutral.JL50} size={28} />
         </View>
-        <Text
-          variant={TextVariant.Label1Regular}
-          color={isFocused ? Color.Neutral.JL700 : Color.Neutral.JL50}>
+        <Text variant={TextVariant.Label1Regular} color={isFocused ? Color.Neutral.JL700 : Color.Neutral.JL50}>
           {iconLabel}
         </Text>
       </Pressable>

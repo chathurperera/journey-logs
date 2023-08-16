@@ -1,4 +1,4 @@
 export * from './HomeScreen';
 export * from './CalendarScreen';
-export * from './SearchScreen';
+export * from './FavouritesScreen';
 export * from './SettingsScreen';
