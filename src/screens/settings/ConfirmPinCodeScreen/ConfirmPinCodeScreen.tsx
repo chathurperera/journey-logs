@@ -53,13 +53,13 @@ export function ConfirmPinCodeScreen({ route }) {
         <Text
           variant={TextVariant.Heading3Regular}
           textAlign={TextAlignment.Center}
-          color={pinCodeMisMatch && Color.Warning.JL100}>
+          color={pinCodeMisMatch ? Color.Warning.JL700 : Color.Neutral.JL900}>
           {pinCodeMisMatch ? 'Your entries did not match' : 'Confirm your PIN Code'}
         </Text>
         <Text
           variant={TextVariant.Body1Regular}
           textAlign={TextAlignment.Center}
-          color={pinCodeMisMatch && Color.Warning.JL100}>
+          color={pinCodeMisMatch ? Color.Warning.JL500 : Color.Neutral.JL900}>
           {pinCodeMisMatch ? 'Please try again' : ''}
         </Text>
       </View>
@@ -81,7 +81,7 @@ export function ConfirmPinCodeScreen({ route }) {
           buttonTextStyle={tw`text-[${Color.Neutral.JL900}] text-4xlg font-normal`}
           buttonSize={70}
           buttonAreaStyle={tw`px-6`}
-          inputAreaStyle={tw`mb-6`}
+          inputAreaStyle={tw`mb-8 mt-2`}
           inputViewStyle={tw`w-5 h-5`}
           inputViewEmptyStyle={tw`bg-[${Color.Neutral.JL50}]`}
           onValueChange={value => setEnteredPin(value)}
@@ -94,7 +94,7 @@ export function ConfirmPinCodeScreen({ route }) {
           customRightButton={
             showRemoveButton ? <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} /> : undefined
           }
-          style={tw`mt-10.75`}
+          style={tw``}
         />
       </View>
     </BaseScreenLayout>

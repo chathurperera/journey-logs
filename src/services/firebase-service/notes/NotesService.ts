@@ -1,13 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
 
 import { NoteData } from '@jl/models';
-import { getCurrentTimestamp } from '@jl/utils';
+import { getCurrentTimestampInSeconds } from '@jl/utils';
 
 import { ToastService } from '../../toast-service';
 import { NoteEncryption } from '../NoteEncryption';
 
 const createNote = async (noteData: NoteData) => {
-  const currentTimestamp = getCurrentTimestamp();
+  const currentTimestamp = getCurrentTimestampInSeconds();
   try {
     await firestore()
       .collection('notes')
@@ -44,6 +44,49 @@ const getAllNotes = async (userId: string) => {
   }
 };
 
+const getAllNotesByMonth = async (startTimestamp: number, endTimestamp: number, userId: string) => {
+  try {
+    const documentSnapshot = await firestore()
+      .collection('notes')
+      .where('userId', '==', userId)
+      .where('createdAt', '>=', startTimestamp)
+      .where('createdAt', '<', endTimestamp)
+      .get();
+
+    const data = documentSnapshot.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id,
+    })) as NoteData[];
+
+    return data;
+  } catch (error) {
+    console.log('error', error);
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+const getAllNotesByDay = async (startTimestamp: number, endTimestamp: number, userId: string) => {
+  try {
+    const documentSnapshot = await firestore()
+      .collection('notes')
+      .where('userId', '==', userId)
+      .where('createdAt', '>=', startTimestamp)
+      .where('createdAt', '<=', endTimestamp)
+      .get();
+
+    const data = documentSnapshot.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id,
+    })) as NoteData[];
+    console.log('data', data);
+
+    return data;
+  } catch (error) {
+    console.log('error', error);
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
 const getSingleNote = async (noteId: string) => {
   try {
     const documentSnapshot = await firestore().collection('notes').doc(noteId).get();
@@ -53,10 +96,7 @@ const getSingleNote = async (noteId: string) => {
   }
 };
 
-const updateNote = async (
-  noteId: string,
-  payload: { title: string; body: string; userId: string },
-) => {
+const updateNote = async (noteId: string, payload: { title: string; body: string; userId: string }) => {
   try {
     await firestore().collection('notes').doc(noteId).update(payload);
     ToastService.success('Success', 'Document updated successfully');
@@ -102,7 +142,7 @@ const noteDecryption = async (noteId: string, encryptedNote: string, recoveryKey
   }
 };
 
-const deleteNote = async noteId => {
+const deleteNote = async (noteId: string) => {
   try {
     await firestore().collection('notes').doc(noteId).delete();
     ToastService.success('Success', 'Note deleted successfully 🎉');
@@ -118,5 +158,7 @@ export const NoteService = {
   getSingleNote,
   noteDecryption,
   noteEncryption,
+  getAllNotesByMonth,
+  getAllNotesByDay,
   updateNote,
 };

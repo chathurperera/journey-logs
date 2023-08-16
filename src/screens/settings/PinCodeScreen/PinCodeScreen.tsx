@@ -9,7 +9,7 @@ import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { AccountService, EncryptionService, NavigationService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
-import { getCurrentTimestamp } from '@jl/utils';
+import { getCurrentTimestampInSeconds } from '@jl/utils';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
@@ -17,27 +17,35 @@ export function PinCodeScreen({ route }) {
   const { pinExists } = route.params.params;
   const dispatch = useDispatch();
 
-  const { salt } = useSelector(state => state.encryptionStore);
+  const { salt, failedAttempts } = useSelector(state => state.encryptionStore);
   const { userId } = useSelector(state => state.userStore.userData);
 
   const pinView = useRef(null);
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
-  const [, setIsIncorrectPin] = useState(false);
+  const [isIncorrectPin, setIsIncorrectPin] = useState(false);
 
   const PINVerification = async () => {
     if (pinExists) {
-      //USe the encrypted recovery key since we are doing a verification here
-      const { recoveryKey: encryptedRecoveryKey } = await AccountService.getMe(userId);
+      const { encryptedRecoveryKey } = await AccountService.getMe(userId);
       const { isValidPIN } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
+      const currentTimestamp = getCurrentTimestampInSeconds();
 
       if (isValidPIN) {
-        const currentTimestamp = getCurrentTimestamp();
         dispatch.encryptionStore.setLastAccessedHiddenNotesAt(currentTimestamp);
 
         NavigationService.navigate(Route.HiddenNotes);
       } else {
         setIsIncorrectPin(true);
+
+        if (failedAttempts < 5) {
+          dispatch.encryptionStore.incrementFailedAttempts();
+        } else {
+          dispatch.encryptionStore.resetFailedAttempts();
+          dispatch.encryptionStore.setLockoutTimestamp(currentTimestamp);
+
+          NavigationService.navigate(Route.MaxPinCodeAttemptsReached, { remainingSeconds: 300 });
+        }
       }
     } else {
       NavigationService.navigate(Route.ConfirmPinCode, { pinCode: enteredPin });
@@ -45,6 +53,11 @@ export function PinCodeScreen({ route }) {
   };
 
   useEffect(() => {
+    if (isIncorrectPin) {
+      pinView.current.clearAll();
+      setIsIncorrectPin(false);
+    }
+
     if (enteredPin.length > 0) {
       setShowRemoveButton(true);
     } else {
@@ -55,14 +68,40 @@ export function PinCodeScreen({ route }) {
     }
   }, [enteredPin]);
 
+  const getMainHeading = () => {
+    if (isIncorrectPin) {
+      return 'Invalid PIN';
+    } else if (pinExists) {
+      return 'Enter your PIN Code';
+    } else {
+      return 'Enter a PIN Code';
+    }
+  };
+
+  const getSubHeading = () => {
+    if (isIncorrectPin) {
+      return 'Please try again';
+    } else if (!pinExists) {
+      return 'To keep your notes secure';
+    } else {
+      return '';
+    }
+  };
+
   const renderTitles = () => {
     return (
       <View style={tw`mt-12.5`}>
-        <Text variant={TextVariant.Title2} textAlign={TextAlignment.Center} color={Color.Neutral.JL600}>
-          {pinExists ? 'Enter you PIN Code' : 'Enter a PIN Code'}
+        <Text
+          variant={TextVariant.Title2}
+          textAlign={TextAlignment.Center}
+          color={isIncorrectPin ? Color.Warning.JL700 : Color.Neutral.JL900}>
+          {getMainHeading()}
         </Text>
-        <Text variant={TextVariant.Body1Regular} textAlign={TextAlignment.Center}>
-          {!pinExists ? 'To keep your notes secure' : ''}
+        <Text
+          variant={TextVariant.Body1Regular}
+          textAlign={TextAlignment.Center}
+          color={isIncorrectPin ? Color.Warning.JL500 : Color.Neutral.JL900}>
+          {getSubHeading()}
         </Text>
       </View>
     );
@@ -90,6 +129,9 @@ export function PinCodeScreen({ route }) {
           onButtonPress={key => {
             if (key === 'custom_right') {
               pinView.current.clear();
+            }
+            if (isIncorrectPin) {
+              pinView.current.clearAll();
             }
           }}
           //@ts-ignore

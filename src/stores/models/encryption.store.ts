@@ -9,6 +9,7 @@ import { RootModel } from './index';
 interface EncryptionState {
   recoveryKey: string;
   salt: string;
+  encryptedRecoveryKey: string;
   failedAttempts: number;
   lockoutTimestamp: number;
   lastAccessedHiddenNotesAt: number;
@@ -16,6 +17,7 @@ interface EncryptionState {
 
 const initialState: EncryptionState = {
   recoveryKey: '',
+  encryptedRecoveryKey: '',
   salt: '',
   failedAttempts: 0,
   lockoutTimestamp: 0,
@@ -27,6 +29,9 @@ export const encryptionStore = createModel<RootModel>()({
   reducers: {
     setRecoveryKey(state: EncryptionState, recoveryKey: string) {
       return { ...state, recoveryKey: recoveryKey };
+    },
+    setEncryptedRecoveryKey(state: EncryptionState, encryptedRecoveryKey: string) {
+      return { ...state, encryptedRecoveryKey: encryptedRecoveryKey };
     },
     setSalt(state: EncryptionState, salt: string) {
       return { ...state, salt: salt };
@@ -53,6 +58,7 @@ export const encryptionStore = createModel<RootModel>()({
       return {
         ...state,
         recoveryKey: '',
+        encryptedRecoveryKey: '',
         salt: '',
         failedAttempts: 0,
         lockoutTimestamp: null,
@@ -72,6 +78,7 @@ export const encryptionStore = createModel<RootModel>()({
       await NoteEncryption.savePinAndRecoveryKey(payload.userId, salt, encryptedRecoveryKey);
 
       dispatch.encryptionStore.setRecoveryKey(recoveryKey);
+      dispatch.encryptionStore.setEncryptedRecoveryKey(encryptedRecoveryKey);
       dispatch.encryptionStore.setSalt(salt);
     },
 

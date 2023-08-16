@@ -35,19 +35,20 @@ const decryptRecoveryKey = async (encryptedRecoveryKey: string, pinDerivedKey: s
 const verifyOldPIN = async (oldPin: string, salt: string, encryptedRecoveryKey: string) => {
   try {
     const oldPinDerivedKey = generatePinDerivedKey(oldPin, salt);
-    const decryptedMasterKey = await decryptRecoveryKey(encryptedRecoveryKey, oldPinDerivedKey);
-    const isValid = decryptedMasterKey.startsWith(VALIDATION_STRING);
 
-    return { isValidPIN: isValid, masterKey: decryptedMasterKey };
+    const decryptedRecoveryKey = await decryptRecoveryKey(encryptedRecoveryKey, oldPinDerivedKey);
+    const isValid = decryptedRecoveryKey.startsWith(VALIDATION_STRING);
+
+    return { isValidPIN: isValid, recoveryKey: decryptedRecoveryKey };
   } catch (error) {
     ToastService.error('Something went wrong!', 'Please try again');
   }
 };
 
-const generateNewEncryptedRecoveryKey = async (newPin: string, salt: string, masterKey: string) => {
+const generateNewEncryptedRecoveryKey = async (newPin: string, salt: string, recoveryKey: string) => {
   try {
     const newPINDerivedKey = generatePinDerivedKey(newPin, salt);
-    const encryptedRecoveryKey = generateEncryptedRecoveryKey(masterKey, newPINDerivedKey);
+    const encryptedRecoveryKey = generateEncryptedRecoveryKey(recoveryKey, newPINDerivedKey);
 
     return encryptedRecoveryKey;
   } catch (error) {

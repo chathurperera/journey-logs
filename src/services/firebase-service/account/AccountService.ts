@@ -4,7 +4,7 @@ import { NewAccountParams } from '@jl/models';
 
 const createNewAccount = async ({ email, name, userId }: NewAccountParams) => {
   try {
-    await firestore().collection('users').doc(userId).set({ email, name, salt: '', recoveryKey: '' });
+    await firestore().collection('users').doc(userId).set({ email, name, salt: '', encryptedRecoveryKey: '' });
   } catch (error) {
     console.log('error', error);
   }
