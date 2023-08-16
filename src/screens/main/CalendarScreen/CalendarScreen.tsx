@@ -96,7 +96,7 @@ export function CalendarScreen() {
   };
 
   const renderItem = ({ item }: { item: NoteData }) => {
-    return <NoteCard {...item} />;
+    return <NoteCard {...item} showIcon />;
   };
 
   const renderEmptyList = () => (
@@ -120,14 +120,19 @@ export function CalendarScreen() {
   return (
     <BaseScreenLayout wrapWithScrollView={false}>
       <View style={tw`mx-5 flex-1`}>
-        <Calendar
-          onMonthChange={handleMonthChange}
-          onDayPress={handleDayPress}
-          markedDates={calendarMarkedDates}
-          theme={{
-            todayTextColor: Color.Primary.Jl700,
-          }}
-        />
+        <Text variant={TextVariant.Title2} textAlign={TextAlignment.Center}>
+          Calender
+        </Text>
+        <View style={tw`mt-4`}>
+          <Calendar
+            onMonthChange={handleMonthChange}
+            onDayPress={handleDayPress}
+            markedDates={calendarMarkedDates}
+            theme={{
+              todayTextColor: Color.Primary.Jl700,
+            }}
+          />
+        </View>
         <View style={tw`border-t-[${Color.Neutral.JL300}] border-t mt-3 pt-4  flex-1`}>
           {isLoading && <LoadingSpinner color={Color.Primary.Jl500} size="large" />}
           {notes.length === 0 && !isLoading && renderEmptyList()}
