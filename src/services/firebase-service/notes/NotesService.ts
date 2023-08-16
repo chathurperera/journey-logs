@@ -65,6 +65,28 @@ const getAllNotesByMonth = async (startTimestamp: number, endTimestamp: number, 
   }
 };
 
+const getAllNotesByDay = async (startTimestamp: number, endTimestamp: number, userId: string) => {
+  try {
+    const documentSnapshot = await firestore()
+      .collection('notes')
+      .where('userId', '==', userId)
+      .where('createdAt', '>=', startTimestamp)
+      .where('createdAt', '<=', endTimestamp)
+      .get();
+
+    const data = documentSnapshot.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id,
+    })) as NoteData[];
+    console.log('data', data);
+
+    return data;
+  } catch (error) {
+    console.log('error', error);
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
 const getSingleNote = async (noteId: string) => {
   try {
     const documentSnapshot = await firestore().collection('notes').doc(noteId).get();
@@ -137,5 +159,6 @@ export const NoteService = {
   noteDecryption,
   noteEncryption,
   getAllNotesByMonth,
+  getAllNotesByDay,
   updateNote,
 };
