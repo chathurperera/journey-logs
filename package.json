@@ -44,6 +44,7 @@
     "react-native-modalize": "^2.1.1",
     "react-native-pell-rich-editor": "^1.9.0",
     "react-native-pin-view": "^3.0.3",
+    "react-native-portalize": "^1.0.7",
     "react-native-quick-base64": "^2.0.7",
     "react-native-quick-crypto": "^0.6.1",
     "react-native-reanimated": "^3.2.0",

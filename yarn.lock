@@ -7651,6 +7651,11 @@ react-native-pin-view@^3.0.3:
   resolved "https://registry.yarnpkg.com/react-native-pin-view/-/react-native-pin-view-3.0.3.tgz#2294369db926b39a6b1288f26254683c168413c0"
   integrity sha512-0xCQBpwrP06wDjUlfwViFMzi1ph+9Y1ytYWkGtdIcy9XcR5RK94DOGDisNUb8LrvHjVIoeuoDIkYPVcvv43GGA==
 
+react-native-portalize@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-native-portalize/-/react-native-portalize-1.0.7.tgz#8b3c742a06f863654d526ea1075a8596625f8482"
+  integrity sha512-icqopPh9ZSV+I8C5LlZN9pQJ0OMeBDNqHhP80+qDx0hOGEcsDC09wgjogbEMfJE0GcMDM7PDYtyQkqa9gIqd1g==
+
 react-native-quick-base64@^2.0.5, react-native-quick-base64@^2.0.7:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/react-native-quick-base64/-/react-native-quick-base64-2.0.7.tgz#70ec863fb5dba8cd858a262f6b901dbbfbfdd3df"

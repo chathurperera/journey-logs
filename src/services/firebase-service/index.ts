@@ -1,4 +1,5 @@
-export * from './auth';
 export * from './account';
-export * from './notes';
+export * from './auth';
 export * from './NoteEncryption';
+export * from './notes';
+export * from './tags';
