@@ -41,7 +41,6 @@ const getAllNotes = async (userId: string) => {
     return data;
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');
-    throw error;
   }
 };
 
@@ -169,7 +168,6 @@ const getFavourites = async (userId: string) => {
 
     return data;
   } catch (error) {
-    console.log('erro', error);
     ToastService.error('Error', 'Something went wrong');
   }
 };

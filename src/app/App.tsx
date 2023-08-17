@@ -14,8 +14,8 @@ export function App() {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
       <GestureHandlerRootView style={tw`flex-1`}>
+        <StatusBar barStyle="dark-content" />
         <View style={tw`flex-1`}>
           <Routes />
         </View>

@@ -60,7 +60,7 @@ export function FavouritesScreen() {
           containerStyle={tw`px-0`}
         />
         {isLoading && renderSkeletonLoaders()}
-        {data.length === 0 && renderEmptyList()}
+        {data?.length === 0 && renderEmptyList()}
         <FlatList
           contentContainerStyle={tw``}
           data={data}
