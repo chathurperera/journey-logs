@@ -46,21 +46,21 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
   return (
     <Modalize ref={ModalizeRef} adjustToContentHeight>
       <Pressable
-        onPress={() => NavigationService.navigate(Route.EditNote)}
+        onPress={() => NavigationService.navigate(Route.EditNote, { noteId: noteId })}
         style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2 border-b-2`}>
         <Icon type="feather" name="edit" size={25} />
         <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
           Edit note
         </Text>
       </Pressable>
-      <Pressable
+      {/* <Pressable
         onPress={() => console.log('handle tags create screen navigation')}
         style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2 border-b-2`}>
         <Icon type="feather" name="tag" size={25} />
         <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
           Add Tags
         </Text>
-      </Pressable>
+      </Pressable> */}
       {recoveryKey !== '' && (
         <Pressable
           onPress={handleNoteEncryption}

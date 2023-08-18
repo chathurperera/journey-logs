@@ -1,6 +1,6 @@
 export interface NoteData {
   body: string;
-  categories?: string[];
+  tags?: string[];
   createdAt?: number;
   id?: string;
   isEncrypted?: boolean;

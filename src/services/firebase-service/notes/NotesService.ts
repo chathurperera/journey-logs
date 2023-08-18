@@ -17,7 +17,6 @@ const createNote = async (noteData: NoteData) => {
         updatedAt: currentTimestamp,
         isEncrypted: false,
         isFavourite: false,
-        tags: [],
       });
   } catch (error) {
     ToastService.error('Error', 'Error while saving the note');
@@ -96,7 +95,7 @@ const getSingleNote = async (noteId: string) => {
   }
 };
 
-const updateNote = async (noteId: string, payload: { title: string; body: string; userId: string }) => {
+const updateNote = async (noteId: string, payload: { title: string; body: string; userId: string; tags: string[] }) => {
   try {
     await firestore().collection('notes').doc(noteId).update(payload);
     ToastService.success('Success', 'Document updated successfully');

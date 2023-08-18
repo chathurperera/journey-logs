@@ -1,16 +1,17 @@
-import auth from '@react-native-firebase/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor';
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, IS_JEST_RUNTIME, Route, TextAlignment, TextVariant } from '@jl/constants';
+import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
 import { HeaderBackButton } from '@jl/navigation';
-import { NavigationService, NoteService, ToastService } from '@jl/services';
+import { NavigationService, NoteService, TagsService, ToastService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
+import { TagsList } from './components/TagsList';
 
 const handleHead = ({ tintColor }) => (
   <Text variant={TextVariant.Body1SemiBold} color={tintColor}>
@@ -18,15 +19,16 @@ const handleHead = ({ tintColor }) => (
   </Text>
 );
 
-const userId = !IS_JEST_RUNTIME ? auth().currentUser?.uid : '0e0a3edc-16d7-4791-add9-a23de0693b8e';
-
 export function EditNoteScreen({ route }) {
   const RichTextEditorRef = useRef(null);
   const { noteId } = route.params.params;
   const [isSaving, setIsSaving] = useState(false);
+  const { userId } = useSelector(state => state.userStore.userData);
 
   const { data: noteData } = useFetch(() => NoteService.getSingleNote(noteId));
+  const { data: allTags } = useFetch(() => TagsService.getAllTags(userId));
 
+  const [noteTags, setNoteTags] = useState<string[]>([]);
   const [noteContent, setNoteContent] = useState({
     userId: userId,
     title: '',
@@ -34,7 +36,9 @@ export function EditNoteScreen({ route }) {
   });
 
   useEffect(() => {
+    setNoteTags(noteData?.tags);
     setNoteContent(prevState => ({ ...prevState, title: noteData?.title }));
+
     RichTextEditorRef.current?.focusContentEditor();
   }, [noteData]);
 
@@ -57,6 +61,7 @@ export function EditNoteScreen({ route }) {
         title: noteContent.title,
         body: contentWithoutHTML,
         userId: noteContent.userId,
+        tags: noteTags,
       });
 
       setIsSaving(false);
@@ -97,6 +102,7 @@ export function EditNoteScreen({ route }) {
             </Pressable>
           </View>
         </View>
+        <TagsList noteTags={noteTags} setNoteTags={setNoteTags} allTags={allTags} />
         <View style={tw`pt-5`}>
           <View style={tw`h-full`}>
             <TextInput
@@ -109,9 +115,9 @@ export function EditNoteScreen({ route }) {
               ref={RichTextEditorRef}
               editorInitializedCallback={handleEditorInitialization}
               disabled={false}
-              containerStyle={tw`bg-slate-50`}
-              style={tw` flex-1 text-lg`}
-              editorStyle={{ backgroundColor: '#f1f1f1f5', contentCSSText: 'font-size: 20px;' }}
+              containerStyle={tw`bg-[${Color.Neutral.white}]`}
+              style={tw`flex-1 text-lg bg-[${Color.Neutral.white}]`}
+              editorStyle={{ backgroundColor: '#fff', contentCSSText: 'font-size: 20px;' }}
               focusable
               styleWithCSS
               placeholder={'Start typing'}
