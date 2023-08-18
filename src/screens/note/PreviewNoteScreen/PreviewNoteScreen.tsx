@@ -14,6 +14,7 @@ import { useSelector } from '@jl/stores';
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { MenuBottomSheet } from './components/MenuBottomSheet';
 import { PINCheckModal } from './components/PINCheckModal';
+import { TagsList } from './components/TagsList';
 
 export function PreviewNoteScreen({ route }) {
   const { noteId } = route.params.params;
@@ -51,13 +52,14 @@ export function PreviewNoteScreen({ route }) {
 
   const renderContent = () => (
     <>
+      <TagsList tags={noteData?.tags} />
       <View style={tw`mb-3`}>
         <Text variant={TextVariant.Title2}>{noteData?.title}</Text>
       </View>
       <Text variant={TextVariant.Body2Regular}>{noteData?.isEncrypted ? decryptedNote : noteData?.body}</Text>
     </>
   );
-
+  console.log('noteData', noteData?.tags);
   return (
     <BaseScreenLayout>
       <View style={[tw`mx-5 h-full pb-10`]}>
