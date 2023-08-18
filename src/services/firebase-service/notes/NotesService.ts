@@ -17,7 +17,6 @@ const createNote = async (noteData: NoteData) => {
         updatedAt: currentTimestamp,
         isEncrypted: false,
         isFavourite: false,
-        tags: [],
       });
   } catch (error) {
     ToastService.error('Error', 'Error while saving the note');
