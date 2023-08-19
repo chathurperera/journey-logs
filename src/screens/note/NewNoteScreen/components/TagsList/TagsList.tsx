@@ -54,7 +54,7 @@ export function TagsList({ setSelectedTags, selectedTags }: TagsListProps) {
 
   const renderItem = useCallback(
     ({ item }) => {
-      const backgroundColor = selectedTags.includes(item) ? Color.Neutral.black : Color.Secondary.JL200;
+      const backgroundColor = selectedTags.includes(item) ? Color.Neutral.black : Color.Tertiary.JL200;
       const color = selectedTags.includes(item) ? Color.Neutral.white : Color.Neutral.JL900;
       return <Item item={item} handleOnPress={toggleTag} backgroundColor={backgroundColor} textColor={color} />;
     },

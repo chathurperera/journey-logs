@@ -30,12 +30,23 @@ enum Neutral {
 }
 
 enum Secondary {
+  JL50 = `#eaf4ff`,
+  JL100 = `#beddfd`,
+  JL200 = `#9fccfd`,
+  JL300 = `#73b5fc`,
+  JL400 = `#58a6fb`,
+  JL500 = `#2e90fa`,
+  JL600 = `#2a83e4`,
+  JL700 = `#2166b2`,
+  JL800 = `#194f8a`,
+  JL900 = `#133c69`,
+}
+
+enum Tertiary {
   JL300 = `#f1f1f1f5`,
   JL200 = `#FCFCFC`,
   jl100 = `#B4AEAE`,
 }
-
-enum Tertiary {}
 
 enum Error {}
 

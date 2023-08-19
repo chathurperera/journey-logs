@@ -54,7 +54,7 @@ export function TagsList({ setNoteTags, noteTags, allTags }: TagsListProps) {
         <Item
           item={item}
           handleOnPress={toggleTag}
-          backgroundColor={isSelected ? Color.Neutral.black : Color.Secondary.JL200}
+          backgroundColor={isSelected ? Color.Neutral.black : Color.Tertiary.JL200}
           textColor={isSelected ? Color.Neutral.white : Color.Neutral.JL900}
         />
       );

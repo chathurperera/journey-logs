@@ -5,8 +5,8 @@ import { Modalize } from 'react-native-modalize';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, Route, TextVariant } from '@jl/constants';
-import { NavigationService, NoteService } from '@jl/services';
+import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
+import { NavigationService, NoteService, ToastService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 interface MenuBottomSheetProps {
@@ -60,37 +60,52 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
 
   return (
     <Modalize ref={ModalizeRef} adjustToContentHeight>
-      <View style={tw`px-4 pb-3`}>
-        <Pressable
-          onPress={handleEditNoteNavigation}
-          style={tw`border-b-[${Color.Neutral.JL200}] p-4 px-8 flex-row items-center gap-2 border-b`}>
-          <Icon type="feather" name="edit" size={25} />
+      <View style={tw`px-4 py-6 `}>
+        <View style={tw`border-b-[${Color.Neutral.JL100}] border-b pb-4 mb-2`}>
+          <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
+            Manage note
+          </Text>
+        </View>
+        <Pressable onPress={handleEditNoteNavigation} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
+          <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
+            <Icon type="feather" name="edit" size={25} color={Color.Primary.Jl500} />
+          </View>
           <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
             Edit note
           </Text>
         </Pressable>
         <Pressable
-          onPress={handleNoteFavouriteStateToggle}
-          style={tw`border-b-[${Color.Neutral.JL200}] p-4 px-8 flex-row items-center gap-2 border-b`}>
-          <Icon type="ant-design" name={isFavourite ? 'heart' : 'hearto'} size={25} />
+          onPress={() => ToastService.success('Note', 'Feature In Progress 🚧')}
+          style={tw` py-3 px-4 flex-row items-center gap-2 `}>
+          <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
+            <Icon type="ant-design" name="export" size={25} color={Color.Primary.Jl500} />
+          </View>
+          <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
+            Export note
+          </Text>
+        </Pressable>
+        <Pressable onPress={handleNoteFavouriteStateToggle} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
+          <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
+            <Icon type="ant-design" name={isFavourite ? 'heart' : 'hearto'} size={25} color={Color.Primary.Jl500} />
+          </View>
           <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
             {isFavourite ? 'Remove from Favourites' : 'Add to Favourites'}
           </Text>
         </Pressable>
         {recoveryKey !== '' && (
-          <Pressable
-            onPress={handleNoteEncryption}
-            style={tw`border-b-[${Color.Neutral.JL200}] p-4 px-8 flex-row items-center gap-2 border-b`}>
-            <Icon type="feather" name={isEncrypted ? 'unlock' : 'lock'} size={25} />
+          <Pressable onPress={handleNoteEncryption} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
+            <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
+              <Icon type="feather" name={isEncrypted ? 'unlock' : 'lock'} size={25} color={Color.Primary.Jl500} />
+            </View>
             <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
               {isEncrypted ? 'Unlock note' : 'Lock note'}
             </Text>
           </Pressable>
         )}
-        <Pressable
-          onPress={handleNoteDeletion}
-          style={tw`border-b-[${Color.Neutral.JL200}] p-4 px-8 flex-row items-center gap-2`}>
-          <Icon type="feather" name="trash-2" color={Color.Warning.JL500} size={25} />
+        <Pressable onPress={handleNoteDeletion} style={tw` py-3 px-4 flex-row items-center gap-2 mt-3`}>
+          <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
+            <Icon type="feather" name="trash-2" color={Color.Warning.JL500} size={25} />
+          </View>
           <Text variant={TextVariant.Body1SemiBold} color={Color.Warning.JL800}>
             Delete Note
           </Text>

@@ -6,7 +6,7 @@ import { Portal } from 'react-native-portalize';
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, TextAlignment, TextVariant } from '@jl/constants';
+import { Color, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
 import { HeaderBackButton } from '@jl/navigation';
 import { NoteEncryption, NoteService } from '@jl/services';
@@ -66,26 +66,30 @@ export function PreviewNoteScreen({ route }) {
       <View style={[tw`mx-5 h-full pb-10`]}>
         <View style={tw`justify-between flex-row items-center mb-3`}>
           <HeaderBackButton />
-          <Text variant={TextVariant.Title2} color={Color.Neutral.JL500} textAlign={TextAlignment.Center}>
+          {/* <Text variant={TextVariant.Title2} color={Color.Primary.Jl500} textAlign={TextAlignment.Center}>
             {noteData?.title}
-          </Text>
+          </Text> */}
           <View style={tw`justify-between flex-row gap-3 items-center relative`}>
             {salt !== '' && (
+              <View style={tw`justify-center p-1 rounded-md bg-[${Color.Secondary.JL50}]`}>
+                <Icon
+                  type="feather"
+                  name={noteData?.isEncrypted ? 'unlock' : 'lock'}
+                  size={25}
+                  onPress={!isLoading && handleNoteEncryption}
+                  color={isLoading && Color.Neutral.JL200}
+                />
+              </View>
+            )}
+            <View style={tw`justify-center p-1 rounded-md bg-[${Color.Secondary.JL50}]`}>
               <Icon
                 type="feather"
-                name={noteData?.isEncrypted ? 'unlock' : 'lock'}
+                name="more-vertical"
                 size={25}
-                onPress={!isLoading && handleNoteEncryption}
-                color={isLoading && Color.Neutral.JL200}
+                onPress={!isLoading && handleMenuBottomSheet}
+                color={Color.Primary.Jl500}
               />
-            )}
-            <Icon
-              type="feather"
-              name="more-vertical"
-              size={25}
-              onPress={!isLoading && handleMenuBottomSheet}
-              color={isLoading && Color.Neutral.JL200}
-            />
+            </View>
           </View>
         </View>
         {isLoading ? <LoadingSpinner size="large" color={Color.Primary.Jl500} /> : renderContent()}
