@@ -4,6 +4,7 @@ import React from 'react';
 import { Route } from '@jl/constants';
 import {
   AccountScreen,
+  ChangePasswordScreen,
   ChangePinCodeScreen,
   ConfirmPinCodeScreen,
   MaxPinCodeAttemptsReachedScreen,
@@ -34,6 +35,7 @@ export function SettingsStack() {
       <Stack.Screen name={Route.OldPINVerification} component={OldPinVerificationScreen} />
       <Stack.Screen name={Route.ChangePinCode} component={ChangePinCodeScreen} />
       <Stack.Screen name={Route.MaxPinCodeAttemptsReached} component={MaxPinCodeAttemptsReachedScreen} />
+      <Stack.Screen name={Route.ChangePassword} component={ChangePasswordScreen} />
     </Stack.Navigator>
   );
 }

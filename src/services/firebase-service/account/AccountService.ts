@@ -3,6 +3,8 @@ import firestore from '@react-native-firebase/firestore';
 
 import { NewAccountParams, UpdateUserParams } from '@jl/models';
 
+import { ToastService } from '../../toast-service/ToastService';
+
 const createNewAccount = async ({ email, name, userId }: NewAccountParams) => {
   try {
     await firestore()
@@ -38,4 +40,32 @@ const getMe = async (userId: string) => {
   } catch (error) {}
 };
 
-export const AccountService = { createNewAccount, getMe, updateEmail, updateUserDetails };
+const updatePassword = async (currentPassword: string, newPassword: string) => {
+  try {
+    const user = auth().currentUser;
+    if (user) {
+      const credentials = auth.EmailAuthProvider.credential(user.email, currentPassword);
+
+      // Re-authenticate user
+      user
+        .reauthenticateWithCredential(credentials)
+        .then(() => {
+          user
+            .updatePassword(newPassword)
+            .then(() => {
+              ToastService.success('success', 'Password changed successfully');
+            })
+            .catch(() => {
+              ToastService.error('Error', 'Something went wrong');
+            });
+        })
+        .catch(() => {
+          ToastService.error('Error', 'Incorrect current password');
+        });
+    }
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+export const AccountService = { createNewAccount, getMe, updateEmail, updateUserDetails, updatePassword };

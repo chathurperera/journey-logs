@@ -3,6 +3,7 @@ export enum Route {
   Account = 'account',
   CalendarTab = 'calendar-tab',
   ChangePinCode = 'change-pin-code',
+  ChangePassword = 'change-password',
   ConfirmPinCode = 'confirm-pin-code',
   EditNote = 'edit-note',
   ForgetPassword = 'forget-password',

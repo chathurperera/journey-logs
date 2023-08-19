@@ -161,6 +161,17 @@ export class NavigationService {
         },
       },
 
+      [Route.ChangePassword]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.ChangePassword,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       [Route.OldPINVerification]: {
         navRoute: Route.SettingsStack,
         navParams: {
