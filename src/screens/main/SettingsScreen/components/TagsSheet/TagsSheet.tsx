@@ -8,15 +8,15 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextAlignment, TextVariant } from '@jl/constants';
 import { TagsService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 export const TagsSheet = forwardRef(function TagsSheet(props, ref) {
-  const userId = 'dasdas';
   const ModalizeRef = useRef<Modalize>(null);
-  // const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore.userData);
 
   const [enteredTag, setEnteredTag] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [tagsList, setTagsList] = useState([]);
+  const [tagsList, setTagsList] = useState(['']);
   const [isTagsFetching, setIsTagsFetching] = useState(false);
 
   useImperativeHandle(
@@ -54,8 +54,8 @@ export const TagsSheet = forwardRef(function TagsSheet(props, ref) {
     try {
       setIsLoading(true);
       await TagsService.createTag(userId, enteredTag);
-      setEnteredTag('');
       setTagsList(prevState => [...prevState, enteredTag]);
+      setEnteredTag('');
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
