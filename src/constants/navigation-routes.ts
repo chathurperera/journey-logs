@@ -1,5 +1,6 @@
 export enum Route {
   AuthStack = 'auth-stack',
+  Account = 'account',
   CalendarTab = 'calendar-tab',
   ChangePinCode = 'change-pin-code',
   ConfirmPinCode = 'confirm-pin-code',

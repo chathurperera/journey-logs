@@ -128,6 +128,17 @@ export class NavigationService {
         },
       },
 
+      [Route.Account]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.Account,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       [Route.ConfirmPinCode]: {
         navRoute: Route.SettingsStack,
         navParams: {

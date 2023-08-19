@@ -4,6 +4,12 @@ export interface NewAccountParams {
   userId: string;
 }
 
+export interface UpdateUserParams {
+  email?: string;
+  name?: string;
+  securityPreference?: string;
+}
+
 export interface NewPinParams {
   salt: string;
   encryptedRecoveryKey: string;
