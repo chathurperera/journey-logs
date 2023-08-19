@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import firestore from '@react-native-firebase/firestore';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 
 import { LoadingSpinner, Text } from '@jl/components';
@@ -13,12 +14,35 @@ import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { NoteCard } from './components/NoteCard';
 import { TagsList } from './components/TagsList';
 
+const FooterComponent: React.FC<{
+  isLoading: boolean;
+  dataLength: number;
+  isFetchingMore: boolean;
+  isEndReached: boolean;
+}> = ({ isLoading, dataLength, isFetchingMore, isEndReached }) => {
+  if (isLoading) return <LoadingSpinner size="large" />;
+  if (dataLength === 0)
+    return (
+      <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
+        No notes available. Start adding notes!
+      </Text>
+    );
+  if (isFetchingMore) return <LoadingSpinner size="small" />;
+  if (isEndReached)
+    return (
+      <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
+        No more notes to load.
+      </Text>
+    );
+  return null;
+};
+
 export function HomeScreen() {
   const { userId } = useSelector(state => state.userStore.userData);
 
   const [selectedId, setSelectedId] = useState<string>();
   const [selectedTag, setSelectedTag] = useState('All');
-  // console.log('selectedTag', selectedTag);
+
   const pageSize = 10;
 
   const initialQuery = useMemo(() => {
@@ -37,27 +61,19 @@ export function HomeScreen() {
     pageSize,
   );
 
-  const renderFooter = () => {
-    if (isLoading) return <LoadingSpinner size="large" />;
-    if (data.length === 0)
-      return (
-        <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
-          No notes available. Start adding notes!
-        </Text>
-      );
-    if (isFetchingMore) return <LoadingSpinner size="small" />;
-    if (isEndReached)
-      return (
-        <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
-          No more notes to load.
-        </Text>
-      );
-    return null;
-  };
+  const onEndReachedHandler = useCallback(
+    ({ distanceFromEnd }: { distanceFromEnd: number }) => {
+      if (distanceFromEnd >= 0.8) {
+        fetchMoreData();
+      }
+    },
+    [fetchMoreData],
+  );
 
-  const renderItem = ({ item }: { item: NoteData }) => {
-    return <NoteCard {...item} onPress={() => setSelectedId(item.id)} />;
-  };
+  const renderItem = useCallback(
+    ({ item }: { item: NoteData }) => <NoteCard {...item} onPress={() => setSelectedId(item.id)} />,
+    [],
+  );
 
   return (
     <BaseScreenLayout wrapWithScrollView={false}>
@@ -74,13 +90,15 @@ export function HomeScreen() {
             data={data}
             renderItem={renderItem}
             keyExtractor={item => item.id}
-            ListFooterComponent={renderFooter}
-            onEndReached={({ distanceFromEnd }) => {
-              if (distanceFromEnd >= 0.8) {
-                console.log('fetchMoreData fired because the distanceFromEnd is', distanceFromEnd);
-                fetchMoreData();
-              }
-            }}
+            ListFooterComponent={
+              <FooterComponent
+                isLoading={isLoading}
+                dataLength={data.length}
+                isFetchingMore={isFetchingMore}
+                isEndReached={isEndReached}
+              />
+            }
+            onEndReached={onEndReachedHandler}
             refreshing={isLoading}
             onRefresh={refreshData}
             onEndReachedThreshold={0.5}
