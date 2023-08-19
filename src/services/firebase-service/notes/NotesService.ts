@@ -171,7 +171,27 @@ const getFavourites = async (userId: string) => {
   }
 };
 
+const addToFavourites = async (noteId: string) => {
+  try {
+    await firestore().collection('notes').doc(noteId).update({ isFavourite: true });
+    ToastService.success('Success', 'Note added to favourites');
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+const removeFromFavourites = async (noteId: string) => {
+  try {
+    await firestore().collection('notes').doc(noteId).update({ isFavourite: false });
+    ToastService.success('Success', 'Note removed from favourites');
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
 export const NoteService = {
+  addToFavourites,
+  removeFromFavourites,
   createNote,
   deleteNote,
   getAllNotes,

@@ -2,6 +2,7 @@ import { Icon } from '@rneui/base';
 import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
@@ -95,12 +96,15 @@ export function PreviewNoteScreen({ route }) {
         noteId={noteId}
         note={noteData?.body}
       />
-      <MenuBottomSheet
-        ref={MenuBottomSheetMethodsRef}
-        noteId={noteId}
-        body={noteData?.body}
-        isEncrypted={noteData?.isEncrypted}
-      />
+      <Portal>
+        <MenuBottomSheet
+          ref={MenuBottomSheetMethodsRef}
+          noteId={noteId}
+          body={noteData?.body}
+          isEncrypted={noteData?.isEncrypted}
+          isFavourite={noteData?.isFavourite}
+        />
+      </Portal>
     </BaseScreenLayout>
   );
 }

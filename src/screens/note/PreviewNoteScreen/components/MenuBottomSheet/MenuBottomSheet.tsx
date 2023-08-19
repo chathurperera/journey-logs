@@ -1,6 +1,6 @@
 import { Icon } from '@rneui/base';
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 
 import { Text } from '@jl/components';
@@ -13,10 +13,11 @@ interface MenuBottomSheetProps {
   noteId: string;
   body: string;
   isEncrypted: boolean;
+  isFavourite: boolean;
 }
 
 export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
-  { noteId, isEncrypted, body }: MenuBottomSheetProps,
+  { noteId, isEncrypted, isFavourite, body }: MenuBottomSheetProps,
   ref,
 ) {
   const ModalizeRef = useRef<Modalize>(null);
@@ -43,42 +44,58 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
     ModalizeRef.current?.close();
   };
 
+  const handleNoteFavouriteStateToggle = async () => {
+    if (isFavourite) {
+      await NoteService.removeFromFavourites(noteId);
+    } else {
+      await NoteService.addToFavourites(noteId);
+    }
+    ModalizeRef.current?.close();
+  };
+
+  const handleEditNoteNavigation = () => {
+    NavigationService.navigate(Route.EditNote, { noteId: noteId });
+    ModalizeRef.current?.close();
+  };
+
   return (
     <Modalize ref={ModalizeRef} adjustToContentHeight>
-      <Pressable
-        onPress={() => NavigationService.navigate(Route.EditNote, { noteId: noteId })}
-        style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2 border-b-2`}>
-        <Icon type="feather" name="edit" size={25} />
-        <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
-          Edit note
-        </Text>
-      </Pressable>
-      {/* <Pressable
-        onPress={() => console.log('handle tags create screen navigation')}
-        style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2 border-b-2`}>
-        <Icon type="feather" name="tag" size={25} />
-        <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
-          Add Tags
-        </Text>
-      </Pressable> */}
-      {recoveryKey !== '' && (
+      <View style={tw`px-4 pb-3`}>
         <Pressable
-          onPress={handleNoteEncryption}
-          style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2 border-b-2`}>
-          <Icon type="feather" name={isEncrypted ? 'unlock' : 'lock'} size={25} />
-          <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL500}>
-            {isEncrypted ? 'Unlock note' : 'Lock note'}
+          onPress={handleEditNoteNavigation}
+          style={tw`border-b-[${Color.Neutral.JL200}] p-4 px-8 flex-row items-center gap-2 border-b`}>
+          <Icon type="feather" name="edit" size={25} />
+          <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
+            Edit note
           </Text>
         </Pressable>
-      )}
-      <Pressable
-        onPress={handleNoteDeletion}
-        style={tw`border-b-[${Color.Primary.Jl400}] p-4 flex-row items-center gap-2`}>
-        <Icon type="feather" name="trash-2" color={Color.Warning.JL100} size={25} />
-        <Text variant={TextVariant.Body1SemiBold} color={Color.Warning.JL100}>
-          Delete Note
-        </Text>
-      </Pressable>
+        <Pressable
+          onPress={handleNoteFavouriteStateToggle}
+          style={tw`border-b-[${Color.Neutral.JL200}] p-4 px-8 flex-row items-center gap-2 border-b`}>
+          <Icon type="ant-design" name={isFavourite ? 'heart' : 'hearto'} size={25} />
+          <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
+            {isFavourite ? 'Remove from Favourites' : 'Add to Favourites'}
+          </Text>
+        </Pressable>
+        {recoveryKey !== '' && (
+          <Pressable
+            onPress={handleNoteEncryption}
+            style={tw`border-b-[${Color.Neutral.JL200}] p-4 px-8 flex-row items-center gap-2 border-b`}>
+            <Icon type="feather" name={isEncrypted ? 'unlock' : 'lock'} size={25} />
+            <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
+              {isEncrypted ? 'Unlock note' : 'Lock note'}
+            </Text>
+          </Pressable>
+        )}
+        <Pressable
+          onPress={handleNoteDeletion}
+          style={tw`border-b-[${Color.Neutral.JL200}] p-4 px-8 flex-row items-center gap-2`}>
+          <Icon type="feather" name="trash-2" color={Color.Warning.JL500} size={25} />
+          <Text variant={TextVariant.Body1SemiBold} color={Color.Warning.JL800}>
+            Delete Note
+          </Text>
+        </Pressable>
+      </View>
     </Modalize>
   );
 });
