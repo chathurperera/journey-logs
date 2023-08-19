@@ -2,10 +2,7 @@ import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useState } from 'react';
 
-export const useFirestorePagination = (
-  initialQuery: FirebaseFirestoreTypes.Query,
-  pageSize: number,
-) => {
+export const useFirestorePagination = (initialQuery: FirebaseFirestoreTypes.Query, pageSize: number) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
@@ -14,7 +11,7 @@ export const useFirestorePagination = (
 
   const fetchData = async () => {
     setIsLoading(true);
-
+    console.log('fetchData fired');
     try {
       let query = initialQuery.limit(pageSize);
 
@@ -32,8 +29,11 @@ export const useFirestorePagination = (
   };
 
   useEffect(() => {
+    setIsEndReached(false);
+    setLastDocument(null);
+    setData([]); // Clearing previous data can be helpful
     fetchData();
-  }, []);
+  }, [initialQuery]);
 
   const refreshData = useCallback(async () => {
     setIsEndReached(false);
@@ -44,11 +44,8 @@ export const useFirestorePagination = (
     useCallback(() => {
       refreshData();
 
-      return () => {
-        // Do something when the screen is unfocused
-        // Useful for cleanup functions
-      };
-    }, []),
+      return () => {};
+    }, [initialQuery]),
   );
 
   const fetchMoreData = async () => {

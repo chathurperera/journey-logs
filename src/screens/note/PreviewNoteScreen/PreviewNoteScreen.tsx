@@ -5,7 +5,7 @@ import { Modalize } from 'react-native-modalize';
 
 import { LoadingSpinner, Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, TextVariant } from '@jl/constants';
+import { Color, TextAlignment, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
 import { HeaderBackButton } from '@jl/navigation';
 import { NoteEncryption, NoteService } from '@jl/services';
@@ -65,7 +65,7 @@ export function PreviewNoteScreen({ route }) {
       <View style={[tw`mx-5 h-full pb-10`]}>
         <View style={tw`justify-between flex-row items-center mb-3`}>
           <HeaderBackButton />
-          <Text variant={TextVariant.Title2} color={Color.Neutral.JL500}>
+          <Text variant={TextVariant.Title2} color={Color.Neutral.JL500} textAlign={TextAlignment.Center}>
             {noteData?.title}
           </Text>
           <View style={tw`justify-between flex-row gap-3 items-center relative`}>
