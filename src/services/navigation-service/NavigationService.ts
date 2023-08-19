@@ -128,6 +128,17 @@ export class NavigationService {
         },
       },
 
+      [Route.Account]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.Account,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       [Route.ConfirmPinCode]: {
         navRoute: Route.SettingsStack,
         navParams: {
@@ -143,6 +154,17 @@ export class NavigationService {
         navRoute: Route.SettingsStack,
         navParams: {
           screen: Route.ChangePinCode,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.ChangePassword]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.ChangePassword,
           params: {
             screen: route,
             params: params,

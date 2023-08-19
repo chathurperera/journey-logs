@@ -8,12 +8,13 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextAlignment, TextVariant } from '@jl/constants';
 import { TagsService } from '@jl/services';
-import { useSelector } from '@jl/stores';
 
 export const TagsSheet = forwardRef(function TagsSheet(props, ref) {
+  const userId = 'dasdas';
   const ModalizeRef = useRef<Modalize>(null);
+  // const { userId } = useSelector(state => state.userStore.userData);
+
   const [enteredTag, setEnteredTag] = useState('');
-  const { userId } = useSelector(state => state.userStore.userData);
   const [isLoading, setIsLoading] = useState(false);
   const [tagsList, setTagsList] = useState([]);
   const [isTagsFetching, setIsTagsFetching] = useState(false);
@@ -75,7 +76,7 @@ export const TagsSheet = forwardRef(function TagsSheet(props, ref) {
   );
 
   const renderPillsList = () => {
-    return tagsList.map(tag => (
+    return tagsList?.map(tag => (
       <Pressable
         onPress={() => handleTagDeletion(tag)}
         key={tag}
@@ -118,7 +119,7 @@ export const TagsSheet = forwardRef(function TagsSheet(props, ref) {
         </Text>
         <View style={tw`flex-row flex-wrap pt-3 gap-4`}>
           {renderPillsList()}
-          {!isTagsFetching && tagsList.length === 0 && renderEmptyList()}
+          {!isTagsFetching && tagsList?.length === 0 && renderEmptyList()}
         </View>
       </View>
     </Modalize>

@@ -1,7 +1,9 @@
 export enum Route {
   AuthStack = 'auth-stack',
+  Account = 'account',
   CalendarTab = 'calendar-tab',
   ChangePinCode = 'change-pin-code',
+  ChangePassword = 'change-password',
   ConfirmPinCode = 'confirm-pin-code',
   EditNote = 'edit-note',
   ForgetPassword = 'forget-password',

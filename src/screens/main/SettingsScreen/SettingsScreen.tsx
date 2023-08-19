@@ -74,8 +74,8 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
         </View>
         <View style={tw`mt-10`}>
           <Section title="account">
-            <SectionLink text="Account" onPress={() => console.log('account navigation')} />
-            <SectionLink text="Change Password" onPress={() => console.log('change password screen')} />
+            <SectionLink text="Account" onPress={() => NavigationService.navigate(Route.Account)} />
+            <SectionLink text="Change Password" onPress={() => NavigationService.navigate(Route.ChangePassword)} />
           </Section>
           <Section title={'notes'}>
             <SectionLink text="Tags" onPress={() => TagsSheetMethodsRef.current?.open()} />
