@@ -16,10 +16,12 @@ type ItemProps = {
   textColor: string;
 };
 
-type TagsListProps = {
+interface TagsListProps {
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
   selectedTags: string[];
-};
+  isEditable?: boolean;
+  noteTags?: string[];
+}
 
 const Item = React.memo(({ item, handleOnPress, backgroundColor, textColor }: ItemProps) => {
   return (
@@ -37,19 +39,24 @@ const Item = React.memo(({ item, handleOnPress, backgroundColor, textColor }: It
   );
 });
 
-export function TagsList({ setSelectedTags, selectedTags }: TagsListProps) {
+export function TagsList({ setSelectedTags, selectedTags, isEditable = false, noteTags = [] }: TagsListProps) {
   const { userId } = useSelector(state => state.userStore.userData);
   const { data } = useFetch(() => TagsService.getAllTags(userId));
 
+  console.log('allTags', data);
+  const tagsToDisplay = isEditable ? data : noteTags;
+
   const toggleTag = useCallback(
     (tag: string) => {
+      if (!isEditable) return; // if not editable, don't allow toggling
+
       if (selectedTags.includes(tag)) {
         setSelectedTags((prevTags: string[]) => prevTags.filter((t: string) => t !== tag));
       } else {
         setSelectedTags((prevTags: string[]) => [...prevTags, tag]);
       }
     },
-    [selectedTags, setSelectedTags],
+    [selectedTags, setSelectedTags, isEditable],
   );
 
   const renderItem = useCallback(
@@ -66,7 +73,7 @@ export function TagsList({ setSelectedTags, selectedTags }: TagsListProps) {
       <FlatList
         horizontal
         contentContainerStyle={tw``}
-        data={data}
+        data={tagsToDisplay}
         showsHorizontalScrollIndicator={false}
         renderItem={renderItem}
         keyExtractor={item => item}

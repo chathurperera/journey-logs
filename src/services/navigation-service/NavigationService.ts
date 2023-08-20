@@ -67,17 +67,6 @@ export class NavigationService {
         navParams: params,
       },
 
-      [Route.EditNote]: {
-        navRoute: Route.NotesStack,
-        navParams: {
-          screen: Route.EditNote,
-          params: {
-            screen: route,
-            params: params,
-          },
-        },
-      },
-
       [Route.Tags]: {
         navRoute: Route.NotesStack,
         navParams: {

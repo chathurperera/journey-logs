@@ -5,8 +5,8 @@ import { Modalize } from 'react-native-modalize';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
-import { NavigationService, NoteService, ToastService } from '@jl/services';
+import { Color, TextAlignment, TextVariant } from '@jl/constants';
+import { NoteService, ToastService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 interface MenuBottomSheetProps {
@@ -14,10 +14,11 @@ interface MenuBottomSheetProps {
   body: string;
   isEncrypted: boolean;
   isFavourite: boolean;
+  toggleEditingMode: () => void;
 }
 
 export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
-  { noteId, isEncrypted, isFavourite, body }: MenuBottomSheetProps,
+  { noteId, isEncrypted, isFavourite, body, toggleEditingMode }: MenuBottomSheetProps,
   ref,
 ) {
   const ModalizeRef = useRef<Modalize>(null);
@@ -53,8 +54,8 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
     ModalizeRef.current?.close();
   };
 
-  const handleEditNoteNavigation = () => {
-    NavigationService.navigate(Route.EditNote, { noteId: noteId });
+  const handleEditNoteMode = () => {
+    toggleEditingMode();
     ModalizeRef.current?.close();
   };
 
@@ -66,7 +67,7 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
             Manage note
           </Text>
         </View>
-        <Pressable onPress={handleEditNoteNavigation} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
+        <Pressable onPress={handleEditNoteMode} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
           <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
             <Icon type="feather" name="edit" size={25} color={Color.Primary.Jl500} />
           </View>

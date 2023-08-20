@@ -18,6 +18,7 @@ const getAllTags = async (userId: string) => {
   try {
     const userDoc = await firestore().collection('users').doc(userId).get();
     const userData = userDoc.data();
+    console.log('userData', userData.tags);
     return userData.tags;
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');
