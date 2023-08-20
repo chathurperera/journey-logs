@@ -79,7 +79,7 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
             <SectionLink text="Change Password" onPress={() => NavigationService.navigate(Route.ChangePassword)} />
           </Section>
           <Section title={'notes'}>
-            <SectionLink text="Tags" onPress={() => TagsSheetMethodsRef.current?.open()} />
+            <SectionLink text="Tags" onPress={() => NavigationService.navigate(Route.Tags)} />
             <SectionLink text={salt === '' ? 'Add PIN' : 'Change PIN'} onPress={handleAddPINNavigation} />
             {salt !== '' && <SectionLink text="Hidden Notes" onPress={() => hiddenNotesAccessNavigation()} />}
           </Section>
