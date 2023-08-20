@@ -199,13 +199,13 @@ export function PreviewNoteScreen({ route }) {
       ) : (
         <View style={tw`justify-between flex-row gap-3 items-center relative`}>
           {salt !== '' && (
-            <View style={tw`justify-center p-1 rounded-md bg-[${Color.Secondary.JL50}]`}>
+            <View style={tw`justify-center p-1.2 rounded-md bg-[${Color.Secondary.JL50}]`}>
               <Icon
                 type="feather"
                 name={noteData?.isEncrypted ? 'unlock' : 'lock'}
-                size={25}
+                size={22}
                 onPress={!isLoading && handleNoteEncryption}
-                color={isLoading && Color.Neutral.JL200}
+                color={Color.Primary.Jl500}
               />
             </View>
           )}

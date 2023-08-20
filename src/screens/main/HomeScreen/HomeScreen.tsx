@@ -40,17 +40,18 @@ export function HomeScreen() {
     pageSize,
   );
 
-  const listEmptyComponent = () => (
+  const ListEmptyComponent = () => (
     <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
       {!isLoading ? 'No notes available. Start adding notes!' : ''}
     </Text>
   );
 
-  const renderFooterComponent = () => (
+  const RenderFooterComponent = () => (
     <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
       {!isLoading && isEndReached ? 'No more notes to load.' : ''}
     </Text>
   );
+
   const renderItem = useCallback(
     ({ item }: { item: NoteData }) => <NoteCard {...item} onPress={() => setSelectedId(item.id)} />,
     [],
@@ -76,9 +77,9 @@ export function HomeScreen() {
             renderItem={renderItem}
             refreshing={isFetchingMore}
             onRefresh={refreshData}
-            ListFooterComponent={renderFooterComponent}
+            ListFooterComponent={<RenderFooterComponent />}
             LoadingView={<LoadingView />}
-            ListEmptyComponent={listEmptyComponent}
+            ListEmptyComponent={<ListEmptyComponent />}
             onEndReachedThreshold={0.1}
             onEndReached={() => fetchMoreData()}
           />

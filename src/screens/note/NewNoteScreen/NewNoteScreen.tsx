@@ -48,6 +48,8 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
         setNoteContent({ ...noteContent, title: 'Untitled note' });
       }
 
+      console.log('cahracter count', replaceWhiteSpace.length);
+
       await NoteService.createNote({
         title: noteContent.title,
         userId: userId,
