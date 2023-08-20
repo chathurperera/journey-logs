@@ -112,8 +112,10 @@ export function PinCodeScreen({ route }) {
 
   return (
     <BaseScreenLayout>
-      <View style={tw`flex-1 justify-center`}>
-        <HeaderBackButton />
+      <View style={tw`flex-1 justify-center mx-5 relative`}>
+        <View style={tw`absolute top-0 left-5`}>
+          <HeaderBackButton />
+        </View>
         <View style={tw`flex-row justify-center`}>
           <Image source={images.logo} style={tw`w-20 h-20`} />
         </View>
@@ -125,10 +127,10 @@ export function PinCodeScreen({ route }) {
           buttonViewStyle={tw`bg-[${Color.Neutral.JL50}]`}
           buttonTextStyle={tw`text-[${Color.Neutral.JL900}] text-4xlg font-normal`}
           buttonSize={70}
-          buttonAreaStyle={tw`px-6`}
+          buttonAreaStyle={tw``}
           inputAreaStyle={tw`mb-6 mt-3`}
           inputViewStyle={tw`w-5 h-5`}
-          inputViewEmptyStyle={tw`bg-[${Color.Neutral.JL50}]`}
+          inputViewEmptyStyle={tw`bg-[${Color.Neutral.white}] border`}
           onValueChange={value => setEnteredPin(value)}
           onButtonPress={key => {
             if (key === 'custom_right') {

@@ -28,6 +28,7 @@ export function SettingsStack() {
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
+        animation: 'slide_from_right',
       }}>
       <Stack.Screen name={Route.PinCode} component={PinCodeScreen} />
       <Stack.Screen name={Route.ConfirmPinCode} component={ConfirmPinCodeScreen} />

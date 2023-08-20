@@ -1,6 +1,6 @@
 import { createModel } from '@rematch/core';
 
-import { VALIDATION_STRING } from '@jl/constants';
+import { SECURITY_PREFERENCE, VALIDATION_STRING } from '@jl/constants';
 import { CreateNewPINData } from '@jl/models';
 import { EncryptionService, NoteEncryption } from '@jl/services';
 
@@ -10,6 +10,7 @@ interface EncryptionState {
   recoveryKey: string;
   salt: string;
   encryptedRecoveryKey: string;
+  securityPreference: string;
   failedAttempts: number;
   lockoutTimestamp: number;
   lastAccessedHiddenNotesAt: number;
@@ -18,6 +19,7 @@ interface EncryptionState {
 const initialState: EncryptionState = {
   recoveryKey: '',
   encryptedRecoveryKey: '',
+  securityPreference: '',
   salt: '',
   failedAttempts: 0,
   lockoutTimestamp: 0,
@@ -32,6 +34,9 @@ export const encryptionStore = createModel<RootModel>()({
     },
     setEncryptedRecoveryKey(state: EncryptionState, encryptedRecoveryKey: string) {
       return { ...state, encryptedRecoveryKey: encryptedRecoveryKey };
+    },
+    setSecurityPreference(state: EncryptionState, securityPreference: string) {
+      return { ...state, securityPreference: securityPreference };
     },
     setSalt(state: EncryptionState, salt: string) {
       return { ...state, salt: salt };
@@ -59,6 +64,7 @@ export const encryptionStore = createModel<RootModel>()({
         ...state,
         recoveryKey: '',
         encryptedRecoveryKey: '',
+        securityPreference: '',
         salt: '',
         failedAttempts: 0,
         lockoutTimestamp: null,
@@ -78,6 +84,7 @@ export const encryptionStore = createModel<RootModel>()({
       await NoteEncryption.savePinAndRecoveryKey(payload.userId, salt, encryptedRecoveryKey);
 
       dispatch.encryptionStore.setRecoveryKey(recoveryKey);
+      dispatch.encryptionStore.setSecurityPreference(SECURITY_PREFERENCE.MEDIUM);
       dispatch.encryptionStore.setEncryptedRecoveryKey(encryptedRecoveryKey);
       dispatch.encryptionStore.setSalt(salt);
     },

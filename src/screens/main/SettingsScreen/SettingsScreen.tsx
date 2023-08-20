@@ -21,12 +21,13 @@ interface SettingsScreenProps {
 
 export function SettingsScreen({ testID }: SettingsScreenProps) {
   const dispatch = useDispatch();
+  const { securityPreference } = useSelector(state => state.encryptionStore);
 
   const { salt, lastAccessedHiddenNotesAt, lockoutTimestamp } = useSelector(state => state.encryptionStore);
   const { name, email } = useSelector(state => state.userStore.userData);
   const TagsSheetMethodsRef = useRef<Modalize>(null);
 
-  const isInLockedPeriod = validateLockoutPeriod(lockoutTimestamp);
+  const isInLockedPeriod = validateLockoutPeriod(lockoutTimestamp, securityPreference);
 
   const hiddenNotesAccessNavigation = () => {
     if (isInLockedPeriod) {
