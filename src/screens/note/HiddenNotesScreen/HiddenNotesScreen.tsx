@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import { Icon } from '@rneui/base';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FlatList, Pressable, View } from 'react-native';
 
 import { LoadingSpinner, Text } from '@jl/components';
@@ -18,22 +18,25 @@ export function HiddenNotesScreen() {
 
   const pageSize = 10;
 
-  let query = firestore()
-    .collection('notes')
-    .where('userId', '==', userId)
-    .where('isEncrypted', '==', true)
-    .orderBy('createdAt', 'desc');
+  const initialQuery = useMemo(() => {
+    let query = firestore()
+      .collection('notes')
+      .where('userId', '==', userId)
+      .where('isEncrypted', '==', true)
+      .orderBy('createdAt', 'desc');
+    return query;
+  }, []);
 
-  const { data, isLoading, isFetchingMore, isEndReached, fetchMoreData, refreshData } =
-    useFirestorePagination(query, pageSize);
+  const { data, isLoading, isFetchingMore, isEndReached, fetchMoreData, refreshData } = useFirestorePagination(
+    initialQuery,
+    pageSize,
+  );
 
   const renderFooter = () => {
     if (isLoading) return <LoadingSpinner size="large" />;
-    if (data.length === 0)
-      return <Text variant={TextVariant.Body2SemiBold}>No hidden notes available</Text>;
+    if (data.length === 0) return <Text variant={TextVariant.Body2SemiBold}>No hidden notes available</Text>;
     if (isFetchingMore) return <LoadingSpinner size="small" />;
-    if (isEndReached)
-      return <Text variant={TextVariant.Body2SemiBold}>No more notes to load.</Text>;
+    if (isEndReached) return <Text variant={TextVariant.Body2SemiBold}>No more notes to load.</Text>;
     return null;
   };
 
@@ -51,10 +54,7 @@ export function HiddenNotesScreen() {
             <Icon type="feather" name="chevron-left" size={30} color={Color.Neutral.JL800} />
           </Pressable>
           <View style={tw`w-full`}>
-            <Text
-              variant={TextVariant.Heading3SemiBold}
-              color={Color.Neutral.JL900}
-              textAlign={TextAlignment.Center}>
+            <Text variant={TextVariant.Heading3SemiBold} color={Color.Neutral.JL900} textAlign={TextAlignment.Center}>
               Secured Notes
             </Text>
           </View>

@@ -7,6 +7,7 @@ import { images } from '@jl/assets';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
+import { HeaderBackButton } from '@jl/navigation';
 import { AccountService, EncryptionService, NavigationService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
 import { getCurrentTimestampInSeconds } from '@jl/utils';
@@ -51,6 +52,8 @@ export function PinCodeScreen({ route }) {
       NavigationService.navigate(Route.ConfirmPinCode, { pinCode: enteredPin });
     }
   };
+
+  console.log('pin Code screen renders');
 
   useEffect(() => {
     if (isIncorrectPin) {
@@ -110,6 +113,7 @@ export function PinCodeScreen({ route }) {
   return (
     <BaseScreenLayout>
       <View style={tw`flex-1 justify-center`}>
+        <HeaderBackButton />
         <View style={tw`flex-row justify-center`}>
           <Image source={images.logo} style={tw`w-20 h-20`} />
         </View>

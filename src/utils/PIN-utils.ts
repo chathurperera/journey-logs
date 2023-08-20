@@ -18,6 +18,3 @@ export const getRemainingLockoutTime = (lockoutTimestamp: number) => {
   const difference = lockoutTimestamp + 300 - currentTimestamp;
   return difference;
 };
-// // Example
-// const lockoutTime = moment().valueOf() - 2 * 60 * 1000; // 2 minutes ago
-// console.log(getRemainingLockoutTime(lockoutTime)); // Should return something close to "3:00"

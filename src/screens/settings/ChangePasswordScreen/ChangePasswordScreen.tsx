@@ -24,7 +24,6 @@ export function ChangePasswordScreen() {
 
     setIsLoading(true);
     try {
-      console.log('formData', formData);
       await AccountService.updatePassword(currentPassword, newPassword);
       setIsLoading(false);
     } catch (error) {
