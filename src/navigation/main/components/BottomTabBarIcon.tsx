@@ -2,9 +2,8 @@ import { Icon } from '@rneui/themed';
 import React from 'react';
 import { Pressable, View } from 'react-native';
 
-import { Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { Color, Route, TextVariant } from '@jl/constants';
+import { Color, Route } from '@jl/constants';
 
 interface BottomTabBarIconProps {
   isFocused: boolean;
@@ -14,24 +13,19 @@ interface BottomTabBarIconProps {
 
 export function BottomTabBarIcon({ isFocused, routeName, onPress }: BottomTabBarIconProps) {
   let iconName;
-  let iconLabel;
 
   switch (routeName) {
     case Route.HomeTab:
-      iconName = 'home';
-      iconLabel = 'Home';
+      iconName = 'appstore-o';
       break;
     case Route.FavouritesTab:
-      iconName = 'heart';
-      iconLabel = 'Favourites';
+      iconName = 'hearto';
       break;
     case Route.SettingsTab:
-      iconName = 'settings';
-      iconLabel = 'Settings';
+      iconName = 'setting';
       break;
     case Route.CalendarTab:
       iconName = 'calendar';
-      iconLabel = 'Calendar';
       break;
     default:
       break;
@@ -39,12 +33,15 @@ export function BottomTabBarIcon({ isFocused, routeName, onPress }: BottomTabBar
   return (
     <>
       <Pressable onPress={onPress}>
-        <View style={tw`mb-.5`}>
-          <Icon type="feather" name={iconName} color={isFocused ? Color.Neutral.JL700 : Color.Neutral.JL50} size={28} />
+        <View
+          style={tw`mb-.5 p-2 ${isFocused ? `bg-[${Color.Secondary.JL50}] rounded` : `bg-[${Color.Neutral.white}]`}`}>
+          <Icon
+            type="ant-design"
+            name={iconName}
+            color={isFocused ? Color.Primary.Jl500 : Color.Secondary.JL800}
+            size={28}
+          />
         </View>
-        <Text variant={TextVariant.Label1Regular} color={isFocused ? Color.Neutral.JL700 : Color.Neutral.JL50}>
-          {iconLabel}
-        </Text>
       </Pressable>
     </>
   );
