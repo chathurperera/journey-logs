@@ -43,7 +43,6 @@ export function TagsList({ setSelectedTags, selectedTags, isEditable = false, no
   const { userId } = useSelector(state => state.userStore.userData);
   const { data } = useFetch(() => TagsService.getAllTags(userId));
 
-  console.log('allTags', data);
   const tagsToDisplay = isEditable ? data : noteTags;
 
   const toggleTag = useCallback(

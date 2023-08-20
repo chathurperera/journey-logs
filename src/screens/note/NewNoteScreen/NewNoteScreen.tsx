@@ -34,6 +34,7 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
     title: '',
     body: '',
   });
+  const [isLimitExceeded, setIsLimitExceeded] = useState(false);
 
   const handleDocumentSave = async () => {
     // const contentWithoutHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
@@ -47,8 +48,6 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
       if (noteContent.title === '') {
         setNoteContent({ ...noteContent, title: 'Untitled note' });
       }
-
-      console.log('cahracter count', replaceWhiteSpace.length);
 
       await NoteService.createNote({
         title: noteContent.title,
@@ -68,10 +67,28 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
   };
 
   const handleTextEditorChange = text => {
+    console.log('noteContent.body.length', noteContent.body.length);
     setNoteContent(prevValues => {
       return { ...prevValues, body: text };
     });
+
+    if (noteContent.body.length > 1000) {
+      setIsLimitExceeded(true);
+    } else {
+      setIsLimitExceeded(false);
+    }
   };
+
+  const renderCharacterExceededMessage = () => (
+    <View>
+      <Text variant={TextVariant.Label2Regular} color={Color.Warning.JL800} textAlign={TextAlignment.Center}>
+        Note length exceeded!
+      </Text>
+      <Text variant={TextVariant.Label2Regular} color={Color.Warning.JL800} textAlign={TextAlignment.Center}>
+        Please keep your note under 1000 characters
+      </Text>
+    </View>
+  );
 
   return (
     <BaseScreenLayout testID={testID}>
@@ -81,7 +98,10 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
           {/* TODO:: replace with a proper button variant */}
           <View style={tw`justify-between flex-row gap-2 items-center relative`}>
             <Pressable
-              style={tw`bg-[${Color.Primary.Jl600}] py-2 px-6 rounded-3xl  gap-2 flex-row justify-between items-center`}
+              disabled={isLimitExceeded}
+              style={tw`bg-[${
+                isLimitExceeded ? Color.Primary.Jl200 : Color.Primary.Jl500
+              }] py-2 px-6 rounded-3xl  gap-2 flex-row justify-between items-center`}
               onPress={handleDocumentSave}>
               {isLoading && <LoadingSpinner size="small" />}
               <Text variant={TextVariant.Label2SemiBold} color={Color.Neutral.white} textAlign={TextAlignment.Center}>
@@ -90,9 +110,10 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
             </Pressable>
           </View>
         </View>
-
+        {isLimitExceeded && renderCharacterExceededMessage()}
         <TagsList setSelectedTags={setSelectedTags} selectedTags={selectedTags} />
-        <View style={tw`h-full pt-4`}>
+
+        <View style={tw`h-full pt-4 relative`}>
           <TextInput placeholder="Title" style={tw`text-4xlg pl-2`} onChangeText={handleTitleTextChange} />
           <RichEditor
             ref={RichTextEditorRef}
@@ -105,7 +126,7 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
             placeholder={'Start typing'}
             onChange={handleTextEditorChange}
           />
-          <View style={tw`pb-7`}>
+          <View style={tw`pb-7 absolute bottom-0 right-0 left-0`}>
             <RichToolbar
               editor={RichTextEditorRef}
               style={tw`bg-[${Color.Neutral.black}] h-12.5 rounded-xl`}
