@@ -5,7 +5,6 @@ export enum Route {
   ChangePinCode = 'change-pin-code',
   ChangePassword = 'change-password',
   ConfirmPinCode = 'confirm-pin-code',
-  EditNote = 'edit-note',
   ForgetPassword = 'forget-password',
   FavouritesTab = 'favourites-tab',
   HiddenNotes = 'hidden-notes',

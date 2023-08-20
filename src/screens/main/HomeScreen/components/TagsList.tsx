@@ -41,7 +41,7 @@ export function TagsList({ selectedTag, setSelectedTag }: TagsListProps) {
   const [allTags, setAlTags] = useState([]);
 
   const renderItem = ({ item }: { item: string }) => {
-    const backgroundColor = item === selectedTag ? Color.Primary.Jl500 : Color.Secondary.JL200;
+    const backgroundColor = item === selectedTag ? Color.Primary.Jl500 : Color.Tertiary.JL200;
     const color = item === selectedTag ? Color.Neutral.white : Color.Neutral.JL900;
 
     return (

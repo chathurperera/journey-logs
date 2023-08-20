@@ -2,7 +2,7 @@
 import { getPersistor } from '@rematch/persist';
 import React from 'react';
 import ErrorBoundary from 'react-native-error-boundary';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { useDeviceContext } from 'twrnc';

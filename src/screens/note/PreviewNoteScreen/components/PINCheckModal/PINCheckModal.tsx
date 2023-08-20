@@ -42,7 +42,7 @@ export function PINCheckModal({ isModalVisible, toggleModal, noteId, note }) {
           onChange={() => invalidPIN && setInvalidPIN(false)}
           onChangeText={setEnteredPIN}
           value={enteredPIN}
-          inputContainerStyle={tw`border-[${Color.Secondary.jl100}] border-[1px] rounded-2 py-1 mt-3`}
+          inputContainerStyle={tw`border-[${Color.Tertiary.jl100}] border-[1px] rounded-2 py-1 mt-3`}
           inputStyle={tw`px-2.5 text-[15px] font-Inter`}
         />
         <View style={tw`flex-row gap-2 justify-between items-center`}>
