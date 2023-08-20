@@ -21,7 +21,6 @@ export function CalendarScreen() {
 
   const formatNotesDataToCalenderDates = (notes: NoteData[]) => {
     let markedDates = {};
-
     for (let note of notes) {
       let formattedDate = convertFormat(note.createdAt, 'YYYY-MM-DD');
       markedDates[formattedDate] = {
@@ -135,7 +134,7 @@ export function CalendarScreen() {
         </View>
         <View style={tw`border-t-[${Color.Neutral.JL300}] border-t mt-3 pt-4  flex-1`}>
           {isLoading && <LoadingSpinner color={Color.Primary.Jl500} size="large" />}
-          {notes.length === 0 && !isLoading && renderEmptyList()}
+          {notes?.length === 0 && !isLoading && renderEmptyList()}
           {!isLoading && <FlatList data={notes} renderItem={renderItem} keyExtractor={item => item.id} />}
         </View>
       </View>
