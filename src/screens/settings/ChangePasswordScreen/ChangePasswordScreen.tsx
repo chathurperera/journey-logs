@@ -33,9 +33,9 @@ export function ChangePasswordScreen() {
   return (
     <BaseScreenLayout>
       <View style={tw`mx-5 h-full pb-10`}>
-        <View style={tw`justify-between flex-row items-center mb-3`}>
+        <View style={tw`justify-between flex-row items-center mb-3 relative`}>
           <HeaderBackButton />
-          <View style={tw`w-full`}>
+          <View style={tw`w-full absolute left-0 right-0`}>
             <Text variant={TextVariant.Heading3SemiBold} color={Color.Neutral.JL900} textAlign={TextAlignment.Center}>
               Change Password
             </Text>
