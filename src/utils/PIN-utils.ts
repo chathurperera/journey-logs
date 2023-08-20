@@ -1,5 +1,7 @@
 import moment from 'moment';
 
+import { SECURITY_PREFERENCE } from '@jl/constants';
+
 import { getCurrentTimestampInSeconds } from './moment-utils';
 
 export const isPinSessionExpired = (lastSessionTimestamp: number, maxDurationInMinutes: number = 5) => {
@@ -7,10 +9,17 @@ export const isPinSessionExpired = (lastSessionTimestamp: number, maxDurationInM
   return timeDifference > maxDurationInMinutes;
 };
 
-export const validateLockoutPeriod = (lockoutTimestamp: number) => {
+export const validateLockoutPeriod = (lockoutTimestamp: number, securityPreference: string): boolean => {
+  const lockoutPeriods = {
+    [SECURITY_PREFERENCE.LOW]: 30,
+    [SECURITY_PREFERENCE.MEDIUM]: 5,
+    [SECURITY_PREFERENCE.HIGH]: 2,
+  };
+
   const timeDifference = moment().diff(moment(lockoutTimestamp * 1000), 'minute');
-  console.log('timeDifference', timeDifference);
-  return timeDifference < 5;
+  const lockoutPeriodInMinutes = lockoutPeriods[securityPreference] || lockoutPeriods[SECURITY_PREFERENCE.HIGH];
+
+  return timeDifference < lockoutPeriodInMinutes;
 };
 
 export const getRemainingLockoutTime = (lockoutTimestamp: number) => {
@@ -18,6 +27,3 @@ export const getRemainingLockoutTime = (lockoutTimestamp: number) => {
   const difference = lockoutTimestamp + 300 - currentTimestamp;
   return difference;
 };
-// // Example
-// const lockoutTime = moment().valueOf() - 2 * 60 * 1000; // 2 minutes ago
-// console.log(getRemainingLockoutTime(lockoutTime)); // Should return something close to "3:00"

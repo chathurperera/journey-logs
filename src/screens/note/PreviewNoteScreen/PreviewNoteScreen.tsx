@@ -42,7 +42,7 @@ export function PreviewNoteScreen({ route }) {
     body: '',
   });
 
-  const { recoveryKey, salt } = useSelector(state => state.encryptionStore);
+  const { recoveryKey } = useSelector(state => state.encryptionStore);
   const { data: noteData, isLoading } = useFetch(() => NoteService.getSingleNote(noteId));
 
   useEffect(() => {
@@ -66,20 +66,11 @@ export function PreviewNoteScreen({ route }) {
 
   const MenuBottomSheetMethodsRef = useRef<Modalize>(null);
 
-  const handleNoteEncryption = async () => {
-    if (recoveryKey === '') {
-      setModalVisible(true);
-    } else {
-      await NoteService.noteEncryption(noteId, noteData.body, recoveryKey);
-    }
-  };
-
   const handleMenuBottomSheet = () => {
     MenuBottomSheetMethodsRef.current?.open();
   };
 
   const handleDocumentUpdate = async () => {
-    // const contentWithoutHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
     const replaceWhiteSpace = noteContent.body.replace(/&nbsp;/g, '').trim();
 
     if (replaceWhiteSpace.length <= 0) {
@@ -198,17 +189,6 @@ export function PreviewNoteScreen({ route }) {
         </Pressable>
       ) : (
         <View style={tw`justify-between flex-row gap-3 items-center relative`}>
-          {salt !== '' && (
-            <View style={tw`justify-center p-1.2 rounded-md bg-[${Color.Secondary.JL50}]`}>
-              <Icon
-                type="feather"
-                name={noteData?.isEncrypted ? 'unlock' : 'lock'}
-                size={22}
-                onPress={!isLoading && handleNoteEncryption}
-                color={Color.Primary.Jl500}
-              />
-            </View>
-          )}
           <View style={tw`justify-center p-1 rounded-md bg-[${Color.Secondary.JL50}]`}>
             <Icon
               type="feather"

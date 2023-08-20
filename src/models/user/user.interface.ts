@@ -12,3 +12,5 @@ export interface EncryptionData {
   failedAttempts?: number;
   lockoutTimestamp?: string;
 }
+
+export type SecurityLevels = 'Low' | 'Medium' | 'High';
