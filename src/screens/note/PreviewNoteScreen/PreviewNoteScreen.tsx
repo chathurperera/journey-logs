@@ -79,8 +79,8 @@ export function PreviewNoteScreen({ route }) {
   };
 
   const handleDocumentUpdate = async () => {
-    const contentWithoutHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
-    const replaceWhiteSpace = contentWithoutHTML.replace(/&nbsp;/g, '').trim();
+    // const contentWithoutHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
+    const replaceWhiteSpace = noteContent.body.replace(/&nbsp;/g, '').trim();
 
     if (replaceWhiteSpace.length <= 0) {
       ToastService.error('Empty document', 'Document cannot be empty');
@@ -93,7 +93,7 @@ export function PreviewNoteScreen({ route }) {
 
       await NoteService.updateNote(noteId, {
         title: noteContent.title,
-        body: contentWithoutHTML,
+        body: replaceWhiteSpace,
         userId: noteContent.userId,
         tags: selectedTags,
       });
@@ -118,7 +118,7 @@ export function PreviewNoteScreen({ route }) {
 
   const handleEditorInitialization = () => {
     const initialBodyText = noteData?.isEncrypted ? decryptedNote : noteData?.body;
-    RichTextEditorRef.current?.insertText(initialBodyText);
+    RichTextEditorRef.current?.insertHTML(initialBodyText);
     setIsEditorDisabled(true);
   };
 
@@ -199,13 +199,13 @@ export function PreviewNoteScreen({ route }) {
       ) : (
         <View style={tw`justify-between flex-row gap-3 items-center relative`}>
           {salt !== '' && (
-            <View style={tw`justify-center p-1 rounded-md bg-[${Color.Secondary.JL50}]`}>
+            <View style={tw`justify-center p-1.2 rounded-md bg-[${Color.Secondary.JL50}]`}>
               <Icon
                 type="feather"
                 name={noteData?.isEncrypted ? 'unlock' : 'lock'}
-                size={25}
+                size={22}
                 onPress={!isLoading && handleNoteEncryption}
-                color={isLoading && Color.Neutral.JL200}
+                color={Color.Primary.Jl500}
               />
             </View>
           )}
