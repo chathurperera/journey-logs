@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import firestore from '@react-native-firebase/firestore';
+import MasonryList from '@react-native-seoul/masonry-list';
 import React, { useCallback, useMemo, useState } from 'react';
-import { FlatList, View } from 'react-native';
+import { View } from 'react-native';
 
-import { LoadingSpinner, Text } from '@jl/components';
+import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { TextAlignment, TextVariant } from '@jl/constants';
 import { useFirestorePagination } from '@jl/hooks';
@@ -11,36 +12,14 @@ import { NoteData } from '@jl/models';
 import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
+import { LoadingView } from './components/LoadingView';
 import { NoteCard } from './components/NoteCard';
 import { TagsList } from './components/TagsList';
-
-const FooterComponent: React.FC<{
-  isLoading: boolean;
-  dataLength: number;
-  isFetchingMore: boolean;
-  isEndReached: boolean;
-}> = ({ isLoading, dataLength, isFetchingMore, isEndReached }) => {
-  if (isLoading) return <LoadingSpinner size="large" />;
-  if (dataLength === 0)
-    return (
-      <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
-        No notes available. Start adding notes!
-      </Text>
-    );
-  if (isFetchingMore) return <LoadingSpinner size="small" />;
-  if (isEndReached)
-    return (
-      <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
-        No more notes to load.
-      </Text>
-    );
-  return null;
-};
 
 export function HomeScreen() {
   const { userId } = useSelector(state => state.userStore.userData);
 
-  const [selectedId, setSelectedId] = useState<string>();
+  const [, setSelectedId] = useState<string>();
   const [selectedTag, setSelectedTag] = useState('All');
 
   const pageSize = 10;
@@ -61,15 +40,17 @@ export function HomeScreen() {
     pageSize,
   );
 
-  const onEndReachedHandler = useCallback(
-    ({ distanceFromEnd }: { distanceFromEnd: number }) => {
-      if (distanceFromEnd >= 0.8) {
-        fetchMoreData();
-      }
-    },
-    [fetchMoreData],
+  const listEmptyComponent = () => (
+    <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
+      {!isLoading ? 'No notes available. Start adding notes!' : ''}
+    </Text>
   );
 
+  const renderFooterComponent = () => (
+    <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
+      {!isLoading && isEndReached ? 'No more notes to load.' : ''}
+    </Text>
+  );
   const renderItem = useCallback(
     ({ item }: { item: NoteData }) => <NoteCard {...item} onPress={() => setSelectedId(item.id)} />,
     [],
@@ -85,24 +66,21 @@ export function HomeScreen() {
           <TagsList selectedTag={selectedTag} setSelectedTag={setSelectedTag} />
         </View>
         <View style={tw`mt-6 flex-1 pb-15`}>
-          <FlatList
-            contentContainerStyle={tw``}
+          <MasonryList
             data={data}
-            renderItem={renderItem}
             keyExtractor={item => item.id}
-            ListFooterComponent={
-              <FooterComponent
-                isLoading={isLoading}
-                dataLength={data.length}
-                isFetchingMore={isFetchingMore}
-                isEndReached={isEndReached}
-              />
-            }
-            onEndReached={onEndReachedHandler}
-            refreshing={isLoading}
+            style={tw`gap-4`}
+            numColumns={2}
+            loading={isLoading}
+            showsVerticalScrollIndicator={false}
+            renderItem={renderItem}
+            refreshing={isFetchingMore}
             onRefresh={refreshData}
-            onEndReachedThreshold={0.5}
-            extraData={selectedId}
+            ListFooterComponent={renderFooterComponent}
+            LoadingView={<LoadingView />}
+            ListEmptyComponent={listEmptyComponent}
+            onEndReachedThreshold={0.1}
+            onEndReached={() => fetchMoreData()}
           />
         </View>
       </View>

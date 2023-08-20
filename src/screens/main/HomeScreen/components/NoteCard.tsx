@@ -1,6 +1,7 @@
 import { Icon } from '@rneui/base';
 import React from 'react';
 import { Pressable, View } from 'react-native';
+import HTMLView from 'react-native-htmlview';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
@@ -25,9 +26,7 @@ export function NoteCard({ title, body, createdAt, showIcon = false, id }: NoteC
             {title}
           </Text>
         </View>
-        <Text variant={TextVariant.Body1Regular} numberOfLines={2} color={Color.Neutral.JL600}>
-          {body}
-        </Text>
+        <HTMLView value={body} />
         <View style={tw`mt-2`}>
           <Text variant={TextVariant.Label1Regular} color={Color.Neutral.JL300}>
             {getRelativeTimeFromTimestamp(createdAt)}

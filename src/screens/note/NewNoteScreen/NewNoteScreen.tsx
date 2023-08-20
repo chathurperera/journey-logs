@@ -36,8 +36,8 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
   });
 
   const handleDocumentSave = async () => {
-    const contentWithoutHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
-    const replaceWhiteSpace = contentWithoutHTML.replace(/&nbsp;/g, '').trim();
+    // const contentWithoutHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
+    const replaceWhiteSpace = noteContent.body.replace(/&nbsp;/g, '').trim();
 
     if (replaceWhiteSpace.length <= 0) {
       ToastService.error('Empty document', 'Document cannot be empty');
@@ -90,7 +90,7 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
         </View>
 
         <TagsList setSelectedTags={setSelectedTags} selectedTags={selectedTags} />
-        <View style={tw`h-full pb-12 pt-4`}>
+        <View style={tw`h-full pt-4`}>
           <TextInput placeholder="Title" style={tw`text-4xlg pl-2`} onChangeText={handleTitleTextChange} />
           <RichEditor
             ref={RichTextEditorRef}
@@ -106,7 +106,7 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
           <View style={tw`pb-7`}>
             <RichToolbar
               editor={RichTextEditorRef}
-              style={tw`bg-[${Color.Neutral.JL900}] h-12.5 rounded-xl`}
+              style={tw`bg-[${Color.Neutral.black}] h-12.5 rounded-xl`}
               unselectedButtonStyle={tw``}
               iconSize={23}
               iconTint={Color.Neutral.JL300}
