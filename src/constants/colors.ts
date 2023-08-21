@@ -24,6 +24,7 @@ enum Neutral {
   JL350 = `#fafafa`,
   JL300 = `#a1a1a1`,
   JL200 = `#bfbfbf`,
+  JL150 = `#fafafa`,
   JL100 = `#d4d4d4`,
   JL50 = `#f1f1f1`,
   white = `#ffffff`,

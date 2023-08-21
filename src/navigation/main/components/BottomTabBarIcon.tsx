@@ -34,11 +34,11 @@ export function BottomTabBarIcon({ isFocused, routeName, onPress }: BottomTabBar
     <>
       <Pressable onPress={onPress}>
         <View
-          style={tw`mb-.5 p-2 ${isFocused ? `bg-[${Color.Secondary.JL50}] rounded` : `bg-[${Color.Neutral.white}]`}`}>
+          style={tw`mb-.5 p-2 ${isFocused ? `bg-[${Color.Neutral.JL50}] rounded-lg` : `bg-[${Color.Neutral.white}]`}`}>
           <Icon
             type="ant-design"
             name={iconName}
-            color={isFocused ? Color.Primary.Jl500 : Color.Secondary.JL800}
+            color={isFocused ? Color.Neutral.black : Color.Neutral.JL100}
             size={28}
           />
         </View>

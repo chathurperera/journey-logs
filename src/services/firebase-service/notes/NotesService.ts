@@ -47,6 +47,7 @@ const getAllNotesByMonth = async (startTimestamp: number, endTimestamp: number, 
   try {
     const documentSnapshot = await firestore()
       .collection('notes')
+      .where('isEncrypted', '==', false)
       .where('userId', '==', userId)
       .where('createdAt', '>=', startTimestamp)
       .where('createdAt', '<', endTimestamp)
@@ -69,6 +70,7 @@ const getAllNotesByDay = async (startTimestamp: number, endTimestamp: number, us
     const documentSnapshot = await firestore()
       .collection('notes')
       .where('userId', '==', userId)
+      .where('isEncrypted', '==', false)
       .where('createdAt', '>=', startTimestamp)
       .where('createdAt', '<=', endTimestamp)
       .get();
@@ -155,6 +157,7 @@ const getFavourites = async (userId: string) => {
     const querySnapshot = await firestore()
       .collection('notes')
       .where('userId', '==', userId)
+      .where('isEncrypted', '==', false)
       .where('isFavourite', '==', true)
       .orderBy('createdAt', 'desc')
       .limit(20)

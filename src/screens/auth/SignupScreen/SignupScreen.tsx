@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 
+import { images } from '@jl/assets';
 import { Button, PasswordField, Text, TextField } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
@@ -35,9 +36,13 @@ export function SignupScreen() {
     <BaseScreenLayout>
       <View style={tw`flex-1 justify-between mt-10 mx-5`}>
         <View>
-          <View style={tw`w-[210px] mb-14`}>
-            <Text variant={TextVariant.Heading2SemiBold} color={Color.Neutral.JL900}>
-              Sign up to Journey Logs
+          <Image source={images.logo} style={tw`w-14 h-14`} />
+          <View style={tw`mt-6 mb-10`}>
+            <Text variant={TextVariant.Heading3Regular} color={Color.Neutral.JL900}>
+              Get Started Today.
+            </Text>
+            <Text variant={TextVariant.Body1Regular} color={Color.Neutral.JL500}>
+              It's quick and easy.
             </Text>
           </View>
           <View style={tw`mb-10`}>

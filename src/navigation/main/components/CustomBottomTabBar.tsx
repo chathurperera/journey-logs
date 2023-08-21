@@ -36,7 +36,7 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
   return (
     <View
       style={[
-        tw`flex-row absolute rounded-3xl bottom-10 bg-white mx-5 border-[${Color.Neutral.JL50}] border`,
+        tw`flex-row absolute rounded-3xl bottom-5 bg-white mx-5 border-[${Color.Neutral.JL50}] border`,
         {
           shadowColor: '#2a2a2a80',
           shadowOffset: {

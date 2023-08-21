@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 
+import { images } from '@jl/assets';
 import { Button, PasswordField, Text, TextField } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextVariant } from '@jl/constants';
@@ -38,9 +39,13 @@ export function LoginScreen({ testID }: LoginScreenProps) {
     <BaseScreenLayout testID={testID}>
       <View style={tw`flex-1 justify-between mt-10 mx-5`} testID={testID}>
         <View>
-          <View style={tw`w-[210px] mb-14`}>
-            <Text variant={TextVariant.Heading2SemiBold} color={Color.Neutral.JL900}>
-              Log in to Journey Logs
+          <Image source={images.logo} style={tw`w-14 h-14`} />
+          <View style={tw`mt-6 mb-10`}>
+            <Text variant={TextVariant.Heading3Regular} color={Color.Neutral.JL900}>
+              Great to see you again!
+            </Text>
+            <Text variant={TextVariant.Body1Regular} color={Color.Neutral.JL500}>
+              Enter your details to continue.
             </Text>
           </View>
           <View style={tw`mb-10`}>
@@ -52,7 +57,7 @@ export function LoginScreen({ testID }: LoginScreenProps) {
             </View>
             <Text
               variant={TextVariant.Link}
-              color={Color.Primary.Jl500}
+              color={Color.Primary.Jl700}
               onPress={() => NavigationService.navigate(Route.ForgetPassword)}>
               Forgot password ?
             </Text>
