@@ -15,9 +15,9 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
       <Pressable
         onPress={() => NavigationService.navigate(Route.NotesStack)}
         style={[
-          tw`w-18 h-18 rounded-full bg-black justify-center items-center border-2 flex-1 absolute bottom-1`,
+          tw`w-15 h-15 rounded-full bg-[${Color.Primary.Jl500}] justify-center items-center flex-1 absolute`,
           {
-            shadowColor: '#000',
+            shadowColor: `${Color.Primary.Jl100}`,
             shadowOffset: {
               width: 1,
               height: 4,
@@ -34,7 +34,20 @@ export function CustomBottomTabBar({ state, navigation }: BottomTabBarProps) {
   };
 
   return (
-    <View style={tw`flex-row absolute bottom-0 bg-white border-t-2 border-t-[#E9E9E9] `}>
+    <View
+      style={[
+        tw`flex-row absolute rounded-3xl bottom-5 bg-white mx-5 border-[${Color.Neutral.JL50}] border`,
+        {
+          shadowColor: '#2a2a2a80',
+          shadowOffset: {
+            width: 2,
+            height: 6,
+          },
+          shadowOpacity: 0.17,
+          shadowRadius: 4,
+          elevation: 5,
+        },
+      ]}>
       {state.routes.map((route, index) => {
         const label = route.name;
 

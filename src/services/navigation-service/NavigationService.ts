@@ -67,17 +67,6 @@ export class NavigationService {
         navParams: params,
       },
 
-      [Route.EditNote]: {
-        navRoute: Route.NotesStack,
-        navParams: {
-          screen: Route.EditNote,
-          params: {
-            screen: route,
-            params: params,
-          },
-        },
-      },
-
       [Route.Tags]: {
         navRoute: Route.NotesStack,
         navParams: {
@@ -128,6 +117,17 @@ export class NavigationService {
         },
       },
 
+      [Route.Account]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.Account,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
       [Route.ConfirmPinCode]: {
         navRoute: Route.SettingsStack,
         navParams: {
@@ -143,6 +143,17 @@ export class NavigationService {
         navRoute: Route.SettingsStack,
         navParams: {
           screen: Route.ChangePinCode,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.ChangePassword]: {
+        navRoute: Route.SettingsStack,
+        navParams: {
+          screen: Route.ChangePassword,
           params: {
             screen: route,
             params: params,
@@ -199,6 +210,17 @@ export class NavigationService {
         navRoute: Route.MainBottomTabRoutesStack,
         navParams: {
           screen: Route.SettingsTab,
+          params: {
+            screen: route,
+            params: params,
+          },
+        },
+      },
+
+      [Route.FavouritesTab]: {
+        navRoute: Route.MainBottomTabRoutesStack,
+        navParams: {
+          screen: Route.FavouritesTab,
           params: {
             screen: route,
             params: params,

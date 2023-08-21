@@ -50,7 +50,7 @@ export function TextField({
             errorMessage={error?.message}
             autoCapitalize={autoCapitalize}
             errorStyle={{ display: error?.message ? 'flex' : 'none' }}
-            inputContainerStyle={tw`border-[${Color.Secondary.jl100}] border-[1px] rounded-2 py-1`}
+            inputContainerStyle={tw`border-[${Color.Tertiary.jl100}] border-[1px] rounded-2 py-1`}
             inputStyle={tw`px-2.5 text-[15px] font-Inter`}
             label={labelComponent}
             leftIcon={leftIcon}

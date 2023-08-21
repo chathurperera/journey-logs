@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from '@jl/stores';
 import { getRemainingLockoutTime, isPinSessionExpired, validateLockoutPeriod } from '@jl/utils';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
+import { Section } from './components/Section';
 import { SectionLink } from './components/SectionLink';
 
 interface SettingsScreenProps {
@@ -17,11 +18,12 @@ interface SettingsScreenProps {
 
 export function SettingsScreen({ testID }: SettingsScreenProps) {
   const dispatch = useDispatch();
+  const { securityPreference } = useSelector(state => state.encryptionStore);
 
   const { salt, lastAccessedHiddenNotesAt, lockoutTimestamp } = useSelector(state => state.encryptionStore);
   const { name, email } = useSelector(state => state.userStore.userData);
 
-  const isInLockedPeriod = validateLockoutPeriod(lockoutTimestamp);
+  const isInLockedPeriod = validateLockoutPeriod(lockoutTimestamp, securityPreference);
 
   const hiddenNotesAccessNavigation = () => {
     if (isInLockedPeriod) {
@@ -68,22 +70,15 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
           </Text>
         </View>
         <View style={tw`mt-10`}>
-          <View style={tw`mb-3`}>
-            <Text variant={TextVariant.Body1Regular} textTransform="uppercase" color={Color.Neutral.JL300}>
-              ACCOUNT
-            </Text>
-          </View>
-          <SectionLink text="Account" onPress={() => console.log('account navigation')} />
-          <SectionLink text="Change Password" onPress={() => console.log('change password screen')} />
-          <View style={tw`mb-3 mt-3`}>
-            <Text variant={TextVariant.Body1Regular} textTransform="uppercase" color={Color.Neutral.JL300}>
-              Notes
-            </Text>
-          </View>
-          <SectionLink text="Tags" onPress={() => NavigationService.navigate(Route.Tags)} />
-          <SectionLink text={salt === '' ? 'Add PIN' : 'Change PIN'} onPress={handleAddPINNavigation} />
-          {salt !== '' && <SectionLink text="Hidden Notes" onPress={() => hiddenNotesAccessNavigation()} />}
-
+          <Section title="account">
+            <SectionLink text="Account" onPress={() => NavigationService.navigate(Route.Account)} />
+            <SectionLink text="Change Password" onPress={() => NavigationService.navigate(Route.ChangePassword)} />
+          </Section>
+          <Section title={'notes'}>
+            <SectionLink text="Tags" onPress={() => NavigationService.navigate(Route.Tags)} />
+            <SectionLink text={salt === '' ? 'Add PIN' : 'Change PIN'} onPress={handleAddPINNavigation} />
+            {salt !== '' && <SectionLink text="Hidden Notes" onPress={() => hiddenNotesAccessNavigation()} />}
+          </Section>
           <SectionLink text="Logout" onPress={() => dispatch.userStore.logoutUser()} />
         </View>
       </View>

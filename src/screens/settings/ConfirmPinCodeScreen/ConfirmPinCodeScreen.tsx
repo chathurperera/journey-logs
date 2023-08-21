@@ -12,6 +12,15 @@ import { useDispatch, useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
+const customRightButton = () => (
+  <View style={tw`gap-1`}>
+    <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} />
+    <Text variant={TextVariant.Label1Regular} textAlign={TextAlignment.Center} color={Color.Neutral.JL500}>
+      DELETE
+    </Text>
+  </View>
+);
+
 export function ConfirmPinCodeScreen({ route }) {
   const { pinCode } = route.params.params;
   const { userId } = useSelector(state => state.userStore.userData);
@@ -82,7 +91,7 @@ export function ConfirmPinCodeScreen({ route }) {
           buttonSize={70}
           buttonAreaStyle={tw`px-6`}
           inputAreaStyle={tw`mb-8 mt-2`}
-          inputViewStyle={tw`w-5 h-5`}
+          inputViewStyle={tw`w-4.2 h-4.2`}
           inputViewEmptyStyle={tw`bg-[${Color.Neutral.JL50}]`}
           onValueChange={value => setEnteredPin(value)}
           onButtonPress={key => {
@@ -91,9 +100,7 @@ export function ConfirmPinCodeScreen({ route }) {
             }
           }}
           //@ts-ignore
-          customRightButton={
-            showRemoveButton ? <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} /> : undefined
-          }
+          customRightButton={showRemoveButton ? customRightButton() : undefined}
           style={tw``}
         />
       </View>

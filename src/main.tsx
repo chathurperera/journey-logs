@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { getPersistor } from '@rematch/persist';
 import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import ErrorBoundary from 'react-native-error-boundary';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { useDeviceContext } from 'twrnc';
 
+import { UnexpectedErrorScreen } from '@jl/screens';
 import { initializeStore, store } from '@jl/stores';
 
 import App from './app/App';
@@ -14,6 +17,10 @@ export default function Main() {
   useDeviceContext(tw);
   initializeStore();
 
+  const errorHandler = (error: Error, stackTrace: string) => {
+    //implement error logging
+  };
+
   return (
     <Provider store={store}>
       <PersistGate persistor={getPersistor()}>
@@ -22,5 +29,7 @@ export default function Main() {
         </SafeAreaProvider>
       </PersistGate>
     </Provider>
+    // <ErrorBoundary FallbackComponent={UnexpectedErrorScreen} onError={errorHandler}>
+    // </ErrorBoundary>
   );
 }

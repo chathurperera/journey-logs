@@ -13,20 +13,11 @@ interface BaseScreenLayoutProps {
   scrollRef?: Ref<ScrollView>;
 }
 
-export function BaseScreenLayout({
-  children,
-  scrollRef,
-  testID,
-  wrapWithScrollView = true,
-}: BaseScreenLayoutProps) {
+export function BaseScreenLayout({ children, scrollRef, testID, wrapWithScrollView = true }: BaseScreenLayoutProps) {
   const headerHeight = useHeaderHeight();
 
   const renderChildren = wrapWithScrollView ? (
-    <ScrollView
-      contentContainerStyle={tw`grow`}
-      keyboardShouldPersistTaps="handled"
-      ref={scrollRef}
-      testID={testID}>
+    <ScrollView contentContainerStyle={tw`grow`} keyboardShouldPersistTaps="handled" ref={scrollRef} testID={testID}>
       {children}
     </ScrollView>
   ) : (
@@ -34,12 +25,8 @@ export function BaseScreenLayout({
   );
 
   return (
-    <SafeAreaView
-      style={tw`relative h-full pt-[${headerHeight}px] bg-[${Color.Neutral.white}]`}
-      testID={testID}>
-      <KeyboardAvoidingView
-        style={tw`flex-1`}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <SafeAreaView style={tw`relative h-full pt-[${headerHeight}px] bg-[${Color.Neutral.white}]`} testID={testID}>
+      <KeyboardAvoidingView style={tw`flex-1`} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         {renderChildren}
       </KeyboardAvoidingView>
     </SafeAreaView>

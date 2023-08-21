@@ -1,53 +1,25 @@
 import { Icon } from '@rneui/base';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, Pressable } from 'react-native';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextVariant } from '@jl/constants';
-
-type ItemData = {
-  id: string;
-  title: string;
-};
-
-const DATA: ItemData[] = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'All',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Office',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Personal',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29dad',
-    title: 'UI',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29afe',
-    title: 'School',
-  },
-  {
-    id: '586saf3a0f-3da1-471f-bd96-145571e29afe',
-    title: 'Household',
-  },
-  {
-    id: '58694daff233f-3da1-471f-bd96-145571e29afe',
-    title: 'Games',
-  },
-];
+import { useFetch } from '@jl/hooks';
+import { TagsService } from '@jl/services';
+import { useSelector } from '@jl/stores';
 
 type ItemProps = {
-  item: ItemData;
+  item: string;
   onPress: () => void;
   backgroundColor: string;
   textColor: string;
 };
+
+interface TagsListProps {
+  setSelectedTag: React.Dispatch<React.SetStateAction<string>>;
+  selectedTag: string;
+}
 
 const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => (
   <Pressable
@@ -58,37 +30,38 @@ const Item = ({ item, onPress, backgroundColor, textColor }: ItemProps) => (
     ]}>
     <Icon type="feather" name="hash" size={18} color={textColor} />
     <Text variant={TextVariant.Label2SemiBold} color={textColor}>
-      {item.title}
+      {item}
     </Text>
   </Pressable>
 );
 
-export function TagsList() {
-  const [selectedId, setSelectedId] = useState<string>(DATA[0].id);
+export function TagsList({ selectedTag, setSelectedTag }: TagsListProps) {
+  const { userId } = useSelector(state => state.userStore.userData);
+  const { data = [] } = useFetch(() => TagsService.getAllTags(userId));
+  const [allTags, setAlTags] = useState([]);
 
-  const renderItem = ({ item }: { item: ItemData }) => {
-    const backgroundColor = item.id === selectedId ? Color.Primary.Jl500 : Color.Secondary.JL200;
-    const color = item.id === selectedId ? Color.Neutral.white : Color.Neutral.JL900;
+  const renderItem = ({ item }: { item: string }) => {
+    const backgroundColor = item === selectedTag ? Color.Neutral.black : Color.Tertiary.JL200;
+    const color = item === selectedTag ? Color.Neutral.white : Color.Neutral.JL900;
 
     return (
-      <Item
-        item={item}
-        onPress={() => setSelectedId(item.id)}
-        backgroundColor={backgroundColor}
-        textColor={color}
-      />
+      <Item item={item} onPress={() => setSelectedTag(item)} backgroundColor={backgroundColor} textColor={color} />
     );
   };
+
+  useEffect(() => {
+    if (data) {
+      setAlTags(['All', ...data]);
+    }
+  }, [data]);
 
   return (
     <FlatList
       horizontal
-      contentContainerStyle={tw``}
-      data={DATA}
+      data={allTags}
       showsHorizontalScrollIndicator={false}
       renderItem={renderItem}
-      keyExtractor={item => item.id}
-      extraData={selectedId}
+      keyExtractor={item => item}
     />
   );
 }

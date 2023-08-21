@@ -16,7 +16,7 @@ const createNote = async (noteData: NoteData) => {
         createdAt: currentTimestamp,
         updatedAt: currentTimestamp,
         isEncrypted: false,
-        categories: [],
+        isFavourite: false,
       });
   } catch (error) {
     ToastService.error('Error', 'Error while saving the note');
@@ -40,7 +40,6 @@ const getAllNotes = async (userId: string) => {
     return data;
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');
-    throw error;
   }
 };
 
@@ -48,6 +47,7 @@ const getAllNotesByMonth = async (startTimestamp: number, endTimestamp: number, 
   try {
     const documentSnapshot = await firestore()
       .collection('notes')
+      .where('isEncrypted', '==', false)
       .where('userId', '==', userId)
       .where('createdAt', '>=', startTimestamp)
       .where('createdAt', '<', endTimestamp)
@@ -70,6 +70,7 @@ const getAllNotesByDay = async (startTimestamp: number, endTimestamp: number, us
     const documentSnapshot = await firestore()
       .collection('notes')
       .where('userId', '==', userId)
+      .where('isEncrypted', '==', false)
       .where('createdAt', '>=', startTimestamp)
       .where('createdAt', '<=', endTimestamp)
       .get();
@@ -96,7 +97,7 @@ const getSingleNote = async (noteId: string) => {
   }
 };
 
-const updateNote = async (noteId: string, payload: { title: string; body: string; userId: string }) => {
+const updateNote = async (noteId: string, payload: { title: string; body: string; userId: string; tags: string[] }) => {
   try {
     await firestore().collection('notes').doc(noteId).update(payload);
     ToastService.success('Success', 'Document updated successfully');
@@ -151,12 +152,55 @@ const deleteNote = async (noteId: string) => {
   }
 };
 
+const getFavourites = async (userId: string) => {
+  try {
+    const querySnapshot = await firestore()
+      .collection('notes')
+      .where('userId', '==', userId)
+      .where('isEncrypted', '==', false)
+      .where('isFavourite', '==', true)
+      .orderBy('createdAt', 'desc')
+      .limit(20)
+      .get();
+
+    const data = querySnapshot.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id,
+    })) as NoteData[];
+
+    return data;
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+const addToFavourites = async (noteId: string) => {
+  try {
+    await firestore().collection('notes').doc(noteId).update({ isFavourite: true });
+    ToastService.success('Success', 'Note added to favourites');
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
+const removeFromFavourites = async (noteId: string) => {
+  try {
+    await firestore().collection('notes').doc(noteId).update({ isFavourite: false });
+    ToastService.success('Success', 'Note removed from favourites');
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+  }
+};
+
 export const NoteService = {
+  addToFavourites,
+  removeFromFavourites,
   createNote,
   deleteNote,
   getAllNotes,
   getSingleNote,
   noteDecryption,
+  getFavourites,
   noteEncryption,
   getAllNotesByMonth,
   getAllNotesByDay,
