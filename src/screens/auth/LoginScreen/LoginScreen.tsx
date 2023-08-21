@@ -38,7 +38,7 @@ export function LoginScreen({ testID }: LoginScreenProps) {
   return (
     <BaseScreenLayout testID={testID}>
       <View style={tw`flex-1 justify-between mt-10 mx-5`} testID={testID}>
-        <View>
+        <View style={tw`pt-8`}>
           <Image source={images.logo} style={tw`w-14 h-14`} />
           <View style={tw`mt-6 mb-10`}>
             <Text variant={TextVariant.Heading3Regular} color={Color.Neutral.JL900}>
