@@ -1,7 +1,5 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { View } from 'react-native';
-import { Modalize } from 'react-native-modalize';
-import { Portal } from 'react-native-portalize';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
@@ -13,7 +11,6 @@ import { getRemainingLockoutTime, isPinSessionExpired, validateLockoutPeriod } f
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { Section } from './components/Section';
 import { SectionLink } from './components/SectionLink';
-import { TagsSheet } from './components/TagsSheet';
 
 interface SettingsScreenProps {
   testID: string;
@@ -25,7 +22,6 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
 
   const { salt, lastAccessedHiddenNotesAt, lockoutTimestamp } = useSelector(state => state.encryptionStore);
   const { name, email } = useSelector(state => state.userStore.userData);
-  const TagsSheetMethodsRef = useRef<Modalize>(null);
 
   const isInLockedPeriod = validateLockoutPeriod(lockoutTimestamp, securityPreference);
 
@@ -85,9 +81,6 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
           </Section>
           <SectionLink text="Logout" onPress={() => dispatch.userStore.logoutUser()} />
         </View>
-        <Portal>
-          <TagsSheet ref={TagsSheetMethodsRef} />
-        </Portal>
       </View>
     </BaseScreenLayout>
   );

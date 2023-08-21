@@ -75,6 +75,7 @@ export function TagsScreen({ testID }: TagsScreenProps) {
     return tagsList?.map(tag => (
       <>
         <Pressable
+          key={tag}
           onPress={() => handleTagDeletion(tag)}
           style={tw`py-2 px-4 border-[${Color.Neutral.black}] border mr-2 border-gray-200 rounded-[20px] gap-1 flex-row items-center justify-between`}>
           <Icon type="feather" name="hash" size={18} color={Color.Neutral.black} />

@@ -100,7 +100,7 @@ export function CalendarScreen() {
 
   const renderEmptyList = () => (
     <View>
-      <View style={tw`mb-3 mt-10`}>
+      <View style={tw`mb-3 `}>
         <Text variant={TextVariant.Heading3SemiBold} textAlign={TextAlignment.Center}>
           Nothing here yet{' '}
         </Text>
@@ -129,10 +129,16 @@ export function CalendarScreen() {
             markedDates={calendarMarkedDates}
             theme={{
               todayTextColor: Color.Primary.Jl700,
+              selectedDayBackgroundColor: Color.Primary.Jl500,
+              monthTextColor: Color.Secondary.JL900,
+              arrowStyle: tw`bg-[${Color.Neutral.black}] rounded-full px-3.5`,
+              arrowColor: '#fff',
+              arrowWidth: 13,
+              arrowHeight: 13,
             }}
           />
         </View>
-        <View style={tw`border-t-[${Color.Neutral.JL300}] border-t mt-3 pt-4  flex-1`}>
+        <View style={tw` mt-3 pt-4  flex-1 p-4 bg-[${Color.Neutral.JL50}] rounded-t-3xl`}>
           {isLoading && <LoadingSpinner color={Color.Primary.Jl500} size="large" />}
           {notes?.length === 0 && !isLoading && renderEmptyList()}
           {!isLoading && <FlatList data={notes} renderItem={renderItem} keyExtractor={item => item.id} />}
