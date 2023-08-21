@@ -127,9 +127,8 @@ export function PinCodeScreen({ route }) {
           buttonViewStyle={tw`bg-[${Color.Neutral.JL50}]`}
           buttonTextStyle={tw`text-[${Color.Neutral.JL900}] text-4xlg font-normal`}
           buttonSize={70}
-          buttonAreaStyle={tw``}
-          inputAreaStyle={tw`mb-6 mt-3`}
-          inputViewStyle={tw`w-5 h-5`}
+          inputAreaStyle={tw`mb-12 mt-3 `}
+          inputViewStyle={tw`w-4.2 h-4.2`}
           inputViewEmptyStyle={tw`bg-[${Color.Neutral.white}] border`}
           onValueChange={value => setEnteredPin(value)}
           onButtonPress={key => {

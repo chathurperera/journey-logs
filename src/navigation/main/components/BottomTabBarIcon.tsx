@@ -38,7 +38,7 @@ export function BottomTabBarIcon({ isFocused, routeName, onPress }: BottomTabBar
           <Icon
             type="ant-design"
             name={iconName}
-            color={isFocused ? Color.Neutral.black : Color.Neutral.JL100}
+            color={isFocused ? Color.Neutral.black : Color.Neutral.JL200}
             size={28}
           />
         </View>
