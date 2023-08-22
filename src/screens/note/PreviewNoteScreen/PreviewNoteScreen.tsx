@@ -219,6 +219,7 @@ export function PreviewNoteScreen({ route }) {
         <MenuBottomSheet
           ref={MenuBottomSheetMethodsRef}
           noteId={noteId}
+          title={noteData?.title}
           body={noteData?.body}
           toggleEditingMode={toggleEditingMode}
           isEncrypted={noteData?.isEncrypted}
