@@ -43,7 +43,6 @@ export function TagsList({ setSelectedTags, selectedTags, isEditable = false }: 
   const { data } = useFetch(() => TagsService.getAllTags(userId));
 
   const tagsToDisplay = isEditable ? data : selectedTags;
-  console.log(`is Editing changed now showing  ${isEditable ? 'data' : 'noteTags'}`);
 
   const toggleTag = useCallback(
     (tag: string) => {
