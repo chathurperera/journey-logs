@@ -72,12 +72,12 @@ export function TagsScreen({ testID }: TagsScreenProps) {
   );
 
   const renderPillsList = () => {
-    return tagsList?.map(tag => (
+    return tagsList?.map((tag, index) => (
       <>
         <Pressable
-          key={tag}
+          key={index}
           onPress={() => handleTagDeletion(tag)}
-          style={tw`py-2 px-4 border-[${Color.Neutral.black}] border mr-2 border-gray-200 rounded-[20px] gap-1 flex-row items-center justify-between`}>
+          style={tw`py-2 px-4 border-[${Color.Neutral.black}] border border-gray-200 rounded-[20px] gap-1 flex-row items-center justify-between`}>
           <Icon type="feather" name="hash" size={18} color={Color.Neutral.black} />
           <Text variant={TextVariant.Body2Regular} color={Color.Neutral.black}>
             {tag}
@@ -128,7 +128,7 @@ export function TagsScreen({ testID }: TagsScreenProps) {
         <Text variant={TextVariant.Body1SemiBold} textTransform="uppercase" color={Color.Neutral.JL300}>
           Available tags
         </Text>
-        <View style={tw`flex-row flex-wrap pt-3 gap-4`}>
+        <View style={tw`flex-row flex-wrap pt-3 gap-2.2`}>
           {renderPillsList()}
           {!isTagsFetching && tagsList?.length === 0 && renderEmptyList()}
         </View>
