@@ -62,6 +62,7 @@ export function PreviewNoteScreen({ route }) {
       setNoteContent(prevValues => {
         return { ...prevValues, title: noteData?.title, body: noteData?.body };
       });
+      setSelectedTags(noteData?.tags);
     }
   }, [isLoading]);
 
@@ -122,12 +123,7 @@ export function PreviewNoteScreen({ route }) {
 
   const renderContent = () => (
     <>
-      <TagsList
-        setSelectedTags={setSelectedTags}
-        selectedTags={isEditing ? selectedTags : noteData?.tags}
-        isEditable={isEditing}
-        noteTags={noteData?.tags}
-      />
+      <TagsList setSelectedTags={setSelectedTags} selectedTags={selectedTags} isEditable={isEditing} />
       <View style={tw`mb-3 h-full pb-22`}>
         <TextInput
           placeholder="Title"

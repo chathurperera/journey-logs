@@ -20,7 +20,6 @@ interface TagsListProps {
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
   selectedTags: string[];
   isEditable?: boolean;
-  noteTags?: string[];
 }
 
 const Item = React.memo(({ item, handleOnPress, backgroundColor, textColor }: ItemProps) => {
@@ -39,15 +38,16 @@ const Item = React.memo(({ item, handleOnPress, backgroundColor, textColor }: It
   );
 });
 
-export function TagsList({ setSelectedTags, selectedTags, isEditable = false, noteTags = [] }: TagsListProps) {
+export function TagsList({ setSelectedTags, selectedTags, isEditable = false }: TagsListProps) {
   const { userId } = useSelector(state => state.userStore.userData);
   const { data } = useFetch(() => TagsService.getAllTags(userId));
 
-  const tagsToDisplay = isEditable ? data : noteTags;
+  const tagsToDisplay = isEditable ? data : selectedTags;
+  console.log(`is Editing changed now showing  ${isEditable ? 'data' : 'noteTags'}`);
 
   const toggleTag = useCallback(
     (tag: string) => {
-      if (!isEditable) return; // if not editable, don't allow toggling
+      if (!isEditable) return;
 
       if (selectedTags.includes(tag)) {
         setSelectedTags((prevTags: string[]) => prevTags.filter((t: string) => t !== tag));
