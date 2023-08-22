@@ -47,7 +47,7 @@ export function TagsList({ setSelectedTags, selectedTags, isEditable = false, no
 
   const toggleTag = useCallback(
     (tag: string) => {
-      if (!isEditable) return;
+      if (!isEditable) return; // if not editable, don't allow toggling
 
       if (selectedTags.includes(tag)) {
         setSelectedTags((prevTags: string[]) => prevTags.filter((t: string) => t !== tag));
