@@ -42,6 +42,7 @@ const Item = React.memo(({ item, handleOnPress, backgroundColor, textColor }: It
 export function TagsList({ setSelectedTags, selectedTags, isEditable = false, noteTags = [] }: TagsListProps) {
   const { userId } = useSelector(state => state.userStore.userData);
   const { data } = useFetch(() => TagsService.getAllTags(userId));
+  console.log('noteTags', noteTags);
 
   const tagsToDisplay = isEditable ? data : noteTags;
 
@@ -60,8 +61,9 @@ export function TagsList({ setSelectedTags, selectedTags, isEditable = false, no
 
   const renderItem = useCallback(
     ({ item }) => {
-      const backgroundColor = selectedTags.includes(item) ? Color.Neutral.black : Color.Tertiary.JL200;
-      const color = selectedTags.includes(item) ? Color.Neutral.white : Color.Neutral.JL900;
+      const backgroundColor =
+        selectedTags.includes(item) || noteTags.includes(item) ? Color.Neutral.black : Color.Tertiary.JL200;
+      const color = selectedTags.includes(item) || noteTags.includes(item) ? Color.Neutral.white : Color.Neutral.JL900;
       return <Item item={item} handleOnPress={toggleTag} backgroundColor={backgroundColor} textColor={color} />;
     },
     [selectedTags, toggleTag],

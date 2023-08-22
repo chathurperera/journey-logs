@@ -5,7 +5,7 @@ import { Modalize } from 'react-native-modalize';
 import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor';
 import { Portal } from 'react-native-portalize';
 
-import { LoadingSpinner, Text } from '@jl/components';
+import { LoadingSpinner, TagsList, Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
@@ -16,7 +16,8 @@ import { useSelector } from '@jl/stores';
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { MenuBottomSheet } from './components/MenuBottomSheet';
 import { PINCheckModal } from './components/PINCheckModal';
-import { TagsList } from './components/TagsList';
+
+// import { TagsList } from './components/TagsList';
 
 const handleHead = ({ tintColor }) => (
   <Text variant={TextVariant.Body1SemiBold} color={tintColor}>
@@ -61,6 +62,7 @@ export function PreviewNoteScreen({ route }) {
       setNoteContent(prevValues => {
         return { ...prevValues, title: noteData?.title, body: noteData?.body };
       });
+      setSelectedTags(noteData?.tags);
     }
   }, [isLoading]);
 
@@ -121,12 +123,7 @@ export function PreviewNoteScreen({ route }) {
 
   const renderContent = () => (
     <>
-      <TagsList
-        setSelectedTags={setSelectedTags}
-        selectedTags={isEditing ? selectedTags : noteData?.tags}
-        isEditable={isEditing}
-        noteTags={noteData?.tags}
-      />
+      <TagsList setSelectedTags={setSelectedTags} selectedTags={selectedTags} isEditable={isEditing} />
       <View style={tw`mb-3 h-full pb-22`}>
         <TextInput
           placeholder="Title"

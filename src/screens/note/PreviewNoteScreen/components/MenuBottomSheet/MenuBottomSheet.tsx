@@ -6,7 +6,7 @@ import { Modalize } from 'react-native-modalize';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextAlignment, TextVariant } from '@jl/constants';
-import { NoteService, PDFService } from '@jl/services';
+import { NavigationService, NoteService, PDFService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 interface MenuBottomSheetProps {
@@ -54,6 +54,9 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
   const handleNoteDeletion = async () => {
     await NoteService.deleteNote(noteId);
     ModalizeRef.current?.close();
+    setTimeout(() => {
+      NavigationService.goBack();
+    }, 800);
   };
 
   const handleNoteFavouriteStateToggle = async () => {

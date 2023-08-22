@@ -67,7 +67,6 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
   };
 
   const handleTextEditorChange = text => {
-    console.log('noteContent.body.length', noteContent.body.length);
     setNoteContent(prevValues => {
       return { ...prevValues, body: text };
     });
@@ -111,9 +110,9 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
           </View>
         </View>
         {isLimitExceeded && renderCharacterExceededMessage()}
-        <TagsList setSelectedTags={setSelectedTags} selectedTags={selectedTags} />
 
         <View style={tw`h-full pt-4 relative`}>
+          <TagsList setSelectedTags={setSelectedTags} selectedTags={selectedTags} isEditable={true} />
           <TextInput placeholder="Title" style={tw`text-4xlg pl-2`} onChangeText={handleTitleTextChange} />
           <RichEditor
             ref={RichTextEditorRef}
@@ -126,7 +125,7 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
             placeholder={'Start typing'}
             onChange={handleTextEditorChange}
           />
-          <View style={tw`pb-7 absolute bottom-0 right-0 left-0`}>
+          <View style={tw`absolute bottom-0 right-0 left-0`}>
             <RichToolbar
               editor={RichTextEditorRef}
               style={tw`bg-[${Color.Neutral.black}] h-12.5 rounded-xl`}
