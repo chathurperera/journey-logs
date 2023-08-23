@@ -49,6 +49,9 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
   const handleNoteEncryption = async () => {
     await NoteService.noteEncryption(noteId, body, recoveryKey);
     ModalizeRef.current?.close();
+    setTimeout(() => {
+      NavigationService.goBack();
+    }, 800);
   };
 
   const handleNoteDeletion = async () => {

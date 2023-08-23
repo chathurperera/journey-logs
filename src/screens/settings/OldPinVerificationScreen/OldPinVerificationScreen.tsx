@@ -55,7 +55,7 @@ export function OldPinVerificationScreen() {
     return (
       <View style={tw`mt-12.5`}>
         <Text
-          variant={TextVariant.Heading3Regular}
+          variant={TextVariant.Title2}
           textAlign={TextAlignment.Center}
           color={oldPINVerificationFailed ? Color.Warning.JL700 : Color.Neutral.JL900}>
           {oldPINVerificationFailed ? 'Invalid PIN' : 'Provide Your Old PIN'}
@@ -86,11 +86,10 @@ export function OldPinVerificationScreen() {
           buttonViewStyle={tw`bg-[${Color.Neutral.JL50}]`}
           buttonTextStyle={tw`text-[${Color.Neutral.JL900}] text-4xlg font-normal`}
           buttonSize={70}
-          inputAreaStyle={tw`mb-6 mt-3`}
+          inputViewEmptyStyle={tw`bg-[${Color.Neutral.white}] border`}
           buttonAreaStyle={tw`px-6`}
-          // inputAreaStyle={tw`mb-10`}
+          inputAreaStyle={tw`mb-12`}
           inputViewStyle={tw`w-5 h-5`}
-          inputViewEmptyStyle={tw`bg-[${Color.Neutral.JL50}]`}
           onValueChange={value => setEnteredPin(value)}
           onButtonPress={key => {
             if (key === 'custom_right') {
