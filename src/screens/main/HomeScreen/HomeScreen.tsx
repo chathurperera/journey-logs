@@ -6,7 +6,7 @@ import { View } from 'react-native';
 
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
-import { TextAlignment, TextVariant } from '@jl/constants';
+import { Color, TextAlignment, TextVariant } from '@jl/constants';
 import { useFirestorePagination } from '@jl/hooks';
 import { NoteData } from '@jl/models';
 import { useSelector } from '@jl/stores';
@@ -60,8 +60,10 @@ export function HomeScreen() {
   return (
     <BaseScreenLayout wrapWithScrollView={false}>
       <View style={tw`mx-5 pt-5 flex-1`}>
-        <View style={tw`w-[200px]`}>
-          <Text variant={TextVariant.Heading3Regular}>Welcome to Journey logs</Text>
+        <View style={tw`w-[250px]`}>
+          <Text variant={TextVariant.Heading3Regular} color={Color.Neutral.JL800}>
+            Hey Chathura, Good Morning✨
+          </Text>
         </View>
         <View style={tw`mt-12.75 flex-row items-center`}>
           <TagsList selectedTag={selectedTag} setSelectedTag={setSelectedTag} />

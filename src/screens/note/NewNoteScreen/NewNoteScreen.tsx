@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import { Icon } from '@rneui/base';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor';
 
@@ -11,6 +12,7 @@ import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { TagsList } from './components/TagsList';
+import { TextToSpeechModal } from './components/TextToSpeechModal';
 
 const handleHead = ({ tintColor }) => (
   <Text variant={TextVariant.Body1SemiBold} color={tintColor}>
@@ -29,15 +31,16 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   const [noteContent, setNoteContent] = useState({
     userId: '',
     title: '',
     body: '',
   });
   const [isLimitExceeded, setIsLimitExceeded] = useState(false);
+  const [speechText, setSpeechText] = useState('');
 
   const handleDocumentSave = async () => {
-    // const contentWithoutHTML = noteContent.body.replace(/<(.|\n)*?>/g, '').trim();
     const replaceWhiteSpace = noteContent.body.replace(/&nbsp;/g, '').trim();
 
     if (replaceWhiteSpace.length <= 0) {
@@ -88,6 +91,16 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
       </Text>
     </View>
   );
+
+  const handleVoiceTextChange = useCallback(() => {
+    if (RichTextEditorRef.current && speechText) {
+      RichTextEditorRef.current.insertText(` ${speechText}`);
+    }
+  }, [speechText]);
+
+  useEffect(() => {
+    handleVoiceTextChange();
+  }, [speechText]);
 
   return (
     <BaseScreenLayout testID={testID}>
@@ -148,8 +161,20 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
               iconMap={{ [actions.heading1]: handleHead }}
             />
           </View>
+          <Pressable
+            onPress={() => setModalVisible(true)}
+            style={tw`w-15 h-15 rounded-full bg-[${Color.Primary.Jl500}] justify-center absolute bottom-20 right-0`}>
+            <Icon type="feather" name="mic" color={Color.Neutral.white} size={22} />
+          </Pressable>
         </View>
       </View>
+      {isModalVisible && (
+        <TextToSpeechModal
+          setSpeechText={setSpeechText}
+          isModalVisible={isModalVisible}
+          modalVisibilityHandler={() => setModalVisible(false)}
+        />
+      )}
     </BaseScreenLayout>
   );
 }

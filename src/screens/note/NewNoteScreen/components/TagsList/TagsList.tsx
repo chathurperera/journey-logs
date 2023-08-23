@@ -42,7 +42,6 @@ const Item = React.memo(({ item, handleOnPress, backgroundColor, textColor }: It
 export function TagsList({ setSelectedTags, selectedTags, isEditable = false, noteTags = [] }: TagsListProps) {
   const { userId } = useSelector(state => state.userStore.userData);
   const { data } = useFetch(() => TagsService.getAllTags(userId));
-  console.log('noteTags', noteTags);
 
   const tagsToDisplay = isEditable ? data : noteTags;
 

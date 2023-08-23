@@ -17,13 +17,13 @@ interface NoteCardProps extends NoteData {
 
 export function NoteCard({ title, body, createdAt, showIcon = false, id }: NoteCardProps) {
   const truncateBody = (body: string) => {
-    return body.length > 60 ? `${body.substring(0, 60)}...` : body;
+    return body.length > 160 ? `${body.substring(0, 160)}...` : body;
   };
 
   return (
     <Pressable
       onPress={() => NavigationService.navigate(Route.PreviewNote, { noteId: id })}
-      style={tw`border mb-4 rounded-2.5 px-2.8 py-2.8 bg-[${Color.Neutral.JL150}] relative  border-gray-200 max-h-44  flex-row justify-between items-center`}>
+      style={tw`border mb-4 rounded-2.5 px-2.8 py-2.8 bg-[${Color.Neutral.JL150}] relative  border-gray-200  flex-row justify-between items-center`}>
       <View>
         <View style={tw`mb-1.2 flex-row justify-between`}>
           <Text variant={TextVariant.Heading3SemiBold} numberOfLines={1} color={Color.Neutral.JL900}>
