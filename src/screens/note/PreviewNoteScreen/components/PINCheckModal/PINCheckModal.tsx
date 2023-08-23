@@ -27,7 +27,7 @@ export function PINCheckModal({ isModalVisible, toggleModal, noteId, note }) {
   };
 
   return (
-    <Modal isVisible={isModalVisible} style={tw``}>
+    <Modal isVisible={isModalVisible}>
       <View style={tw`bg-[${Color.Neutral.white}] p-12 rounded-2xl`}>
         <Text
           variant={TextVariant.Heading3SemiBold}

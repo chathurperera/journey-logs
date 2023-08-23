@@ -89,8 +89,16 @@ export const encryptionStore = createModel<RootModel>()({
       dispatch.encryptionStore.setSalt(salt);
     },
 
-    // async changePIN(){
+    async changePIN(payload, state) {
+      const { salt, recoveryKey } = state.encryptionStore;
+      const { userId } = state.userStore.userData;
 
-    // }
+      const newEncryptedRecoveryKey = await EncryptionService.generateNewEncryptedRecoveryKey(
+        payload,
+        salt,
+        recoveryKey,
+      );
+      await NoteEncryption.savePinAndRecoveryKey(userId, salt, newEncryptedRecoveryKey);
+    },
   }),
 });

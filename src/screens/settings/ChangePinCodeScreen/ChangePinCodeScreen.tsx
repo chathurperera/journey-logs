@@ -78,10 +78,10 @@ export function ChangePinCodeScreen() {
           buttonViewStyle={tw`bg-[${Color.Neutral.JL50}]`}
           buttonTextStyle={tw`text-[${Color.Neutral.JL900}] text-4xlg font-normal`}
           buttonSize={70}
+          inputAreaStyle={tw`mb-12 mt-3 `}
           buttonAreaStyle={tw`px-6`}
-          inputAreaStyle={tw`mb-6`}
+          inputViewEmptyStyle={tw`bg-[${Color.Neutral.white}] border`}
           inputViewStyle={tw`w-5 h-5`}
-          inputViewEmptyStyle={tw`bg-[${Color.Neutral.JL50}]`}
           onValueChange={value => setEnteredPin(value)}
           onButtonPress={key => {
             if (key === 'custom_right') {
@@ -92,7 +92,6 @@ export function ChangePinCodeScreen() {
           customRightButton={
             showRemoveButton ? <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} /> : undefined
           }
-          style={tw`mt-10.75`}
         />
       </View>
     </BaseScreenLayout>

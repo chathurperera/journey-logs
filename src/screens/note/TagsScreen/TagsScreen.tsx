@@ -7,10 +7,11 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextAlignment, TextVariant } from '@jl/constants';
 import { HeaderBackButton } from '@jl/navigation';
-import { TagsService, ToastService } from '@jl/services';
+import { TagsService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
+import { DeleteConfirmationModal } from './components/DeleteConfimationModal';
 
 interface TagsScreenProps {
   testID: string;
@@ -21,6 +22,8 @@ export function TagsScreen({ testID }: TagsScreenProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [tagsList, setTagsList] = useState(['']);
   const [isTagsFetching, setIsTagsFetching] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedTag, setSelectedTag] = useState('');
 
   const { userId } = useSelector(state => state.userStore.userData);
 
@@ -35,15 +38,9 @@ export function TagsScreen({ testID }: TagsScreenProps) {
     getTags();
   }, []);
 
-  const handleTagDeletion = async (tagToDelete: string) => {
-    try {
-      await TagsService.removeUserTagAndUpdateNotes(userId, tagToDelete);
-      const updatedTags = tagsList.filter(tag => tag !== tagToDelete);
-      ToastService.success('Success', `${tagToDelete} deleted successfully`);
-      setTagsList(updatedTags);
-    } catch (error) {
-      console.log('error', error);
-    }
+  const showModal = tag => {
+    setIsModalVisible(true);
+    setSelectedTag(tag);
   };
 
   const handleCreateTag = async () => {
@@ -76,7 +73,7 @@ export function TagsScreen({ testID }: TagsScreenProps) {
       <>
         <Pressable
           key={index}
-          onPress={() => handleTagDeletion(tag)}
+          onPress={() => showModal(tag)}
           style={tw`py-2 px-4 border-[${Color.Neutral.black}] border border-gray-200 rounded-[20px] gap-1 flex-row items-center justify-between`}>
           <Icon type="feather" name="hash" size={18} color={Color.Neutral.black} />
           <Text variant={TextVariant.Body2Regular} color={Color.Neutral.black}>
@@ -133,6 +130,14 @@ export function TagsScreen({ testID }: TagsScreenProps) {
           {!isTagsFetching && tagsList?.length === 0 && renderEmptyList()}
         </View>
       </View>
+      <DeleteConfirmationModal
+        isModalVisible={isModalVisible}
+        tagName={selectedTag}
+        userId={userId}
+        setTagsList={setTagsList}
+        tagsList={tagsList}
+        toggleModal={() => setIsModalVisible(false)}
+      />
     </BaseScreenLayout>
   );
 }

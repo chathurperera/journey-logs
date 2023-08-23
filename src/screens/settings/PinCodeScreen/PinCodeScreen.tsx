@@ -29,7 +29,10 @@ export function PinCodeScreen({ route }) {
   const PINVerification = async () => {
     if (pinExists) {
       const { encryptedRecoveryKey } = await AccountService.getMe(userId);
-      const { isValidPIN } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
+
+      const { isValidPIN, recoveryKey } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
+      dispatch.encryptionStore.setRecoveryKey(recoveryKey);
+
       const currentTimestamp = getCurrentTimestampInSeconds();
 
       if (isValidPIN) {
@@ -52,8 +55,6 @@ export function PinCodeScreen({ route }) {
       NavigationService.navigate(Route.ConfirmPinCode, { pinCode: enteredPin });
     }
   };
-
-  console.log('pin Code screen renders');
 
   useEffect(() => {
     if (isIncorrectPin) {
