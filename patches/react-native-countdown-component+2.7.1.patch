@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-countdown-component/index.js b/node_modules/react-native-countdown-component/index.js
-index b546b82..105e7fc 100644
+index b546b82..bd5c5d5 100644
 --- a/node_modules/react-native-countdown-component/index.js
 +++ b/node_modules/react-native-countdown-component/index.js
 @@ -39,6 +39,8 @@ class CountDown extends React.Component {
@@ -16,7 +16,7 @@ index b546b82..105e7fc 100644
  
    componentDidMount() {
 -    AppState.addEventListener('change', this._handleAppStateChange);
-+     this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);
++    this.appStateSubscription = AppState.addEventListener('change', this._handleAppStateChange);
    }
  
    componentWillUnmount() {
