@@ -46,8 +46,13 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
     await PDFService.createPDF(payload);
   };
 
-  const handleNoteEncryption = async () => {
-    await NoteService.noteEncryption(noteId, body, recoveryKey);
+  const handleHideNote = async (isEncrypted: boolean) => {
+    if (isEncrypted) {
+      await NoteService.noteDecryption(noteId, body, recoveryKey);
+    } else {
+      await NoteService.noteEncryption(noteId, body, recoveryKey);
+    }
+
     ModalizeRef.current?.close();
     setTimeout(() => {
       NavigationService.goBack();
@@ -109,7 +114,7 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
           </Text>
         </Pressable>
         {recoveryKey !== '' && (
-          <Pressable onPress={handleNoteEncryption} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
+          <Pressable onPress={() => handleHideNote(isEncrypted)} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
             <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
               <Icon type="feather" name={isEncrypted ? 'unlock' : 'lock'} size={25} color={Color.Primary.Jl500} />
             </View>
