@@ -69,19 +69,17 @@ export function TagsScreen({ testID }: TagsScreenProps) {
   );
 
   const renderPillsList = () => {
-    return tagsList?.map((tag, index) => (
-      <>
-        <Pressable
-          key={index}
-          onPress={() => showModal(tag)}
-          style={tw`py-2 px-4 border-[${Color.Neutral.black}] border border-gray-200 rounded-[20px] gap-1 flex-row items-center justify-between`}>
-          <Icon type="feather" name="hash" size={18} color={Color.Neutral.black} />
-          <Text variant={TextVariant.Body2Regular} color={Color.Neutral.black}>
-            {tag}
-          </Text>
-          <Icon name="trash" type="feather" size={23} color={Color.Warning.JL700} />
-        </Pressable>
-      </>
+    return tagsList?.map(tag => (
+      <Pressable
+        key={tag}
+        onPress={() => showModal(tag)}
+        style={tw`py-2 px-4 border-[${Color.Neutral.black}] border border-gray-200 rounded-[20px] gap-1 flex-row items-center justify-between`}>
+        <Icon type="feather" name="hash" size={18} color={Color.Neutral.black} />
+        <Text variant={TextVariant.Body2Regular} color={Color.Neutral.black}>
+          {tag}
+        </Text>
+        <Icon name="trash" type="feather" size={23} color={Color.Warning.JL700} />
+      </Pressable>
     ));
   };
 

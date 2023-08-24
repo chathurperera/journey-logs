@@ -96,7 +96,7 @@ export function TextToSpeechModal({ isModalVisible, modalVisibilityHandler, setS
         <View style={tw``}>
           {isRecording ? (
             <ScrollView
-              style={tw`h-20`}
+              style={tw`h-10`}
               ref={scrollViewRef}
               onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
               <Text variant={TextVariant.Heading3Regular} color={Color.Neutral.JL700}>
