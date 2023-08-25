@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, TextInput, View } from 'react-native';
 import { RichEditor, RichToolbar, actions } from 'react-native-pell-rich-editor';
 
-import { LoadingSpinner, Text } from '@jl/components';
+import { LoadingSpinner, TagsList, Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, Route, TextAlignment, TextVariant } from '@jl/constants';
 import { HeaderBackButton } from '@jl/navigation';
@@ -11,7 +11,6 @@ import { NavigationService, NoteService, ToastService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
-import { TagsList } from './components/TagsList';
 import { TextToSpeechModal } from './components/TextToSpeechModal';
 
 const handleHead = ({ tintColor }) => (

@@ -17,8 +17,6 @@ import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { MenuBottomSheet } from './components/MenuBottomSheet';
 import { PINCheckModal } from './components/PINCheckModal';
 
-// import { TagsList } from './components/TagsList';
-
 const handleHead = ({ tintColor }) => (
   <Text variant={TextVariant.Body1SemiBold} color={tintColor}>
     H1

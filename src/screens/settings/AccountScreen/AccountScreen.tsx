@@ -66,22 +66,20 @@ export function AccountScreen() {
   return (
     <BaseScreenLayout>
       <View style={tw`mx-5 h-full pb-10`}>
-        <View style={tw`justify-between flex-row items-center mb-3`}>
+        <View style={tw`justify-between flex-row items-center mb-3 relative`}>
           <HeaderBackButton />
-          <View style={tw`w-full`}>
+          <View style={tw`mx-auto absolute left-0 right-0`}>
             <Text variant={TextVariant.Heading3SemiBold} color={Color.Neutral.JL900} textAlign={TextAlignment.Center}>
               Account
             </Text>
-            <View style={tw`absolute right-0`}>
-              <Text
-                onPress={handleAccountUpdate}
-                variant={TextVariant.Heading3SemiBold}
-                color={Color.Primary.Jl500}
-                textAlign={TextAlignment.Center}>
-                {isEditing ? 'DONE' : 'EDIT'}
-              </Text>
-            </View>
           </View>
+          <Text
+            onPress={handleAccountUpdate}
+            variant={TextVariant.Heading3SemiBold}
+            color={Color.Primary.Jl500}
+            textAlign={TextAlignment.Center}>
+            {isEditing ? 'DONE' : 'EDIT'}
+          </Text>
         </View>
         <View style={tw`mt-6`}>
           <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL800}>
