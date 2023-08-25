@@ -17,6 +17,7 @@ type ItemProps = {
 };
 
 interface TagsListProps {
+  testID?: string;
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
   selectedTags: string[];
   isEditable?: boolean;
@@ -38,7 +39,7 @@ const Item = React.memo(({ item, handleOnPress, backgroundColor, textColor }: It
   );
 });
 
-export function TagsList({ setSelectedTags, selectedTags, isEditable = false }: TagsListProps) {
+export function TagsList({ setSelectedTags, selectedTags, isEditable = false, testID }: TagsListProps) {
   const { userId } = useSelector(state => state.userStore.userData);
   const { data } = useFetch(() => TagsService.getAllTags(userId));
 
@@ -67,7 +68,7 @@ export function TagsList({ setSelectedTags, selectedTags, isEditable = false }: 
   );
 
   return (
-    <View style={tw`my-3`}>
+    <View style={tw`my-3`} testID={testID}>
       <FlatList
         horizontal
         contentContainerStyle={tw``}

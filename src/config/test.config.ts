@@ -8,11 +8,24 @@ jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: () => {},
   useSelector: () => ({
-    userData: {
-      userId: 'testId',
+    userStore: {
+      userData: {
+        userId: 'testId',
+      },
     },
   }),
 }));
+
+// jest.mock('@jl/stores', () => ({
+//   useSelector: jest.fn().mockReturnValue({
+//     userStore: {
+//       userData: {
+//         userID: '12345',
+//       },
+//     },
+//   }),
+//   initializeStore: jest.fn(), // Mock the initializeStore if needed
+// }));
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
@@ -30,9 +43,7 @@ jest.mock('react-native-quick-crypto', () => ({
 }));
 
 jest.mock('@react-native-async-storage/async-storage', () => {
-  const asyncStorage = jest.requireActual(
-    '@react-native-async-storage/async-storage/jest/async-storage-mock',
-  );
+  const asyncStorage = jest.requireActual('@react-native-async-storage/async-storage/jest/async-storage-mock');
   // jest.requireActual('./../services/persistent-storage-service');
   return asyncStorage;
 });
