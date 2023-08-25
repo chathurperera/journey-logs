@@ -16,16 +16,24 @@ jest.mock('react-redux', () => ({
   }),
 }));
 
-// jest.mock('@jl/stores', () => ({
-//   useSelector: jest.fn().mockReturnValue({
-//     userStore: {
-//       userData: {
-//         userID: '12345',
-//       },
-//     },
-//   }),
-//   initializeStore: jest.fn(), // Mock the initializeStore if needed
-// }));
+jest.mock('@react-native-voice/voice', () => ({
+  start: jest.fn(),
+  stop: jest.fn(),
+  destroy: jest.fn(),
+  removeAllListeners: jest.fn(),
+  onSpeechResults: jest.fn(),
+  onSpeechStart: null,
+  onSpeechEnd: null,
+  onSpeechError: null,
+  onSpeechRecognized: null,
+}));
+
+jest.mock('lottie-react-native', () => {
+  const LottieMock = jest.fn(() => null); // This returns a null rendering component.
+  LottieMock.prototype.play = jest.fn();
+  LottieMock.prototype.pause = jest.fn();
+  return LottieMock;
+});
 
 jest.mock('react-native/Libraries/EventEmitter/NativeEventEmitter');
 
