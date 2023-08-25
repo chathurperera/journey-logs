@@ -8,3 +8,13 @@ export interface NoteData {
   updatedAt?: number;
   userId?: string;
 }
+
+export interface MenuBottomSheetProps {
+  testID?: string;
+  noteId: string;
+  body: string;
+  title: string;
+  isEncrypted: boolean;
+  isFavourite: boolean;
+  toggleEditingMode: () => void;
+}

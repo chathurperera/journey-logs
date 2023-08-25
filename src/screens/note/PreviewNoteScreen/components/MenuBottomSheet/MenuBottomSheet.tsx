@@ -6,20 +6,12 @@ import { Modalize } from 'react-native-modalize';
 import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextAlignment, TextVariant } from '@jl/constants';
+import { MenuBottomSheetProps } from '@jl/models';
 import { NavigationService, NoteService, PDFService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
-interface MenuBottomSheetProps {
-  noteId: string;
-  body: string;
-  title: string;
-  isEncrypted: boolean;
-  isFavourite: boolean;
-  toggleEditingMode: () => void;
-}
-
 export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
-  { noteId, isEncrypted, isFavourite, body, title, toggleEditingMode }: MenuBottomSheetProps,
+  { noteId, isEncrypted, isFavourite, body, title, toggleEditingMode, testID }: MenuBottomSheetProps,
   ref,
 ) {
   const ModalizeRef = useRef<Modalize>(null);
@@ -83,7 +75,7 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
 
   return (
     <Modalize ref={ModalizeRef} adjustToContentHeight>
-      <View style={tw`px-4 py-6 `}>
+      <View style={tw`px-4 py-6 `} testID={testID}>
         <View style={tw`border-b-[${Color.Neutral.JL100}] border-b pb-4 mb-2`}>
           <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
             Manage note
@@ -97,7 +89,7 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
             Edit note
           </Text>
         </Pressable>
-        <Pressable onPress={handleNoteExport} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
+        <Pressable onPress={handleNoteExport} style={tw` py-3 px-4 flex-row items-center gap-2 `} testID="ExportTestID">
           <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
             <Icon type="ant-design" name="export" size={25} color={Color.Primary.Jl500} />
           </View>
