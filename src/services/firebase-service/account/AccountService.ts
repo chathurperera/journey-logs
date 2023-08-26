@@ -24,12 +24,12 @@ const updateUserDetails = async (payload: UpdateUserParams, userId: string) => {
   }
 };
 
-const updateEmail = async (newEmail: string) => {
+const updateEmail = async (newEmail: string): Promise<void> => {
   try {
     const user = auth().currentUser;
     await user.updateEmail(newEmail);
   } catch (error) {
-    console.error('Error updating email: ', error);
+    ToastService.error('Error', 'Something went wrong');
   }
 };
 
@@ -40,7 +40,7 @@ const getMe = async (userId: string): Promise<UserData | undefined> => {
     // Assert the data type when fetching from Firestore.
     return documentSnapshot.data() as UserData;
   } catch (error) {
-    console.error('Error fetching user data:', error); // It's generally a good practice to handle or log errors.
+    ToastService.error('Error', 'Something went wrong');
     return undefined;
   }
 };

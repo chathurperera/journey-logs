@@ -37,10 +37,16 @@ export function AccountScreen({ testID }: AccountScreenProps) {
     }
   }, [data]);
 
+  const securityPreferenceSelection = level => {
+    if (isEditing) {
+      setSelectedOption(level);
+    }
+  };
+
   const renderSecurityLevelOptions = SECURITY_LEVELS.map(level => (
     <Chip
       key={level}
-      onPress={() => isEditing && setSelectedOption(level)}
+      onPress={() => securityPreferenceSelection(level)}
       type={level === selectedOption ? 'solid' : 'outline'}
       title={level}
       buttonStyle={tw`bg-[${level === selectedOption ? Color.Primary.Jl500 : Color.Neutral.white}] border-[${
@@ -62,11 +68,18 @@ export function AccountScreen({ testID }: AccountScreenProps) {
         ToastService.error('Error', 'Name cannot be empty');
         return;
       }
-      await AccountService.updateEmail(email);
-      await AccountService.updateUserDetails({ email, name, securityPreference: selectedOption }, userId);
-      ToastService.success('Success', 'Account Details updated');
-      dispatch.userStore.setUserData({ userId, email, name });
-      setIsEditing(false);
+
+      try {
+        await AccountService.updateEmail(email);
+        await AccountService.updateUserDetails({ email, name, securityPreference: selectedOption }, userId);
+        ToastService.success('Success', 'Account Details updated');
+
+        dispatch.userStore.setUserData({ userId, email, name });
+        setIsEditing(false);
+      } catch (error) {
+        ToastService.error('Error', error.message || 'Error updating account details.');
+        setIsEditing(false);
+      }
     }
   };
 
