@@ -6,21 +6,28 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, SECURITY_LEVELS, TextAlignment, TextVariant } from '@jl/constants';
 import { useFetch } from '@jl/hooks';
+import { UserData } from '@jl/models';
 import { HeaderBackButton } from '@jl/navigation';
 import { AccountService, ToastService } from '@jl/services';
 import { useDispatch, useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
-export function AccountScreen() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('Medium');
+type SecurityLevel = (typeof SECURITY_LEVELS)[number];
+
+interface AccountScreenProps {
+  testID?: string;
+}
+
+export function AccountScreen({ testID }: AccountScreenProps) {
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [selectedOption, setSelectedOption] = useState<SecurityLevel>('Medium');
 
   const dispatch = useDispatch();
   const { userId } = useSelector(state => state.userStore.userData);
-  const { data } = useFetch(() => AccountService.getMe(userId));
+  const { data } = useFetch<UserData>(() => AccountService.getMe(userId));
 
   useEffect(() => {
     if (data) {
@@ -64,7 +71,7 @@ export function AccountScreen() {
   };
 
   return (
-    <BaseScreenLayout>
+    <BaseScreenLayout testID={testID}>
       <View style={tw`mx-5 h-full pb-10`}>
         <View style={tw`justify-between flex-row items-center mb-3 relative`}>
           <HeaderBackButton />

@@ -1,9 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-export const useFetch = fetchMethod => {
+interface FetchState<T> {
+  data: T | null;
+  isLoading: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+}
+
+export const useFetch = <T>(fetchMethod: () => Promise<T>): FetchState<T> => {
   const isMounted = useRef(true);
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<FetchState<T>>({
     data: null,
     isLoading: false,
     isSuccess: false,
