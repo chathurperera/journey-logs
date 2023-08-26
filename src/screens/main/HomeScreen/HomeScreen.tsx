@@ -16,41 +16,53 @@ import { LoadingView } from './components/LoadingView';
 import { NoteCard } from './components/NoteCard';
 import { TagsList } from './components/TagsList';
 
+const greetBasedOnTime = (): string => {
+  const currentHour = new Date().getHours();
+
+  if (currentHour < 12) return 'Good morning✨';
+  if (currentHour < 18) return 'Good afternoon✨';
+  return 'Good evening✨';
+};
+
+const ListEmptyComponent = (): JSX.Element => (
+  <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
+    'No notes available. Start adding notes!'
+  </Text>
+);
+
+const RenderFooterComponent = ({
+  isLoading,
+  isEndReached,
+}: {
+  isLoading: boolean;
+  isEndReached: boolean;
+}) => (
+  <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
+    {!isLoading && isEndReached ? 'No more notes to load.' : ''}
+  </Text>
+);
+
 export function HomeScreen() {
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId, name } = useSelector(state => state.userStore.userData);
 
   const [, setSelectedId] = useState<string>();
   const [selectedTag, setSelectedTag] = useState('All');
-
   const pageSize = 10;
 
   const initialQuery = useMemo(() => {
-    let query = firestore().collection('notes').where('userId', '==', userId).where('isEncrypted', '==', false);
+    let query = firestore()
+      .collection('notes')
+      .where('userId', '==', userId)
+      .where('isEncrypted', '==', false);
 
     if (selectedTag !== 'All') {
       query = query.where('tags', 'array-contains', selectedTag);
     }
-    query = query.orderBy('createdAt', 'desc');
-
-    return query;
+    return query.orderBy('createdAt', 'desc');
   }, [selectedTag]);
 
-  const { data, isLoading, isFetchingMore, isEndReached, fetchMoreData, refreshData } = useFirestorePagination(
-    initialQuery,
-    pageSize,
-  );
-
-  const ListEmptyComponent = () => (
-    <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
-      {!isLoading ? 'No notes available. Start adding notes!' : ''}
-    </Text>
-  );
-
-  const RenderFooterComponent = () => (
-    <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
-      {!isLoading && isEndReached ? 'No more notes to load.' : ''}
-    </Text>
-  );
+  const { data, isLoading, isFetchingMore, isEndReached, fetchMoreData, refreshData } =
+    useFirestorePagination(initialQuery, pageSize);
 
   const renderItem = useCallback(
     ({ item }: { item: NoteData }) => <NoteCard {...item} onPress={() => setSelectedId(item.id)} />,
@@ -60,9 +72,12 @@ export function HomeScreen() {
   return (
     <BaseScreenLayout wrapWithScrollView={false}>
       <View style={tw`mx-5 pt-5 flex-1`}>
-        <View style={tw`w-[250px]`}>
+        <View style={tw`w-[300px]`}>
           <Text variant={TextVariant.Heading3Regular} color={Color.Neutral.JL800}>
-            Hey Chathura, Good Morning✨
+            {`Hey ${name},`}
+          </Text>
+          <Text variant={TextVariant.Heading3Regular} color={Color.Neutral.JL800}>
+            {greetBasedOnTime()}
           </Text>
         </View>
         <View style={tw`mt-12.75 flex-row items-center`}>
@@ -79,7 +94,9 @@ export function HomeScreen() {
             renderItem={renderItem}
             refreshing={isFetchingMore}
             onRefresh={refreshData}
-            ListFooterComponent={<RenderFooterComponent />}
+            ListFooterComponent={
+              <RenderFooterComponent isLoading={isLoading} isEndReached={isEndReached} />
+            }
             LoadingView={<LoadingView />}
             ListEmptyComponent={<ListEmptyComponent />}
             onEndReachedThreshold={0.1}
