@@ -12,7 +12,11 @@ import { useSelector } from '@jl/stores';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
-export function ChangePinCodeScreen() {
+interface ChangePinCodeScreenProps {
+  testID?: string;
+}
+
+export function ChangePinCodeScreen({ testID }: ChangePinCodeScreenProps) {
   const pinView = useRef(null);
 
   const { userId } = useSelector(state => state.userStore.userData);
@@ -60,7 +64,7 @@ export function ChangePinCodeScreen() {
   };
 
   return (
-    <BaseScreenLayout>
+    <BaseScreenLayout testID={testID}>
       <View style={tw`items-start pl-5`}>
         <Pressable style={tw`py-1`} onPress={() => NavigationService.navigate(Route.SettingsTab)}>
           <Icon type="feather" name="chevron-left" size={30} color={Color.Neutral.JL800} />

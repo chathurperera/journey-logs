@@ -9,18 +9,30 @@ import { Text } from '@jl/components';
 import { tw } from '@jl/config';
 import { Color, TextAlignment, TextVariant } from '@jl/constants';
 
-export function TextToSpeechModal({ isModalVisible, modalVisibilityHandler, setSpeechText }) {
-  const animationRef = useRef<LottieView>(null);
-  const scrollViewRef = useRef(null);
+interface TextToSpeechModalProps {
+  isModalVisible: boolean;
+  modalVisibilityHandler: () => void;
+  setSpeechText: (text: string) => void;
+  testID?: string;
+}
 
-  const [isRecording, setIsRecording] = useState(false);
-  const [result, setResult] = useState('');
+export function TextToSpeechModal({
+  isModalVisible,
+  modalVisibilityHandler,
+  setSpeechText,
+  testID,
+}: TextToSpeechModalProps) {
+  const animationRef = useRef<LottieView | null>(null);
+  const scrollViewRef = useRef<ScrollView | null>(null);
 
-  const speechStartHandler = () => {
+  const [isRecording, setIsRecording] = useState<boolean>(false);
+  const [result, setResult] = useState<string>('');
+
+  const speechStartHandler = (): void => {
     console.log('speech started');
   };
 
-  const speechEndHandler = () => {
+  const speechEndHandler = (): void => {
     setIsRecording(false);
     animationRef.current?.pause();
     setSpeechText(result);
@@ -28,20 +40,20 @@ export function TextToSpeechModal({ isModalVisible, modalVisibilityHandler, setS
     modalVisibilityHandler();
   };
 
-  const speechErrorHandler = e => {
+  const speechErrorHandler = (e: any): void => {
     console.log('speech error', e);
   };
 
-  const speechResultsHandler = e => {
+  const speechResultsHandler = (e: { value: string[] }): void => {
     const text = e.value[0];
     setResult(text);
   };
 
-  const handleVoiceInstanceDestroy = async () => {
+  const handleVoiceInstanceDestroy = async (): Promise<void> => {
     await Voice.destroy().then(Voice.removeAllListeners);
   };
 
-  const startRecording = async () => {
+  const startRecording = async (): Promise<void> => {
     try {
       await Voice.start('en-US');
     } catch (error) {
@@ -49,7 +61,7 @@ export function TextToSpeechModal({ isModalVisible, modalVisibilityHandler, setS
     }
   };
 
-  const handleOnBackdropPress = async () => {
+  const handleOnBackdropPress = async (): Promise<void> => {
     try {
       await Voice.stop();
       setIsRecording(false);
@@ -63,7 +75,7 @@ export function TextToSpeechModal({ isModalVisible, modalVisibilityHandler, setS
     }
   };
 
-  const speechRecognizedHandler = () => {
+  const speechRecognizedHandler = (): void => {
     animationRef.current?.play();
     setIsRecording(true);
   };
@@ -88,7 +100,7 @@ export function TextToSpeechModal({ isModalVisible, modalVisibilityHandler, setS
   }, [isModalVisible]);
 
   return (
-    <Modal isVisible={isModalVisible} onBackdropPress={handleOnBackdropPress}>
+    <Modal isVisible={isModalVisible} onBackdropPress={handleOnBackdropPress} testID={testID}>
       <View style={tw`py-4 px-3.6 bg-[${Color.Neutral.white}] rounded-lg `}>
         <Pressable onPress={startRecording}>
           <LottieView source={lottie.voiceRecordAnimation} ref={animationRef} style={tw`w-20 h-20 mx-auto`} />
@@ -98,7 +110,7 @@ export function TextToSpeechModal({ isModalVisible, modalVisibilityHandler, setS
             <ScrollView
               style={tw`h-10`}
               ref={scrollViewRef}
-              onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}>
+              onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}>
               <Text variant={TextVariant.Heading3Regular} color={Color.Neutral.JL700}>
                 {result}
               </Text>

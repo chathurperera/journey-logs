@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 
-import { NewAccountParams, UpdateUserParams } from '@jl/models';
+import { NewAccountParams, UpdateUserParams, UserData } from '@jl/models';
 
 import { ToastService } from '../../toast-service/ToastService';
 
@@ -24,20 +24,25 @@ const updateUserDetails = async (payload: UpdateUserParams, userId: string) => {
   }
 };
 
-const updateEmail = async (newEmail: string) => {
+const updateEmail = async (newEmail: string): Promise<void> => {
   try {
     const user = auth().currentUser;
     await user.updateEmail(newEmail);
   } catch (error) {
-    console.error('Error updating email: ', error);
+    ToastService.error('Error', 'Something went wrong');
   }
 };
 
-const getMe = async (userId: string) => {
+const getMe = async (userId: string): Promise<UserData | undefined> => {
   try {
     const documentSnapshot = await firestore().collection('users').doc(userId).get();
-    return documentSnapshot?.data();
-  } catch (error) {}
+
+    // Assert the data type when fetching from Firestore.
+    return documentSnapshot.data() as UserData;
+  } catch (error) {
+    ToastService.error('Error', 'Something went wrong');
+    return undefined;
+  }
 };
 
 const updatePassword = async (currentPassword: string, newPassword: string) => {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tags screen should render TagsScreen correctly 1`] = `
+exports[`<ConfirmPinCodeScreen /> should render ConfirmPinCodeScreen correctly 1`] = `
 <RCTSafeAreaView
   style={
     {
@@ -10,7 +10,7 @@ exports[`Tags screen should render TagsScreen correctly 1`] = `
       "position": "relative",
     }
   }
-  testID="TagsScreenTestID"
+  testID="ConfirmPinCodeScreenTestID"
 >
   <View
     onLayout={[Function]}

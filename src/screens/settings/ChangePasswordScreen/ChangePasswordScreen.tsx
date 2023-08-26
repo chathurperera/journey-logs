@@ -12,14 +12,18 @@ import { AccountService } from '@jl/services';
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { ChangePasswordFormValues, changePasswordValidationSchema } from './ChangePassword.validations';
 
-export function ChangePasswordScreen() {
+interface ChangePasswordScreenProps {
+  testID?: string;
+}
+
+export function ChangePasswordScreen({ testID }: ChangePasswordScreenProps) {
   const { handleSubmit, control } = useForm<ChangePasswordFormValues>({
     resolver: zodResolver(changePasswordValidationSchema),
   });
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleOnSubmit = async formData => {
+  const handleOnSubmit = async (formData: ChangePasswordFormValues) => {
     const { currentPassword, newPassword } = formData;
 
     setIsLoading(true);
@@ -31,7 +35,7 @@ export function ChangePasswordScreen() {
     }
   };
   return (
-    <BaseScreenLayout>
+    <BaseScreenLayout testID={testID}>
       <View style={tw`mx-5 h-full pb-10`}>
         <View style={tw`justify-between flex-row items-center mb-3 relative`}>
           <HeaderBackButton />

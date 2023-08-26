@@ -7,7 +7,7 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest --coverage",
+    "test": "jest --coverage  --runInBand --detectOpenHandles --forceExit --coverageReporters='text-summary'",
     "prepare": "husky install",
     "typecheck": "tsc --noEmit"
   },
@@ -71,7 +71,8 @@
     "@babel/core": "^7.20.0",
     "@babel/preset-env": "^7.20.0",
     "@babel/runtime": "^7.20.0",
-    "@testing-library/jest-native": "^5.4.2",
+    "@testing-library/jest-native": "^5.4.3",
+    "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/react-native": "^12.1.2",
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@tsconfig/react-native": "^2.0.2",
