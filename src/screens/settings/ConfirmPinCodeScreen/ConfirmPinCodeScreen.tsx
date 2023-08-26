@@ -21,7 +21,7 @@ const customRightButton = () => (
   </View>
 );
 
-export function ConfirmPinCodeScreen({ route }) {
+export function ConfirmPinCodeScreen({ route, testID }) {
   const { pinCode } = route.params.params;
   const { userId } = useSelector(state => state.userStore.userData);
 
@@ -76,7 +76,7 @@ export function ConfirmPinCodeScreen({ route }) {
   };
 
   return (
-    <BaseScreenLayout>
+    <BaseScreenLayout testID={testID}>
       <View style={tw`flex-1 justify-center`}>
         <View style={tw`flex-row justify-center`}>
           <Image source={images.logo} style={tw`w-20 h-20`} />
