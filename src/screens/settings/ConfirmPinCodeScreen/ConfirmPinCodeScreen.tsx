@@ -15,32 +15,37 @@ import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 const customRightButton = () => (
   <View style={tw`gap-1`}>
     <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} />
-    <Text variant={TextVariant.Label1Regular} textAlign={TextAlignment.Center} color={Color.Neutral.JL500}>
+    <Text
+      variant={TextVariant.Label1Regular}
+      textAlign={TextAlignment.Center}
+      color={Color.Neutral.JL500}>
       DELETE
     </Text>
   </View>
 );
 
-export function ConfirmPinCodeScreen({ route, testID }) {
+interface ConfirmPinCodeScreenProps {
+  route: {
+    params: {
+      params: {
+        pinCode: string;
+      };
+    };
+  };
+  testID?: string;
+}
+
+export function ConfirmPinCodeScreen({ route, testID }: ConfirmPinCodeScreenProps) {
   const { pinCode } = route.params.params;
   const { userId } = useSelector(state => state.userStore.userData);
-
   const dispatch = useDispatch();
-
   const pinView = useRef(null);
 
-  const [showRemoveButton, setShowRemoveButton] = useState(false);
   const [enteredPin, setEnteredPin] = useState('');
   const [pinCodeMisMatch, setPinCodeMisMatch] = useState(false);
 
   useEffect(() => {
     setPinCodeMisMatch(false);
-
-    if (enteredPin.length > 0) {
-      setShowRemoveButton(true);
-    } else {
-      setShowRemoveButton(false);
-    }
 
     if (enteredPin === pinCode) {
       try {
@@ -65,12 +70,14 @@ export function ConfirmPinCodeScreen({ route, testID }) {
           color={pinCodeMisMatch ? Color.Warning.JL700 : Color.Neutral.JL900}>
           {pinCodeMisMatch ? 'Your entries did not match' : 'Confirm your PIN Code'}
         </Text>
-        <Text
-          variant={TextVariant.Body1Regular}
-          textAlign={TextAlignment.Center}
-          color={pinCodeMisMatch ? Color.Warning.JL500 : Color.Neutral.JL900}>
-          {pinCodeMisMatch ? 'Please try again' : ''}
-        </Text>
+        {pinCodeMisMatch && (
+          <Text
+            variant={TextVariant.Body1Regular}
+            textAlign={TextAlignment.Center}
+            color={Color.Warning.JL500}>
+            Please try again
+          </Text>
+        )}
       </View>
     );
   };
@@ -100,7 +107,7 @@ export function ConfirmPinCodeScreen({ route, testID }) {
             }
           }}
           //@ts-ignore
-          customRightButton={showRemoveButton ? customRightButton() : undefined}
+          customRightButton={enteredPin ? customRightButton() : undefined}
           style={tw``}
         />
       </View>

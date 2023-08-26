@@ -7,8 +7,9 @@ import { ConfirmPinCodeScreen } from '../ConfirmPinCodeScreen';
 describe('<ConfirmPinCodeScreen />', () => {
   const testID = 'ConfirmPinCodeScreenTestID';
 
-  const mockRouteParams = { params: { params: { pinCode: 1111 } } };
-  const getRenderedScreen = () => renderWithProviders(<ConfirmPinCodeScreen testID={testID} route={mockRouteParams} />);
+  const mockRouteParams = { params: { params: { pinCode: '1111' } } };
+  const getRenderedScreen = () =>
+    renderWithProviders(<ConfirmPinCodeScreen testID={testID} route={mockRouteParams} />);
 
   it('should render ConfirmPinCodeScreen correctly', () => {
     const renderer = getRenderedScreen();
