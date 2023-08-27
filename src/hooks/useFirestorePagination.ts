@@ -4,33 +4,41 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type Note = {
   id: string;
-  [key: string]: any; // Add more specific types as required
+  [key: string]: any;
 };
 
-export const useFirestorePagination = (initialQuery: FirebaseFirestoreTypes.Query, pageSize: number) => {
+export const useFirestorePagination = (
+  initialQuery: FirebaseFirestoreTypes.Query,
+  pageSize: number,
+) => {
   const [data, setData] = useState<Note[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isFetchingMore, setIsFetchingMore] = useState<boolean>(false);
   const [isEndReached, setIsEndReached] = useState<boolean>(false);
   const lastDocument = useRef<FirebaseFirestoreTypes.DocumentSnapshot | null>(null);
 
-  const fetchData = useCallback(async () => {
-    setIsLoading(true);
+  const fetchData = useCallback(
+    async (isInitialFetch: boolean = true) => {
+      if (isInitialFetch) {
+        setIsLoading(true);
+      }
 
-    try {
-      const query = initialQuery.limit(pageSize);
-      const snapshot = await query.get();
-      const lastVisible = snapshot.docs[snapshot.docs.length - 1];
-      lastDocument.current = lastVisible;
+      try {
+        const query = initialQuery.limit(pageSize);
+        const snapshot = await query.get();
+        const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+        lastDocument.current = lastVisible;
 
-      const newData = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as Note[];
-      setData(newData);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [initialQuery, pageSize]);
+        const newData = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id })) as Note[];
+        setData(newData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [initialQuery, pageSize],
+  );
 
   useEffect(() => {
     setIsEndReached(false);
@@ -41,7 +49,7 @@ export const useFirestorePagination = (initialQuery: FirebaseFirestoreTypes.Quer
 
   const refreshData = useCallback(() => {
     setIsEndReached(false);
-    fetchData();
+    fetchData(false);
   }, [fetchData]);
 
   useFocusEffect(refreshData);
