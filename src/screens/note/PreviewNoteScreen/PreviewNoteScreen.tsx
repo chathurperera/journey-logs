@@ -34,7 +34,7 @@ export function PreviewNoteScreen({ route }) {
 
   const RichTextEditorRef = useRef(null);
 
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
   const [noteContent, setNoteContent] = useState({
     userId: userId,
     title: '',
@@ -122,7 +122,11 @@ export function PreviewNoteScreen({ route }) {
 
   const renderContent = () => (
     <>
-      <TagsList setSelectedTags={setSelectedTags} selectedTags={selectedTags} isEditable={isEditing} />
+      <TagsList
+        setSelectedTags={setSelectedTags}
+        selectedTags={selectedTags}
+        isEditable={isEditing}
+      />
       <View style={tw`mb-3 h-full pb-22`}>
         <TextInput
           placeholder="Title"

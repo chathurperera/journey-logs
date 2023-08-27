@@ -37,7 +37,7 @@ const Item = React.memo(({ item, onPress, backgroundColor, textColor }: ItemProp
 ));
 
 const TagsListComponent: React.FC<TagsListProps> = ({ selectedTag, setSelectedTag }) => {
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
   const { data = [], refetch } = useFetch(() => TagsService.getAllTags(userId));
   const [allTags, setAllTags] = useState(['All']);
 

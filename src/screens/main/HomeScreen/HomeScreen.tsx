@@ -43,7 +43,7 @@ const RenderFooterComponent = ({
 );
 
 export function HomeScreen() {
-  const { userId, name } = useSelector(state => state.userStore.userData);
+  const { userId, name } = useSelector(state => state.userStore);
 
   const [, setSelectedId] = useState<string>();
   const [selectedTag, setSelectedTag] = useState('All');

@@ -25,7 +25,7 @@ interface AccountScreenProps {
   testID?: string;
 }
 
-const labelComponent = label => (
+const labelComponent = (label: string) => (
   <View style={tw`pb-1`}>
     <Text variant={TextVariant.Label1Regular} color={Color.Neutral.black}>
       {label}
@@ -40,7 +40,7 @@ export function AccountScreen({ testID }: AccountScreenProps) {
   const [selectedOption, setSelectedOption] = useState<SecurityLevel>('Medium');
 
   const dispatch = useDispatch();
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
   const { data } = useFetch<UserData>(() => AccountService.getMe(userId));
 
   useEffect(() => {

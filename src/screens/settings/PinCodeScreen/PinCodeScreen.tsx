@@ -19,7 +19,7 @@ export function PinCodeScreen({ route }) {
   const dispatch = useDispatch();
 
   const { salt, failedAttempts } = useSelector(state => state.encryptionStore);
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
 
   const pinView = useRef(null);
   const [showRemoveButton, setShowRemoveButton] = useState(false);
@@ -30,13 +30,17 @@ export function PinCodeScreen({ route }) {
     if (pinExists) {
       const { encryptedRecoveryKey } = await AccountService.getMe(userId);
 
-      const { isValidPIN, recoveryKey } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
+      const { isValidPIN, recoveryKey } = await EncryptionService.verifyOldPIN(
+        enteredPin,
+        salt,
+        encryptedRecoveryKey,
+      );
       dispatch.encryptionStore.setRecoveryKey(recoveryKey);
 
       const currentTimestamp = getCurrentTimestampInSeconds();
 
       if (isValidPIN) {
-        dispatch.encryptionStore.setLastAccessedHiddenNotesAt(currentTimestamp);
+        dispatch.encryptionStore.setLastSuccessfulAttemptAt(currentTimestamp);
 
         NavigationService.navigate(Route.HiddenNotes);
       } else {
@@ -142,7 +146,9 @@ export function PinCodeScreen({ route }) {
           }}
           //@ts-ignore
           customRightButton={
-            showRemoveButton ? <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} /> : undefined
+            showRemoveButton ? (
+              <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} />
+            ) : undefined
           }
         />
       </View>

@@ -20,22 +20,26 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
   const dispatch = useDispatch();
   const { securityPreference } = useSelector(state => state.encryptionStore);
 
-  const { salt, lastAccessedHiddenNotesAt, lockoutTimestamp } = useSelector(state => state.encryptionStore);
-  const { name, email } = useSelector(state => state.userStore.userData);
+  const { salt, lastSuccessfulAttemptAt, lockoutTimestamp } = useSelector(
+    state => state.encryptionStore,
+  );
+  const { name, email } = useSelector(state => state.userStore);
 
   const isInLockedPeriod = validateLockoutPeriod(lockoutTimestamp, securityPreference);
 
   const hiddenNotesAccessNavigation = () => {
     if (isInLockedPeriod) {
       const remainingSeconds = getRemainingLockoutTime(lockoutTimestamp);
-      return NavigationService.navigate(Route.MaxPinCodeAttemptsReached, { remainingSeconds: remainingSeconds });
+      return NavigationService.navigate(Route.MaxPinCodeAttemptsReached, {
+        remainingSeconds: remainingSeconds,
+      });
     }
 
-    if (lastAccessedHiddenNotesAt && isPinSessionExpired(lastAccessedHiddenNotesAt)) {
+    if (lastSuccessfulAttemptAt && isPinSessionExpired(lastSuccessfulAttemptAt)) {
       return NavigationService.navigate(Route.PinCode, { pinExists: true });
     }
 
-    if (lastAccessedHiddenNotesAt) {
+    if (lastSuccessfulAttemptAt) {
       return NavigationService.navigate(Route.HiddenNotes);
     }
 
@@ -57,7 +61,8 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
           Settings
         </Text>
         <View style={tw`pt-7 items-center`}>
-          <View style={tw`w-18 h-18  bg-[${Color.Primary.Jl500}] justify-center rounded-full flex-row pt-1 mb-3`}>
+          <View
+            style={tw`w-18 h-18  bg-[${Color.Primary.Jl500}] justify-center rounded-full flex-row pt-1 mb-3`}>
             <Text
               variant={TextVariant.Heading1Regular}
               // textAlign={TextAlignment.Center}
@@ -72,12 +77,20 @@ export function SettingsScreen({ testID }: SettingsScreenProps) {
         <View style={tw`mt-10`}>
           <Section title="account">
             <SectionLink text="Account" onPress={() => NavigationService.navigate(Route.Account)} />
-            <SectionLink text="Change Password" onPress={() => NavigationService.navigate(Route.ChangePassword)} />
+            <SectionLink
+              text="Change Password"
+              onPress={() => NavigationService.navigate(Route.ChangePassword)}
+            />
           </Section>
           <Section title={'notes'}>
             <SectionLink text="Tags" onPress={() => NavigationService.navigate(Route.Tags)} />
-            <SectionLink text={salt === '' ? 'Add PIN' : 'Change PIN'} onPress={handleAddPINNavigation} />
-            {salt !== '' && <SectionLink text="Hidden Notes" onPress={() => hiddenNotesAccessNavigation()} />}
+            <SectionLink
+              text={salt === '' ? 'Add PIN' : 'Change PIN'}
+              onPress={handleAddPINNavigation}
+            />
+            {salt !== '' && (
+              <SectionLink text="Hidden Notes" onPress={() => hiddenNotesAccessNavigation()} />
+            )}
           </Section>
           <SectionLink text="Logout" onPress={() => dispatch.userStore.logoutUser()} />
         </View>

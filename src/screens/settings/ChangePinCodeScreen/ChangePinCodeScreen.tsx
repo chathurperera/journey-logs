@@ -19,7 +19,7 @@ interface ChangePinCodeScreenProps {
 export function ChangePinCodeScreen({ testID }: ChangePinCodeScreenProps) {
   const pinView = useRef(null);
 
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
   const { salt, recoveryKey } = useSelector(state => state.encryptionStore);
 
   const [showRemoveButton, setShowRemoveButton] = useState(false);
@@ -94,7 +94,9 @@ export function ChangePinCodeScreen({ testID }: ChangePinCodeScreenProps) {
           }}
           //@ts-ignore
           customRightButton={
-            showRemoveButton ? <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} /> : undefined
+            showRemoveButton ? (
+              <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} />
+            ) : undefined
           }
         />
       </View>

@@ -6,29 +6,38 @@ import { AccountService, AuthService } from '@jl/services';
 import { RootModel } from './index';
 
 interface UserState {
-  userData: UserData;
   isAuthenticated: boolean;
+  userId: string;
+  name: string;
+  email: string;
 }
 
 const initialState = {
-  userData: null,
   isAuthenticated: false,
+  userId: '',
+  name: '',
+  email: '',
 };
 
 export const userStore = createModel<RootModel>()({
   state: { ...initialState } as UserState,
   reducers: {
     setUserData(state: UserState, userData: UserData | null) {
-      return { ...state, userData };
+      return { ...state, ...userData };
     },
     setAuthState(state: UserState, isAuthenticated: boolean) {
       return { ...state, isAuthenticated: isAuthenticated };
+    },
+    resetToInitialState() {
+      return { ...initialState };
     },
   },
   effects: dispatch => ({
     async login(payload: LoginData) {
       const { uid, email } = await AuthService.signIn(payload);
-      const { salt, name, encryptedRecoveryKey, securityPreference } = await AccountService.getMe(uid);
+      const { salt, name, encryptedRecoveryKey, securityPreference } = await AccountService.getMe(
+        uid,
+      );
 
       dispatch.userStore.setUserData({
         userId: uid,
@@ -52,8 +61,7 @@ export const userStore = createModel<RootModel>()({
 
     async logoutUser() {
       await AuthService.logOut();
-      dispatch.userStore.setUserData(null);
-      dispatch.userStore.setAuthState(false);
+      dispatch.userStore.resetToInitialState();
       dispatch.encryptionStore.resetToInitialState();
     },
   }),

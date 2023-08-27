@@ -14,7 +14,7 @@ import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { NoteCard } from '../HomeScreen/components/NoteCard';
 
 export function CalendarScreen() {
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
   const [calendarMarkedDates, setCalendarMarkedDates] = useState({});
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -141,7 +141,9 @@ export function CalendarScreen() {
         <View style={tw` mt-3 pt-4  flex-1 p-4 bg-[${Color.Neutral.JL50}] rounded-t-3xl`}>
           {isLoading && <LoadingSpinner color={Color.Primary.Jl500} size="large" />}
           {notes?.length === 0 && !isLoading && renderEmptyList()}
-          {!isLoading && <FlatList data={notes} renderItem={renderItem} keyExtractor={item => item.id} />}
+          {!isLoading && (
+            <FlatList data={notes} renderItem={renderItem} keyExtractor={item => item.id} />
+          )}
         </View>
       </View>
     </BaseScreenLayout>

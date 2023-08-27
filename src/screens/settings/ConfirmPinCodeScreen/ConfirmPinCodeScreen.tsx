@@ -37,7 +37,7 @@ interface ConfirmPinCodeScreenProps {
 
 export function ConfirmPinCodeScreen({ route, testID }: ConfirmPinCodeScreenProps) {
   const { pinCode } = route.params.params;
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
   const dispatch = useDispatch();
   const pinView = useRef(null);
 

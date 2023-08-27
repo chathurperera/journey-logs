@@ -7,10 +7,14 @@ import { ToastService } from '../../toast-service/ToastService';
 
 const createNewAccount = async ({ email, name, userId }: NewAccountParams) => {
   try {
-    await firestore()
-      .collection('users')
-      .doc(userId)
-      .set({ email, name, salt: '', encryptedRecoveryKey: '', tags: [], securityPreference: 'Medium' });
+    await firestore().collection('users').doc(userId).set({
+      email,
+      name,
+      salt: '',
+      encryptedRecoveryKey: '',
+      tags: [],
+      securityPreference: 'Medium',
+    });
   } catch (error) {
     console.log('error', error);
   }
@@ -20,7 +24,7 @@ const updateUserDetails = async (payload: UpdateUserParams, userId: string) => {
   try {
     await firestore().collection('users').doc(userId).set(payload);
   } catch (error) {
-    console.log('error', error);
+    ToastService.error('Error', 'Something went wrong');
   }
 };
 
@@ -73,4 +77,10 @@ const updatePassword = async (currentPassword: string, newPassword: string) => {
   }
 };
 
-export const AccountService = { createNewAccount, getMe, updateEmail, updateUserDetails, updatePassword };
+export const AccountService = {
+  createNewAccount,
+  getMe,
+  updateEmail,
+  updateUserDetails,
+  updatePassword,
+};
