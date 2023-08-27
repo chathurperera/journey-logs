@@ -19,6 +19,7 @@ const createNote = async (noteData: NoteData) => {
         isFavourite: false,
       });
   } catch (error) {
+    console.log('error', error);
     ToastService.error('Error', 'Error while saving the note');
   }
 };
