@@ -31,6 +31,7 @@ export function TagsScreen({ testID }: TagsScreenProps) {
     setIsTagsFetching(true);
     const tags = await TagsService.getAllTags(userId);
     setIsTagsFetching(false);
+    console.log('tags');
     setTagsList(tags);
   };
 
@@ -133,7 +134,7 @@ export function TagsScreen({ testID }: TagsScreenProps) {
           Available tags
         </Text>
         <View style={tw`flex-row flex-wrap pt-3 gap-2.2`}>
-          {renderPillsList()}
+          {!isTagsFetching && renderPillsList()}
           {!isTagsFetching && tagsList?.length === 0 && renderEmptyList()}
         </View>
       </View>

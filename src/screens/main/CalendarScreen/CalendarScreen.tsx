@@ -11,7 +11,7 @@ import { useSelector } from '@jl/stores';
 import { convertFormat, getFirstAndLastDayOfMonth } from '@jl/utils';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
-import { NoteCard } from '../HomeScreen/components/NoteCard';
+import { CalendarCard } from './components/CalendarCard';
 
 export function CalendarScreen() {
   const { userId } = useSelector(state => state.userStore);
@@ -60,7 +60,6 @@ export function CalendarScreen() {
     formatNotesDataToCalenderDates(data);
   };
 
-  //Set dates on initial render
   useEffect(() => {
     const date = new Date();
     const monthNumber = date.getMonth() + 1;
@@ -95,7 +94,7 @@ export function CalendarScreen() {
   };
 
   const renderItem = ({ item }: { item: NoteData }) => {
-    return <NoteCard {...item} showIcon />;
+    return <CalendarCard {...item} />;
   };
 
   const renderEmptyList = () => (

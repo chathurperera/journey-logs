@@ -47,7 +47,6 @@ export function PreviewNoteScreen({ route }) {
   useEffect(() => {
     if (noteData?.isEncrypted) {
       const getEncryptedNote = async () => {
-        console.log('recoveryKey', recoveryKey);
         const note = await NoteEncryption.getDecryptedNote(noteData?.body, recoveryKey);
         setDecryptedNote(note);
       };

@@ -10,6 +10,11 @@ export const getRelativeTimeFromTimestamp = (timestampValue: number) => {
   return relativeTime;
 };
 
+export const getTimeFromTimestamp = (timestamp: number) => {
+  const time = moment(timestamp).format('HH:mm');
+  return time;
+};
+
 export const getFirstAndLastDayOfMonth = (year, month) => {
   const startDate = moment([year, month - 1, 1]);
   const endDate = moment([year, month - 1, 1]).endOf('month');
