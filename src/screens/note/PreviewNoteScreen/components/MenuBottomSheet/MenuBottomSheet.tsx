@@ -11,7 +11,16 @@ import { NavigationService, NoteService, PDFService } from '@jl/services';
 import { useSelector } from '@jl/stores';
 
 export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
-  { noteId, isEncrypted, isFavourite, body, title, toggleEditingMode, testID }: MenuBottomSheetProps,
+  {
+    noteId,
+    isEncrypted,
+    isFavourite,
+    body,
+    title,
+    toggleEditingMode,
+    testID,
+    openPINCheckModal,
+  }: MenuBottomSheetProps,
   ref,
 ) {
   const ModalizeRef = useRef<Modalize>(null);
@@ -39,16 +48,19 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
   };
 
   const handleHideNote = async (isEncrypted: boolean) => {
-    if (isEncrypted) {
-      await NoteService.noteDecryption(noteId, body, recoveryKey);
+    if (recoveryKey === '') {
+      openPINCheckModal();
     } else {
-      await NoteService.noteEncryption(noteId, body, recoveryKey);
+      if (isEncrypted) {
+        await NoteService.noteDecryption(noteId, body, recoveryKey);
+      } else {
+        await NoteService.noteEncryption(noteId, body, recoveryKey);
+      }
+      ModalizeRef.current?.close();
+      setTimeout(() => {
+        NavigationService.goBack();
+      }, 800);
     }
-
-    ModalizeRef.current?.close();
-    setTimeout(() => {
-      NavigationService.goBack();
-    }, 800);
   };
 
   const handleNoteDeletion = async () => {
@@ -89,7 +101,10 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
             Edit note
           </Text>
         </Pressable>
-        <Pressable onPress={handleNoteExport} style={tw` py-3 px-4 flex-row items-center gap-2 `} testID="ExportTestID">
+        <Pressable
+          onPress={handleNoteExport}
+          style={tw` py-3 px-4 flex-row items-center gap-2 `}
+          testID="ExportTestID">
           <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
             <Icon type="ant-design" name="export" size={25} color={Color.Primary.Jl500} />
           </View>
@@ -97,25 +112,41 @@ export const MenuBottomSheet = forwardRef(function MenuBottomSheet(
             Export note as PDF
           </Text>
         </Pressable>
-        <Pressable onPress={handleNoteFavouriteStateToggle} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
+        <Pressable
+          onPress={handleNoteFavouriteStateToggle}
+          style={tw` py-3 px-4 flex-row items-center gap-2 `}>
           <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
-            <Icon type="ant-design" name={isFavourite ? 'heart' : 'hearto'} size={25} color={Color.Primary.Jl500} />
+            <Icon
+              type="ant-design"
+              name={isFavourite ? 'heart' : 'hearto'}
+              size={25}
+              color={Color.Primary.Jl500}
+            />
           </View>
           <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
             {isFavourite ? 'Remove from Favourites' : 'Add to Favourites'}
           </Text>
         </Pressable>
-        {recoveryKey !== '' && (
-          <Pressable onPress={() => handleHideNote(isEncrypted)} style={tw` py-3 px-4 flex-row items-center gap-2 `}>
-            <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
-              <Icon type="feather" name={isEncrypted ? 'unlock' : 'lock'} size={25} color={Color.Primary.Jl500} />
-            </View>
-            <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
-              {isEncrypted ? 'Unlock note' : 'Lock note'}
-            </Text>
-          </Pressable>
-        )}
-        <Pressable onPress={handleNoteDeletion} style={tw` py-3 px-4 flex-row items-center gap-2 mt-3`}>
+
+        <Pressable
+          onPress={() => handleHideNote(isEncrypted)}
+          style={tw` py-3 px-4 flex-row items-center gap-2 `}>
+          <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
+            <Icon
+              type="feather"
+              name={isEncrypted ? 'unlock' : 'lock'}
+              size={25}
+              color={Color.Primary.Jl500}
+            />
+          </View>
+          <Text variant={TextVariant.Body1SemiBold} color={Color.Neutral.JL900}>
+            {isEncrypted ? 'Unlock note' : 'Lock note'}
+          </Text>
+        </Pressable>
+
+        <Pressable
+          onPress={handleNoteDeletion}
+          style={tw` py-3 px-4 flex-row items-center gap-2 mt-3`}>
           <View style={tw`justify-center p-2 rounded-md bg-[${Color.Secondary.JL50}] mr-1`}>
             <Icon type="feather" name="trash-2" color={Color.Warning.JL500} size={25} />
           </View>

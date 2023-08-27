@@ -17,4 +17,5 @@ export interface MenuBottomSheetProps {
   isEncrypted: boolean;
   isFavourite: boolean;
   toggleEditingMode: () => void;
+  openPINCheckModal?: () => void;
 }
