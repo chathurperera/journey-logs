@@ -40,8 +40,6 @@ const updateEmail = async (newEmail: string): Promise<void> => {
 const getMe = async (userId: string): Promise<UserData | undefined> => {
   try {
     const documentSnapshot = await firestore().collection('users').doc(userId).get();
-
-    // Assert the data type when fetching from Firestore.
     return documentSnapshot.data() as UserData;
   } catch (error) {
     ToastService.error('Error', 'Something went wrong');

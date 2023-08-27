@@ -4,7 +4,7 @@ import { NoteData } from '@jl/models';
 import { getCurrentTimestampInSeconds } from '@jl/utils';
 
 import { ToastService } from '../../toast-service';
-import { NoteEncryption } from '../NoteEncryption';
+import { NoteEncryption } from '../note-encryption';
 
 const createNote = async (noteData: NoteData) => {
   const currentTimestamp = getCurrentTimestampInSeconds();

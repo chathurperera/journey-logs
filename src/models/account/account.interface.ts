@@ -9,6 +9,7 @@ export interface UpdateUserParams {
   name?: string;
   securityPreference?: string;
   lockoutTimestamp?: string;
+  failedAttempts?: number;
   lastSuccessfulAttemptAt?: number;
 }
 
