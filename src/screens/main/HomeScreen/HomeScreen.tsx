@@ -24,12 +24,6 @@ const greetBasedOnTime = (): string => {
   return 'Good evening✨';
 };
 
-const ListEmptyComponent = (): JSX.Element => (
-  <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
-    'No notes available. Start adding notes!'
-  </Text>
-);
-
 const RenderFooterComponent = ({
   isLoading,
   isEndReached,
@@ -43,11 +37,17 @@ const RenderFooterComponent = ({
 );
 
 export function HomeScreen() {
-  const { userId, name } = useSelector(state => state.userStore.userData);
+  const { userId, name } = useSelector(state => state.userStore);
 
   const [, setSelectedId] = useState<string>();
   const [selectedTag, setSelectedTag] = useState('All');
   const pageSize = 10;
+
+  const ListEmptyComponent = (): JSX.Element => (
+    <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
+      {!isLoading && 'No notes available. Start adding notes!'}
+    </Text>
+  );
 
   const initialQuery = useMemo(() => {
     let query = firestore()

@@ -16,16 +16,14 @@ export let store: ReturnType<typeof initializeStore>;
 
 export const initializeStore = () => {
   const plugins = [];
-  // Add plugins
   plugins.push(loadingPlugin());
 
   const persistPlugin = createRematchPersist({
     key: 'root',
     storage: PersistentStorageService.getStorage(),
-    whitelist: ['userStore', 'encryptionStore'],
+    whitelist: ['userStore'],
   });
 
-  // Add plugins not required for testing
   if (!IS_JEST_RUNTIME) {
     plugins.push(persistPlugin);
   }

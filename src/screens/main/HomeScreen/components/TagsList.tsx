@@ -1,3 +1,4 @@
+import { useFocusEffect } from '@react-navigation/native';
 import { Icon } from '@rneui/base';
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList, Pressable } from 'react-native';
@@ -11,7 +12,7 @@ import { useSelector } from '@jl/stores';
 
 type ItemProps = {
   item: string;
-  onPress: (item: string) => void; // Use item as a parameter
+  onPress: (item: string) => void;
   backgroundColor: string;
   textColor: string;
 };
@@ -35,9 +36,9 @@ const Item = React.memo(({ item, onPress, backgroundColor, textColor }: ItemProp
   </Pressable>
 ));
 
-export function TagsList({ selectedTag, setSelectedTag }: TagsListProps) {
-  const { userId } = useSelector(state => state.userStore.userData);
-  const { data = [] } = useFetch(() => TagsService.getAllTags(userId));
+const TagsListComponent: React.FC<TagsListProps> = ({ selectedTag, setSelectedTag }) => {
+  const { userId } = useSelector(state => state.userStore);
+  const { data = [], refetch } = useFetch(() => TagsService.getAllTags(userId));
   const [allTags, setAllTags] = useState(['All']);
 
   const handlePress = useCallback(
@@ -52,17 +53,29 @@ export function TagsList({ selectedTag, setSelectedTag }: TagsListProps) {
       const backgroundColor = item === selectedTag ? Color.Neutral.black : Color.Tertiary.JL200;
       const color = item === selectedTag ? Color.Neutral.white : Color.Neutral.JL900;
 
-      return <Item item={item} onPress={handlePress} backgroundColor={backgroundColor} textColor={color} />;
+      return (
+        <Item
+          item={item}
+          onPress={handlePress}
+          backgroundColor={backgroundColor}
+          textColor={color}
+        />
+      );
     },
     [selectedTag],
   );
 
   useEffect(() => {
-    console.log('data', data);
     if (data && data.length) {
       setAllTags(['All', ...data]);
     }
   }, [data]);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, []),
+  );
 
   return (
     <FlatList
@@ -73,4 +86,6 @@ export function TagsList({ selectedTag, setSelectedTag }: TagsListProps) {
       keyExtractor={item => item}
     />
   );
-}
+};
+
+export const TagsList = React.memo(TagsListComponent);

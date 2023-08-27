@@ -19,7 +19,7 @@ export function FavouritesScreen() {
   const renderItem = ({ item }: { item: NoteData }) => {
     return <FavouritesCard {...item} />;
   };
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
 
   const { isLoading, data } = useFetch(() => NoteService.getFavourites(userId));
 

@@ -16,7 +16,7 @@ export interface EncryptionData {
   recoveryKey: string;
   salt: string;
   failedAttempts?: number;
-  lockoutTimestamp?: string;
+  lockoutTimestamp?: number;
 }
 
 export type SecurityLevels = 'Low' | 'Medium' | 'High';

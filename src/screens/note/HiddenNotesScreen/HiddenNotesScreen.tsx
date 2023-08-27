@@ -14,7 +14,7 @@ import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 import { HiddenNoteCard } from './components/HiddenNoteCard';
 
 export function HiddenNotesScreen() {
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
 
   const pageSize = 10;
 
@@ -27,16 +27,16 @@ export function HiddenNotesScreen() {
     return query;
   }, []);
 
-  const { data, isLoading, isFetchingMore, isEndReached, fetchMoreData, refreshData } = useFirestorePagination(
-    initialQuery,
-    pageSize,
-  );
+  const { data, isLoading, isFetchingMore, isEndReached, fetchMoreData, refreshData } =
+    useFirestorePagination(initialQuery, pageSize);
 
   const renderFooter = () => {
     if (isLoading) return <LoadingSpinner size="large" />;
-    if (data.length === 0) return <Text variant={TextVariant.Body2SemiBold}>No hidden notes available</Text>;
+    if (data.length === 0)
+      return <Text variant={TextVariant.Body2SemiBold}>No hidden notes available</Text>;
     if (isFetchingMore) return <LoadingSpinner size="small" />;
-    if (isEndReached) return <Text variant={TextVariant.Body2SemiBold}>No more notes to load.</Text>;
+    if (isEndReached)
+      return <Text variant={TextVariant.Body2SemiBold}>No more notes to load.</Text>;
     return null;
   };
 
@@ -48,9 +48,14 @@ export function HiddenNotesScreen() {
     <BaseScreenLayout wrapWithScrollView={false}>
       <View style={[tw`mx-5 flex-1 pb-10 bg-white`]}>
         <View style={tw`justify-between flex-row items-center mb-3 relative`}>
-          <HeaderBackButton navigationCallBack={() => NavigationService.navigate(Route.SettingsTab)} />
+          <HeaderBackButton
+            navigationCallBack={() => NavigationService.navigate(Route.SettingsTab)}
+          />
           <View style={tw`w-full absolute left-0 right-0`}>
-            <Text variant={TextVariant.Heading3SemiBold} color={Color.Neutral.JL900} textAlign={TextAlignment.Center}>
+            <Text
+              variant={TextVariant.Heading3SemiBold}
+              color={Color.Neutral.JL900}
+              textAlign={TextAlignment.Center}>
               Secured Notes
             </Text>
           </View>

@@ -11,10 +11,10 @@ import { useSelector } from '@jl/stores';
 import { convertFormat, getFirstAndLastDayOfMonth } from '@jl/utils';
 
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
-import { NoteCard } from '../HomeScreen/components/NoteCard';
+import { CalendarCard } from './components/CalendarCard';
 
 export function CalendarScreen() {
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
   const [calendarMarkedDates, setCalendarMarkedDates] = useState({});
   const [notes, setNotes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -60,7 +60,6 @@ export function CalendarScreen() {
     formatNotesDataToCalenderDates(data);
   };
 
-  //Set dates on initial render
   useEffect(() => {
     const date = new Date();
     const monthNumber = date.getMonth() + 1;
@@ -95,7 +94,7 @@ export function CalendarScreen() {
   };
 
   const renderItem = ({ item }: { item: NoteData }) => {
-    return <NoteCard {...item} showIcon />;
+    return <CalendarCard {...item} />;
   };
 
   const renderEmptyList = () => (
@@ -141,7 +140,9 @@ export function CalendarScreen() {
         <View style={tw` mt-3 pt-4  flex-1 p-4 bg-[${Color.Neutral.JL50}] rounded-t-3xl`}>
           {isLoading && <LoadingSpinner color={Color.Primary.Jl500} size="large" />}
           {notes?.length === 0 && !isLoading && renderEmptyList()}
-          {!isLoading && <FlatList data={notes} renderItem={renderItem} keyExtractor={item => item.id} />}
+          {!isLoading && (
+            <FlatList data={notes} renderItem={renderItem} keyExtractor={item => item.id} />
+          )}
         </View>
       </View>
     </BaseScreenLayout>

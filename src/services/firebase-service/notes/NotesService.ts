@@ -4,7 +4,7 @@ import { NoteData } from '@jl/models';
 import { getCurrentTimestampInSeconds } from '@jl/utils';
 
 import { ToastService } from '../../toast-service';
-import { NoteEncryption } from '../NoteEncryption';
+import { NoteEncryption } from '../note-encryption';
 
 const createNote = async (noteData: NoteData) => {
   const currentTimestamp = getCurrentTimestampInSeconds();
@@ -39,6 +39,7 @@ const getAllNotes = async (userId: string) => {
 
     return data;
   } catch (error) {
+    console.log('error', error);
     ToastService.error('Error', 'Something went wrong');
   }
 };
@@ -97,7 +98,10 @@ const getSingleNote = async (noteId: string) => {
   }
 };
 
-const updateNote = async (noteId: string, payload: { title: string; body: string; userId: string; tags: string[] }) => {
+const updateNote = async (
+  noteId: string,
+  payload: { title: string; body: string; userId: string; tags: string[] },
+) => {
   try {
     await firestore().collection('notes').doc(noteId).update(payload);
     ToastService.success('Success', 'Document updated successfully');

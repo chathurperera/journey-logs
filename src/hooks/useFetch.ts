@@ -5,6 +5,7 @@ interface FetchState<T> {
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
+  refetch?: () => Promise<void>;
 }
 
 export const useFetch = <T>(fetchMethod: () => Promise<T>): FetchState<T> => {
@@ -52,5 +53,5 @@ export const useFetch = <T>(fetchMethod: () => Promise<T>): FetchState<T> => {
     };
   }, []);
 
-  return { ...state };
+  return { ...state, refetch: fetchData };
 };

@@ -8,6 +8,9 @@ export interface UpdateUserParams {
   email?: string;
   name?: string;
   securityPreference?: string;
+  lockoutTimestamp?: string;
+  failedAttempts?: number;
+  lastSuccessfulAttemptAt?: number;
 }
 
 export interface NewPinParams {

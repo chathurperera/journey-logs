@@ -26,7 +26,7 @@ interface NewNoteScreenProps {
 export function NewNoteScreen({ testID }: NewNoteScreenProps) {
   const RichTextEditorRef = useRef(null);
 
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
 
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -82,10 +82,16 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
 
   const renderCharacterExceededMessage = () => (
     <View>
-      <Text variant={TextVariant.Label2Regular} color={Color.Warning.JL800} textAlign={TextAlignment.Center}>
+      <Text
+        variant={TextVariant.Label2Regular}
+        color={Color.Warning.JL800}
+        textAlign={TextAlignment.Center}>
         Note length exceeded!
       </Text>
-      <Text variant={TextVariant.Label2Regular} color={Color.Warning.JL800} textAlign={TextAlignment.Center}>
+      <Text
+        variant={TextVariant.Label2Regular}
+        color={Color.Warning.JL800}
+        textAlign={TextAlignment.Center}>
         Please keep your note under 1000 characters
       </Text>
     </View>
@@ -115,7 +121,10 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
               }] py-2 px-6 rounded-3xl  gap-2 flex-row justify-between items-center`}
               onPress={handleDocumentSave}>
               {isLoading && <LoadingSpinner size="small" />}
-              <Text variant={TextVariant.Label2SemiBold} color={Color.Neutral.white} textAlign={TextAlignment.Center}>
+              <Text
+                variant={TextVariant.Label2SemiBold}
+                color={Color.Neutral.white}
+                textAlign={TextAlignment.Center}>
                 Save
               </Text>
             </Pressable>
@@ -124,8 +133,16 @@ export function NewNoteScreen({ testID }: NewNoteScreenProps) {
         {isLimitExceeded && renderCharacterExceededMessage()}
 
         <View style={tw`h-full pt-4 relative`}>
-          <TagsList setSelectedTags={setSelectedTags} selectedTags={selectedTags} isEditable={true} />
-          <TextInput placeholder="Title" style={tw`text-4xlg pl-2`} onChangeText={handleTitleTextChange} />
+          <TagsList
+            setSelectedTags={setSelectedTags}
+            selectedTags={selectedTags}
+            isEditable={true}
+          />
+          <TextInput
+            placeholder="Title"
+            style={tw`text-4xlg pl-2`}
+            onChangeText={handleTitleTextChange}
+          />
           <RichEditor
             ref={RichTextEditorRef}
             disabled={false}

@@ -2,7 +2,7 @@ import { createModel } from '@rematch/core';
 
 import { SECURITY_PREFERENCE, VALIDATION_STRING } from '@jl/constants';
 import { CreateNewPINData } from '@jl/models';
-import { EncryptionService, NoteEncryption } from '@jl/services';
+import { AccountService, EncryptionService, NoteEncryption } from '@jl/services';
 
 import { RootModel } from './index';
 
@@ -13,7 +13,7 @@ interface EncryptionState {
   securityPreference: string;
   failedAttempts: number;
   lockoutTimestamp: number;
-  lastAccessedHiddenNotesAt: number;
+  lastSuccessfulAttemptAt: number;
 }
 
 const initialState: EncryptionState = {
@@ -23,14 +23,14 @@ const initialState: EncryptionState = {
   salt: '',
   failedAttempts: 0,
   lockoutTimestamp: 0,
-  lastAccessedHiddenNotesAt: 0,
+  lastSuccessfulAttemptAt: 0,
 };
 
 export const encryptionStore = createModel<RootModel>()({
   state: { ...initialState } as EncryptionState,
   reducers: {
     setRecoveryKey(state: EncryptionState, recoveryKey: string) {
-      return { ...state, recoveryKey: recoveryKey };
+      return { ...state, recoveryKey };
     },
     setEncryptedRecoveryKey(state: EncryptionState, encryptedRecoveryKey: string) {
       return { ...state, encryptedRecoveryKey: encryptedRecoveryKey };
@@ -47,11 +47,11 @@ export const encryptionStore = createModel<RootModel>()({
     resetLockoutTimestamp(state: EncryptionState) {
       return { ...state, lockoutTimestamp: null };
     },
-    setLastAccessedHiddenNotesAt(state: EncryptionState, lastAccessedHiddenNotesAt: number) {
-      return { ...state, lastAccessedHiddenNotesAt: lastAccessedHiddenNotesAt };
+    setLastSuccessfulAttemptAt(state: EncryptionState, lastSuccessfulAttemptAt: number) {
+      return { ...state, lastSuccessfulAttemptAt: lastSuccessfulAttemptAt };
     },
-    resetLastAccessedHiddenNotesAt(state: EncryptionState) {
-      return { ...state, lastAccessedHiddenNotesAt: null };
+    resetLastSuccessfulAttemptAt(state: EncryptionState) {
+      return { ...state, lastSuccessfulAttemptAt: null };
     },
     incrementFailedAttempts(state: EncryptionState) {
       return { ...state, failedAttempts: state.failedAttempts + 1 };
@@ -68,7 +68,7 @@ export const encryptionStore = createModel<RootModel>()({
         salt: '',
         failedAttempts: 0,
         lockoutTimestamp: null,
-        lastAccessedHiddenNotesAt: null,
+        lastSuccessfulAttemptAt: null,
       };
     },
   },
@@ -79,7 +79,10 @@ export const encryptionStore = createModel<RootModel>()({
       const recoveryKey = VALIDATION_STRING + randomKey;
 
       const pinDerivedKey = EncryptionService.generatePinDerivedKey(payload.PIN, salt);
-      const encryptedRecoveryKey = EncryptionService.generateEncryptedRecoveryKey(recoveryKey, pinDerivedKey);
+      const encryptedRecoveryKey = EncryptionService.generateEncryptedRecoveryKey(
+        recoveryKey,
+        pinDerivedKey,
+      );
 
       await NoteEncryption.savePinAndRecoveryKey(payload.userId, salt, encryptedRecoveryKey);
 
@@ -91,7 +94,7 @@ export const encryptionStore = createModel<RootModel>()({
 
     async changePIN(payload, state) {
       const { salt, recoveryKey } = state.encryptionStore;
-      const { userId } = state.userStore.userData;
+      const { userId } = state.userStore;
 
       const newEncryptedRecoveryKey = await EncryptionService.generateNewEncryptedRecoveryKey(
         payload,
@@ -99,6 +102,16 @@ export const encryptionStore = createModel<RootModel>()({
         recoveryKey,
       );
       await NoteEncryption.savePinAndRecoveryKey(userId, salt, newEncryptedRecoveryKey);
+    },
+
+    async updateLockoutTimeStamp(payload, state) {
+      const { userId } = state.userStore;
+      await AccountService.updateUserDetails({ lockoutTimestamp: payload }, userId);
+    },
+
+    async updateLastSuccessfulAttemptAt(payload, state) {
+      const { userId } = state.userStore;
+      await AccountService.updateUserDetails({ lastSuccessfulAttemptAt: payload }, userId);
     },
   }),
 });

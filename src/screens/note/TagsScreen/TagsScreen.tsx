@@ -25,12 +25,13 @@ export function TagsScreen({ testID }: TagsScreenProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedTag, setSelectedTag] = useState('');
 
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
 
   const getTags = async () => {
     setIsTagsFetching(true);
     const tags = await TagsService.getAllTags(userId);
     setIsTagsFetching(false);
+    console.log('tags');
     setTagsList(tags);
   };
 
@@ -89,13 +90,19 @@ export function TagsScreen({ testID }: TagsScreenProps) {
         <View style={tw`justify-between flex-row items-center mb-3 relative`}>
           <HeaderBackButton />
           <View style={tw`w-full absolute left-0 right-0`}>
-            <Text variant={TextVariant.Heading3SemiBold} color={Color.Neutral.JL900} textAlign={TextAlignment.Center}>
+            <Text
+              variant={TextVariant.Heading3SemiBold}
+              color={Color.Neutral.JL900}
+              textAlign={TextAlignment.Center}>
               Tags
             </Text>
           </View>
         </View>
         <View style={tw`flex-row justify-between items-center pb-3`}>
-          <Text variant={TextVariant.Body1SemiBold} textTransform="uppercase" color={Color.Neutral.JL300}>
+          <Text
+            variant={TextVariant.Body1SemiBold}
+            textTransform="uppercase"
+            color={Color.Neutral.JL300}>
             Add new tag
           </Text>
           <Button
@@ -120,11 +127,14 @@ export function TagsScreen({ testID }: TagsScreenProps) {
           value={enteredTag}
         />
 
-        <Text variant={TextVariant.Body1SemiBold} textTransform="uppercase" color={Color.Neutral.JL300}>
+        <Text
+          variant={TextVariant.Body1SemiBold}
+          textTransform="uppercase"
+          color={Color.Neutral.JL300}>
           Available tags
         </Text>
         <View style={tw`flex-row flex-wrap pt-3 gap-2.2`}>
-          {renderPillsList()}
+          {!isTagsFetching && renderPillsList()}
           {!isTagsFetching && tagsList?.length === 0 && renderEmptyList()}
         </View>
       </View>

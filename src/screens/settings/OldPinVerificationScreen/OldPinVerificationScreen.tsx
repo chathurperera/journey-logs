@@ -13,7 +13,7 @@ import { useSelector } from '@jl/stores';
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
 export function OldPinVerificationScreen() {
-  const { userId } = useSelector(state => state.userStore.userData);
+  const { userId } = useSelector(state => state.userStore);
   const { salt } = useSelector(state => state.encryptionStore);
 
   const pinView = useRef(null);
@@ -25,7 +25,11 @@ export function OldPinVerificationScreen() {
 
   const verifyPIN = async () => {
     const { encryptedRecoveryKey } = await AccountService.getMe(userId);
-    const { isValidPIN, recoveryKey } = await EncryptionService.verifyOldPIN(enteredPin, salt, encryptedRecoveryKey);
+    const { isValidPIN, recoveryKey } = await EncryptionService.verifyOldPIN(
+      enteredPin,
+      salt,
+      encryptedRecoveryKey,
+    );
 
     if (isValidPIN) {
       NavigationService.navigate(Route.ChangePinCode, {
@@ -60,7 +64,10 @@ export function OldPinVerificationScreen() {
           color={oldPINVerificationFailed ? Color.Warning.JL700 : Color.Neutral.JL900}>
           {oldPINVerificationFailed ? 'Invalid PIN' : 'Provide Your Old PIN'}
         </Text>
-        <Text variant={TextVariant.Body1Regular} textAlign={TextAlignment.Center} color={Color.Warning.JL500}>
+        <Text
+          variant={TextVariant.Body1Regular}
+          textAlign={TextAlignment.Center}
+          color={Color.Warning.JL500}>
           {oldPINVerificationFailed ? 'Please try again' : ''}
         </Text>
       </View>
@@ -98,7 +105,9 @@ export function OldPinVerificationScreen() {
           }}
           //@ts-ignore
           customRightButton={
-            showRemoveButton ? <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} /> : undefined
+            showRemoveButton ? (
+              <Icon type="feather" name="delete" size={30} color={Color.Neutral.JL500} />
+            ) : undefined
           }
         />
       </View>
