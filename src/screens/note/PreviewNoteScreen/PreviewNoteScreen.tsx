@@ -219,6 +219,7 @@ export function PreviewNoteScreen({ route }) {
           ref={MenuBottomSheetMethodsRef}
           noteId={noteId}
           title={noteData?.title}
+          openPINCheckModal={() => setModalVisible(true)}
           body={noteData?.body}
           toggleEditingMode={toggleEditingMode}
           isEncrypted={noteData?.isEncrypted}

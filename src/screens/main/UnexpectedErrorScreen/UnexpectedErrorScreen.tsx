@@ -10,13 +10,14 @@ import { Color, TextAlignment, TextVariant } from '@jl/constants';
 import { BaseScreenLayout } from '../../components/BaseScreenLayout';
 
 interface UnexpectedErrorScreenProps {
-  error: Error;
-  resetError: any;
+  error?: Error;
+  resetError?: any;
+  testID?: string;
 }
 
-export function UnexpectedErrorScreen({ resetError }: UnexpectedErrorScreenProps) {
+export function UnexpectedErrorScreen({ resetError, testID }: UnexpectedErrorScreenProps) {
   return (
-    <BaseScreenLayout>
+    <BaseScreenLayout testID={testID}>
       <View style={tw`mx-5 flex-1 justify-center`}>
         <Image source={images.error} style={tw`w-100 h-80`} resizeMode="contain" />
         <View style={tw`mb-2`}>
@@ -24,9 +25,12 @@ export function UnexpectedErrorScreen({ resetError }: UnexpectedErrorScreenProps
             Oops! Something Went Wrong.
           </Text>
         </View>
-        <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center} color={Color.Neutral.JL400}>
-          Sorry, we hit a snag. Please click 'Try Again'. We're on it and aim to resolve this swiftly. Your experience
-          is important to us."
+        <Text
+          variant={TextVariant.Body2SemiBold}
+          textAlign={TextAlignment.Center}
+          color={Color.Neutral.JL400}>
+          Sorry, we hit a snag. Please click 'Try Again'. We're on it and aim to resolve this
+          swiftly. Your experience is important to us."
         </Text>
         <Button
           onPress={resetError}

@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`login screen should render UnexpectedErrorScreen correctly 1`] = `
+<RCTSafeAreaView
+  style={
+    {
+      "backgroundColor": "#ffffff",
+      "height": "100%",
+      "paddingTop": 50,
+      "position": "relative",
+    }
+  }
+  testID="UnexpectedErrorScreenTestID"
+>
+  <View
+    onLayout={[Function]}
+    style={
+      [
+        {
+          "flexBasis": "0%",
+          "flexGrow": 1,
+          "flexShrink": 1,
+        },
+        {
+          "paddingBottom": 0,
+        },
+      ]
+    }
+  />
+</RCTSafeAreaView>
+`;

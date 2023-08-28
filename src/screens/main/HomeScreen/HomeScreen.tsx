@@ -36,18 +36,18 @@ const RenderFooterComponent = ({
   </Text>
 );
 
+const ListEmptyComponent = ({ isLoading }): JSX.Element => (
+  <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
+    {!isLoading && 'No notes available. Start adding notes!'}
+  </Text>
+);
+
 export function HomeScreen() {
   const { userId, name } = useSelector(state => state.userStore);
 
   const [, setSelectedId] = useState<string>();
   const [selectedTag, setSelectedTag] = useState('All');
   const pageSize = 10;
-
-  const ListEmptyComponent = (): JSX.Element => (
-    <Text variant={TextVariant.Body2SemiBold} textAlign={TextAlignment.Center}>
-      {!isLoading && 'No notes available. Start adding notes!'}
-    </Text>
-  );
 
   const initialQuery = useMemo(() => {
     let query = firestore()
@@ -98,7 +98,7 @@ export function HomeScreen() {
               <RenderFooterComponent isLoading={isLoading} isEndReached={isEndReached} />
             }
             LoadingView={<LoadingView />}
-            ListEmptyComponent={<ListEmptyComponent />}
+            ListEmptyComponent={<ListEmptyComponent isLoading={isLoading} />}
             onEndReachedThreshold={0.1}
             onEndReached={() => fetchMoreData()}
           />
