@@ -18,7 +18,7 @@ export function PinCodeScreen({ route }) {
   const { pinExists } = route.params.params;
   const dispatch = useDispatch();
 
-  const { salt, failedAttempts } = useSelector(state => state.encryptionStore);
+  const { salt, failedAttempts, securityPreference } = useSelector(state => state.encryptionStore);
   const { userId } = useSelector(state => state.userStore);
 
   const pinView = useRef(null);
@@ -52,7 +52,23 @@ export function PinCodeScreen({ route }) {
           dispatch.encryptionStore.resetFailedAttempts();
           dispatch.encryptionStore.setLockoutTimestamp(currentTimestamp);
 
-          NavigationService.navigate(Route.MaxPinCodeAttemptsReached, { remainingSeconds: 300 });
+          let remainingSeconds: number;
+
+          switch (securityPreference) {
+            case 'Low':
+              remainingSeconds = 120;
+              break;
+            case 'Medium':
+              remainingSeconds = 300;
+              break;
+            default:
+              remainingSeconds = 1800;
+              break;
+          }
+
+          NavigationService.navigate(Route.MaxPinCodeAttemptsReached, {
+            remainingSeconds: remainingSeconds,
+          });
         }
       }
     } else {
