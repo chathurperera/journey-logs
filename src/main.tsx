@@ -22,14 +22,14 @@ export default function Main() {
   };
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={getPersistor()}>
-        <SafeAreaProvider>
-          <App />
-        </SafeAreaProvider>
-      </PersistGate>
-    </Provider>
-    // <ErrorBoundary FallbackComponent={UnexpectedErrorScreen} onError={errorHandler}>
-    // </ErrorBoundary>
+    <ErrorBoundary FallbackComponent={UnexpectedErrorScreen} onError={errorHandler}>
+      <Provider store={store}>
+        <PersistGate persistor={getPersistor()}>
+          <SafeAreaProvider>
+            <App />
+          </SafeAreaProvider>
+        </PersistGate>
+      </Provider>
+    </ErrorBoundary>
   );
 }
